@@ -1,0 +1,12 @@
+@import url("https://fonts.bunny.net/css?family=figtree:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+table tbody tr:last-child { border-bottom: none }
+
+[x-cloak] { display: none !important }
+
+.todo-list li { border-bottom: 1px solid hsl(0, 0%, 96%) }
+.todo-list li:last-child { border-bottom-color: transparent }
