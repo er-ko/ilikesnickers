@@ -60,7 +60,7 @@
                         @foreach ($languages as $language)
                             <tr class="duration-300 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900">
                                 <td class="p-2 w-20 min-w-20 text-center">{{ $language->id }}</td>
-                                <td class="p-2 w-12 min-w-12 text-center">@if ($language->flag) <img src="flags/{{ $language->flag }}" class="w-4 mx-auto" /> @endif</td>
+                                <td class="p-2 w-12 min-w-12 text-center">@if ($language->flag) <img src="/storage/flags/{{ $language->flag }}" class="w-4 mx-auto" /> @endif</td>
                                 <td class="p-2 w-20 min-w-20 text-center">{{ $language->locale }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ $language->name }}</td>
                                 <td class="p-2 w-16 min-w-16 text-center">{{ $language->priority }}</td>

@@ -25,7 +25,7 @@
 
 	<div class="max-w-7xl mx-auto my-12 sm:px-6 lg:px-8">
 		<div class="flex items-center justify-center mb-8 font-semibold text-xl text-black dark:text-white">
-			<img src="{{ asset('flags/'. $language->flag) }}" class="w-6 me-3" />
+			<img src="{{ asset('/storage/flags/'. $language->flag) }}" class="w-6 me-3" />
 			<span>{{ $language->name }}</span>
 		</div>
 		<div class="p-4 sm:p-6 lg:p-8 shadow-sm sm:rounded-lg text-black bg-white dark:text-gray-200 dark:bg-gray-800">

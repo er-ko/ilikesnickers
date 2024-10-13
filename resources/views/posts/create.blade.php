@@ -30,7 +30,7 @@
 					class="lang-tab-{{ $lang->locale }} w-fit mx-0.5 mb-2 p-3 rounded-full hover:cursor-pointer opacity-100 hover:bg-gray-50 dark:hover:bg-gray-950" @click.prevent="tab = 'tab-{{ $lang->locale }}'"
 					:class="{ 'bg-white dark:bg-black': tab == 'tab-{{ $lang->locale }}'}"
 				>
-					<img src="{{ asset('flags/'. $lang->flag) }}" class="w-6" />
+					<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="w-6" />
 				</div>
 			@endforeach
 		</div>

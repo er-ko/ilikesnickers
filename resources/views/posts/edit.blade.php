@@ -32,7 +32,7 @@
 					:class="{ 'bg-white dark:bg-black': tab == 'tab-{{ $lang->locale }}'}"
 					@click.prevent="tab = 'tab-{{ $lang->locale }}'"
 				>
-					<img src="{{ asset('flags/'. $lang->flag) }}" class="w-6" />
+					<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="w-6" />
 				</div>
 			@endforeach
 		</div>
@@ -100,7 +100,7 @@
 									for="image-{{ $lang->locale }}"
 									class="relative flex flex-col justify-center items-center h-full rounded-md hover:cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/20 border border-gray-300 dark:border-gray-700"
 								>
-									<img src="{{ asset('posts/'. $post->image) }}" class="absolute top-2 right-2 max-w-36 sm:rounded-lg" />
+									<img src="{{ asset('/storage/posts/'. $post->image) }}" class="absolute top-2 right-2 max-w-36 sm:rounded-lg" />
 									<span class="mb-2">{{ __('messages.drop_image_here') }}</span>{{ __('messages.or') }}
 									<input type="file" name="image" id="image-{{ $lang->locale }}" class="mt-4 p-2 rounded-lg dark:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-slate-700" accept="image/*" @if ($lang->title !== $title) disabled @endif>
 								</label>

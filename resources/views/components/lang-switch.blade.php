@@ -6,7 +6,7 @@
 		>
 		@foreach ($languages as $lang)
 			@if ($lang->locale === app()->getLocale())
-				<img src="{{ asset('flags/'. $lang->flag) }}" class="w-5" />
+				<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="w-5" />
 			@endif
 		@endforeach
 	</button>
@@ -21,7 +21,7 @@
 				href="/locale/{{ $lang->locale }}"
 				class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"
 			>
-				<img src="{{ asset('flags/'. $lang->flag) }}" class="w-[22px]" />
+				<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="w-[22px]" />
 				{{ $lang->name }}
 			</a>
 		@endforeach

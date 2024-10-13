@@ -2,6 +2,7 @@
 
 return [
 	// '' => '',
+	'hello' => 'Ahoj',
 	'language' => 'Jazyk',
 	'languages' => 'Jazyky',
 	'locale' => 'Lokalizace',

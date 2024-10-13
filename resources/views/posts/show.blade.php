@@ -28,7 +28,7 @@
 		</div>
 		<div class="p-8 shadow-sm sm:rounded-lg text-black bg-white dark:text-white dark:bg-gray-800">
 			@if ($post->image)
-				<img src="{{ asset('posts/'. $post->image) }}" class="w-full mb-6" />
+				<img src="{{ asset('/storage/posts/'. $post->image) }}" class="w-full mb-6" />
 			@endif
 			<span class="font-mono">{!! $post->content !!}</span>
 		</div>
