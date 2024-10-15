@@ -5,6 +5,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -20,13 +21,15 @@ Route::resource('task', TaskController::class)
     ->only(['index'])
     ->middleware(['auth', 'verified']);
 
+Route::resource('post', PostController::class)->only(['index']);
+Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show');
 Route::resource('post', PostController::class)
-    ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
-Route::resource('post', PostController::class)
+Route::resource('product', ProductController::class)
     ->only(['index', 'show']);
-Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show');
+Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product.show');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
