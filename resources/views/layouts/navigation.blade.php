@@ -33,7 +33,7 @@
                             </x-slot>
     
                             <x-slot name="content">
-                                <x-dropdown-link :href="route('profile.edit')">
+                                <x-dropdown-link :href="route('product.index')">
                                     {{ __('messages.product') }}
                                 </x-dropdown-link>
                             </x-slot>
