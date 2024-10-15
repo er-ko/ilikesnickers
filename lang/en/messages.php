@@ -82,4 +82,7 @@ return [
 
 	'welcome' => 'Welcome',
 	'welcome_in_the_box' => 'Welcome in the box',
+
+	'shop' => 'Shop',
+	'product' => 'Product',
 ];

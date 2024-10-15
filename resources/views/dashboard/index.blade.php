@@ -47,4 +47,7 @@
             </div>
         </div>
     </div>
+    <div class="bg-pink-600"></div>
+    <div class="bg-orange-500"></div>
+    <div class="bg-blue-500"></div><div class="bg-teal-500"></div>
 </x-app-layout>
