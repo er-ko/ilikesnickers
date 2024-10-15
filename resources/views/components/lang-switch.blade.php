@@ -1,9 +1,9 @@
 <div class="relative" x-data="{ menu: false }" @click.outside="menu = false" x-cloak>
-		<button
-			class="block shadow duration-300 py-3 p-4 bg-white hover:bg-gray-200 dark:bg-black dark:hover:bg-gray-800 text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500"
-			:class="theme ? 'text-gray-700 dark:text-gray-300' : 'text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500'"
-			@click="menu = ! menu"
-		>
+	<button
+		class="block shadow duration-300 py-3 p-4 bg-white hover:bg-gray-200 dark:bg-black dark:hover:bg-gray-800 text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500"
+		:class="theme ? 'text-gray-700 dark:text-gray-300' : 'text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500'"
+		@click="menu = ! menu"
+	>
 		@foreach ($languages as $lang)
 			@if ($lang->locale === app()->getLocale())
 				<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="w-5" />

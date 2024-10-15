@@ -21,14 +21,18 @@ Route::resource('task', TaskController::class)
     ->only(['index'])
     ->middleware(['auth', 'verified']);
 
-Route::resource('post', PostController::class)->only(['index']);
-Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show');
+// post admin
 Route::resource('post', PostController::class)
-    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
+// post public
+Route::resource('post', PostController::class)->only(['index']);
+Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show'); // url slug redirect
 
 Route::resource('product', ProductController::class)
-    ->only(['index', 'show']);
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+Route::resource('product', ProductController::class)->only(['index']);
 Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product.show');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])

@@ -85,4 +85,12 @@ return [
 
 	'shop' => 'Shop',
 	'product' => 'Product',
+	'products' => 'Products',
+	'new_product' => 'New Product',
+	'general' => 'General',
+	'info' => 'Info',
+	'virtual' => 'Virtual',
+	'price' => 'Price',
+	'code' => 'Code',
+	'sku' => 'SKU',
 ];

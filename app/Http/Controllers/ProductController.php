@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -19,9 +21,14 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('products.create', [
+            'required' => false,
+            'languages' => Language::orderBy('default', 'desc')
+                                    ->orderBy('priority', 'asc')
+                                    ->get(),
+        ]);
     }
 
     /**
