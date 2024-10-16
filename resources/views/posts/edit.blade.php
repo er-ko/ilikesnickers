@@ -36,33 +36,29 @@
 				</div>
 			@endforeach
 		</div>
-		<div class="p-6 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+		<div class="relative p-6 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 			<form method="POST" action="{{ route('post.update', $post) }}" id="form-store" enctype="multipart/form-data" x-data="{ title : '{{ $title }}' }">
 				@csrf
 				@method('patch')
 				@foreach ($languages as $lang)
 					<div x-show="tab == 'tab-{{ $lang->locale }}'">
+						<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
+						<div class="absolute top-1 left-1 sm:-top-4 sm:-left-4 p-0 sm:p-2 rounded-full sm:shadow bg-white dark:bg-black">
+							<img src="{{ asset('/storage/flags/'. $lang->flag) }}" />
+						</div>
 						<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
-							<div>
-								<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 mb-4">
-									<div class="{{ !$lang->default ? 'col-span-2' : '' }}">
-										<x-input-label for="locale-{{ $lang->locale }}">{{ __('messages.language') }}</x-input-label>
-										<x-text-input id="locale-{{ $lang->locale }}" type="text" maxlength="255" :value="$lang->name" disabled />
-										<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
-										<x-input-error :messages="$errors->get('locale')" />
+							<div class="space-y-4">
+								@if ($lang->default)
+									<div>
+										<x-input-label for="public-{{ $lang->locale }}" :required="true">{{ __('messages.public') }}</x-input-label>
+										<x-select name="public" id="public-{{ $lang->locale }}" class="public" required>
+											<option value="0" {{ !$post->public ? 'selected' : '' }}>{{ __('messages.no') }}</option>
+											<option value="1" {{ $post->public ? 'selected' : '' }}>{{ __('messages.yes') }}</option>
+										</x-select>
+										<x-input-error :messages="$errors->get('public')" />
 									</div>
-									@if ($lang->default)
-										<div>
-											<x-input-label for="public-{{ $lang->locale }}" :required="true">{{ __('messages.public') }}</x-input-label>
-											<x-select name="public" id="public-{{ $lang->locale }}" class="public" required>
-												<option value="0" {{ !$post->public ? 'selected' : '' }}>{{ __('messages.no') }}</option>
-												<option value="1" {{ $post->public ? 'selected' : '' }}>{{ __('messages.yes') }}</option>
-											</x-select>
-											<x-input-error :messages="$errors->get('public')" />
-										</div>
-									@endif
-								</div>
-								<div class="mb-4">
+								@endif
+								<div>
 									<x-input-label for="title-{{ $lang->locale }}" :required="true">{{ __('messages.title') }}</x-input-label>
 									@if ($lang->default)
 										<x-text-input x-model="title" id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" required autofocus />
@@ -72,23 +68,23 @@
 									<x-input-error :messages="$errors->get('title')" />
 								</div>
 								@if ($lang->default)
-									<div class="mb-4">
+									<div>
 										<x-input-label for="slug-{{ $lang->locale }}" :required="true">{{ __('messages.slug') }}</x-input-label>
 										<x-text-input x-slug="title" id="slug-{{ $lang->locale }}" name="slug" type="text" class="slug" maxlength="255" required />
 										<x-input-error :messages="$errors->get('slug')" />
 									</div>
 								@endif
-								<div class="mb-4">
+								<div>
 									<x-input-label for="title-h1-{{ $lang->locale }}">{{ __('messages.title_h1') }}</x-input-label>
 									<x-text-input id="title-h1-{{ $lang->locale }}" name="title_h1[]" type="text" maxlength="255" placeholder="blank = value from title" />
 									<x-input-error :messages="$errors->get('title_h1')" />
 								</div>
-								<div class="mb-4">
+								<div>
 									<x-input-label for="meta-title-{{ $lang->locale }}">{{ __('messages.meta_title') }}</x-input-label>
 									<x-text-input id="meta-title-{{ $lang->locale }}" name="meta_title[]" type="text" maxlength="255" placeholder="blank = value from title" />
 									<x-input-error :messages="$errors->get('meta_title')" />
 								</div>
-								<div class="mb-4">
+								<div>
 									<x-input-label for="meta-desc-{{ $lang->locale }}">{{ __('messages.meta_description') }}</x-input-label>
 									<x-text-input id="meta-desc-{{ $lang->locale }}" name="meta_desc[]" type="text" maxlength="255" />
 									<x-input-error :messages="$errors->get('meta_desc')" />
