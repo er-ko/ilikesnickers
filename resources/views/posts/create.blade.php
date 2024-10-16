@@ -23,87 +23,44 @@
 		</div>
     </x-slot>
 
-	<div class="max-w-7xl mx-auto mt-6 mb-12 sm:px-6 lg:px-8" x-data="{ tab: 'tab-{{ app()->getLocale() }}' }">
-		<div class="flex items-center justify-center flex-wrap mx-2 mb-4">
-			@foreach ($languages as $lang)
+	<div class="max-w-7xl mx-auto mt-6 mb-12 sm:px-6 lg:px-8" x-data="{ group: 'tab-general', lang: 'tab-{{ app()->getLocale() }}' }">
+		<div class="flex items-center justify-between flex-wrap mx-2 space-y-4 sm:space-y-0 mb-4">
+			<div class="flex items-center justify-center sm:justify-start w-full sm:w-fit dark:text-gray-200">
 				<div
-					class="lang-tab-{{ $lang->locale }} w-fit mx-0.5 mb-2 p-3 rounded-full hover:cursor-pointer opacity-50 hover:opacity-75 hover:bg-gray-50 dark:hover:bg-gray-950" @click.prevent="tab = 'tab-{{ $lang->locale }}'"
-					:class="{ '!opacity-100 bg-white dark:bg-black': tab == 'tab-{{ $lang->locale }}'}"
+					class="w-fit mx-x0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-general'"
+					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-general'}"
 				>
-					<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="w-6" />
+					{{ __('messages.general') }}
 				</div>
-			@endforeach
+				<div
+					class="w-fit mx-0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-content'"
+					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-content'}"
+				>
+					{{ __('messages.content') }}
+				</div>
+			</div>
+			<div class="flex items-center justify-center sm:justify-start flex-nowrap mx-1 w-full sm:w-fit overflow-auto">
+				<div class="flex items-center justify-center flex-nowrap p-2 rounded-lg bg-white dark:bg-gray-800">
+					@foreach ($languages as $lang)
+						<div
+						class="mx-1 duration-300 hover:cursor-pointer opacity-50 hover:opacity-75" @click.prevent="lang = 'tab-{{ $lang->locale }}'"
+						:class="{ '!opacity-100': lang == 'tab-{{ $lang->locale }}'}"
+						>
+							<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="min-w-[22px]" />
+						</div>
+					@endforeach
+				</div>
+			</div>
 		</div>
-		<div class="relative p-6 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+		<div class="relative">
 			<form method="POST" action="{{ route('post.store') }}" id="form-store" enctype="multipart/form-data" x-data="{ title : '' }">
 				@csrf
-				@foreach ($languages as $lang)
-					<div x-show="tab == 'tab-{{ $lang->locale }}'">
-						<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
-						<div class="absolute top-1 left-1 sm:-top-4 sm:-left-4 p-0 sm:p-2 rounded-full sm:shadow bg-white dark:bg-black">
-							<img src="{{ asset('/storage/flags/'. $lang->flag) }}" />
-						</div>
-						<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
-							<div class="space-y-4">
-								@if ($lang->default)
-									<div>
-										<x-input-label for="public-{{ $lang->locale }}" :required="$lang->default ? true : false">{{ __('messages.public') }}</x-input-label>
-										<x-select name="public" id="public-{{ $lang->locale }}" class="public" required>
-											<option value="0">{{ __('messages.no') }}</option>
-											<option value="1">{{ __('messages.yes') }}</option>
-										</x-select>
-										<x-input-error :messages="$errors->get('public')" />
-									</div>
-								@endif
-								<div>
-									<x-input-label for="title-{{ $lang->locale }}" :required="true">{{ __('messages.title') }}</x-input-label>
-									@if ($lang->default)
-										<x-text-input x-model="title" id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" required autofocus />
-									@else
-										<x-text-input id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" />
-									@endif
-									<x-input-error :messages="$errors->get('title')" />
-								</div>
-								@if ($lang->default)
-									<div>
-										<x-input-label for="slug-{{ $lang->locale }}" :required="true">{{ __('messages.slug') }}</x-input-label>
-										<x-text-input x-slug="title" id="slug-{{ $lang->locale }}" name="slug" type="text" class="slug" maxlength="255" required />
-										<x-input-error :messages="$errors->get('slug')" />
-									</div>
-								@endif
-								<div>
-									<x-input-label for="title-h1-{{ $lang->locale }}">{{ __('messages.title_h1') }}</x-input-label>
-									<x-text-input id="title-h1-{{ $lang->locale }}" name="title_h1[]" type="text" maxlength="255" placeholder="blank = value from title" />
-									<x-input-error :messages="$errors->get('title_h1')" />
-								</div>
-								<div>
-									<x-input-label for="meta-title-{{ $lang->locale }}">{{ __('messages.meta_title') }}</x-input-label>
-									<x-text-input id="meta-title-{{ $lang->locale }}" name="meta_title[]" type="text" maxlength="255" placeholder="blank = value from title" />
-									<x-input-error :messages="$errors->get('meta_title')" />
-								</div>
-								<div>
-									<x-input-label for="meta-desc-{{ $lang->locale }}">{{ __('messages.meta_description') }}</x-input-label>
-									<x-text-input id="meta-desc-{{ $lang->locale }}" name="meta_desc[]" type="text" maxlength="255" />
-									<x-input-error :messages="$errors->get('meta_desc')" />
-								</div>
-							</div>
-							<div class="pb-10">
-								<div class="px-1 block font-medium text-sm uppercase mb-1 text-gray-700 dark:text-gray-300">{{ __('messages.image') }}</div>
-								<label
-									for="image-{{ $lang->locale }}"
-									class="relative flex flex-col justify-center items-center h-full rounded-md hover:cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/20 border border-gray-300 dark:border-gray-700"
-								>
-									<span class="mb-2">{{ __('messages.drop_image_here') }}</span>{{ __('messages.or') }}
-									<input type="file" name="image" id="image-{{ $lang->locale }}" class="mt-4 p-2 rounded-lg dark:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-slate-700" accept="image/*" @if (!$lang->default) disabled @endif>
-								</label>
-							</div>
-						</div>
-
-						<x-input-label for="content-{{ $lang->locale }}" class="mb-0.5">{{ __('messages.content') }}</x-input-label>
-						<textarea id="content-{{ $lang->locale }}" class="content" name="content[]" rows="10"></textarea>
-						<x-input-error :messages="$errors->get('content')" />
-					</div>
-				@endforeach
+				<div x-show="group == 'tab-general'">
+					@include('posts.partials.general')
+				</div>
+				<div x-show="group == 'tab-content'">
+					@include('posts.partials.content')
+				</div>
 			</form>
         </div>
     </div>
@@ -115,7 +72,7 @@
 				skin = 'dark';
 			}
 			tinymce.init({
-				selector: 'textarea',
+				selector: '.content',
 				skin: skin == 'dark' ? "oxide-dark" : "oxide",
 				content_css: skin == 'dark' ? "dark" : "default",
 				plugins: 'searchreplace autolink directionality visualblocks visualchars image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap emoticons autosave',

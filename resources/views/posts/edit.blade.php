@@ -28,8 +28,8 @@
 			@foreach ($languages as $lang)
 				<div
 					id="{{ $lang->locale }}"
-					class="lang-tab w-fit mx-0.5 mb-2 p-3 rounded-full hover:cursor-pointer opacity-100 hover:bg-gray-50 dark:hover:bg-gray-950"
-					:class="{ 'bg-white dark:bg-black': tab == 'tab-{{ $lang->locale }}'}"
+					class="lang-tab w-fit mx-0.5 mb-2 p-3 rounded-full hover:cursor-pointer opacity-50 hover:opacity-75 hover:bg-gray-50 dark:hover:bg-gray-950"
+					:class="{ '!opacity-100 bg-white dark:bg-black': tab == 'tab-{{ $lang->locale }}'}"
 					@click.prevent="tab = 'tab-{{ $lang->locale }}'"
 				>
 					<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="w-6" />
@@ -40,76 +40,78 @@
 			<form method="POST" action="{{ route('post.update', $post) }}" id="form-store" enctype="multipart/form-data" x-data="{ title : '{{ $title }}' }">
 				@csrf
 				@method('patch')
-				@foreach ($languages as $lang)
-					<div x-show="tab == 'tab-{{ $lang->locale }}'">
-						<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
-						<div class="absolute top-1 left-1 sm:-top-4 sm:-left-4 p-0 sm:p-2 rounded-full sm:shadow bg-white dark:bg-black">
-							<img src="{{ asset('/storage/flags/'. $lang->flag) }}" />
-						</div>
-						<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
-							<div class="space-y-4">
-								@if ($lang->default)
-									<div>
-										<x-input-label for="public-{{ $lang->locale }}" :required="true">{{ __('messages.public') }}</x-input-label>
-										<x-select name="public" id="public-{{ $lang->locale }}" class="public" required>
-											<option value="0" {{ !$post->public ? 'selected' : '' }}>{{ __('messages.no') }}</option>
-											<option value="1" {{ $post->public ? 'selected' : '' }}>{{ __('messages.yes') }}</option>
-										</x-select>
-										<x-input-error :messages="$errors->get('public')" />
-									</div>
-								@endif
-								<div>
-									<x-input-label for="title-{{ $lang->locale }}" :required="true">{{ __('messages.title') }}</x-input-label>
+				<div x-show="group == 'tab-general'">
+					@foreach ($languages as $lang)
+						<div x-show="tab == 'tab-{{ $lang->locale }}'">
+							<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
+							<div class="absolute top-1 left-1 sm:-top-4 sm:-left-4 p-0 sm:p-2 rounded-full sm:shadow bg-white dark:bg-black">
+								<img src="{{ asset('/storage/flags/'. $lang->flag) }}" />
+							</div>
+							<div class="grid gap-4 grid-cols-1 lg:grid-cols-2 mb-4">
+								<div class="space-y-4">
 									@if ($lang->default)
-										<x-text-input x-model="title" id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" required autofocus />
-									@else
-										<x-text-input id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" />
+										<div>
+											<x-input-label for="public" :required="true" :value="__('messages.public')"></x-input-label>
+											<x-select name="public" id="public" class="public" required>
+												<option value="0" {{ !$post->public ? 'selected' : '' }}>{{ __('messages.no') }}</option>
+												<option value="1" {{ $post->public ? 'selected' : '' }}>{{ __('messages.yes') }}</option>
+											</x-select>
+											<x-input-error :messages="$errors->get('public')" />
+										</div>
 									@endif
-									<x-input-error :messages="$errors->get('title')" />
-								</div>
-								@if ($lang->default)
 									<div>
-										<x-input-label for="slug-{{ $lang->locale }}" :required="true">{{ __('messages.slug') }}</x-input-label>
-										<x-text-input x-slug="title" id="slug-{{ $lang->locale }}" name="slug" type="text" class="slug" maxlength="255" required />
-										<x-input-error :messages="$errors->get('slug')" />
+										<x-input-label for="title-{{ $lang->locale }}" :required="$lang->default ? true : false" :value="__('messages.title')" />
+										@if ($lang->default)
+											<x-text-input x-model="title" id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" required autofocus />
+										@else
+											<x-text-input id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" />
+										@endif
+										<x-input-error :messages="$errors->get('title')" />
 									</div>
-								@endif
-								<div>
-									<x-input-label for="title-h1-{{ $lang->locale }}">{{ __('messages.title_h1') }}</x-input-label>
-									<x-text-input id="title-h1-{{ $lang->locale }}" name="title_h1[]" type="text" maxlength="255" placeholder="blank = value from title" />
-									<x-input-error :messages="$errors->get('title_h1')" />
-								</div>
-								<div>
-									<x-input-label for="meta-title-{{ $lang->locale }}">{{ __('messages.meta_title') }}</x-input-label>
-									<x-text-input id="meta-title-{{ $lang->locale }}" name="meta_title[]" type="text" maxlength="255" placeholder="blank = value from title" />
-									<x-input-error :messages="$errors->get('meta_title')" />
-								</div>
-								<div>
-									<x-input-label for="meta-desc-{{ $lang->locale }}">{{ __('messages.meta_description') }}</x-input-label>
-									<x-text-input id="meta-desc-{{ $lang->locale }}" name="meta_desc[]" type="text" maxlength="255" />
-									<x-input-error :messages="$errors->get('meta_desc')" />
-								</div>
-							</div>
-							<div class="pb-10">
-								<div class="px-1 block font-medium text-sm uppercase mb-1 text-gray-700 dark:text-gray-300">{{ __('messages.image') }}</div>
-								<label
-									for="image-{{ $lang->locale }}"
-									class="relative flex flex-col justify-center items-center h-full rounded-md hover:cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/20 border border-gray-300 dark:border-gray-700"
-								>
-									@if ($post->image)
-										<img src="{{ asset('/storage/posts/'. $post->image) }}" class="absolute top-2 right-2 max-w-36 sm:rounded-lg" />
+									@if ($lang->default)
+										<div>
+											<x-input-label for="slug-{{ $lang->locale }}" :required="true" :value="__('messages.slug')" />
+											<x-text-input x-slug="title" id="slug-{{ $lang->locale }}" name="slug" type="text" class="slug" maxlength="255" required />
+											<x-input-error :messages="$errors->get('slug')" />
+										</div>
 									@endif
-									<span class="mb-2">{{ __('messages.drop_image_here') }}</span>{{ __('messages.or') }}
-									<input type="file" name="image" id="image-{{ $lang->locale }}" class="mt-4 p-2 rounded-lg dark:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-slate-700" accept="image/*" @if ($lang->title !== $title) disabled @endif>
-								</label>
+									<div>
+										<x-input-label for="title-h1-{{ $lang->locale }}" :value="__('messages.title_h1')" />
+										<x-text-input id="title-h1-{{ $lang->locale }}" name="title_h1[]" type="text" maxlength="255" placeholder="blank = value from title" />
+										<x-input-error :messages="$errors->get('title_h1')" />
+									</div>
+									<div>
+										<x-input-label for="meta-title-{{ $lang->locale }}" :value="__('messages.meta_title')" />
+										<x-text-input id="meta-title-{{ $lang->locale }}" name="meta_title[]" type="text" maxlength="255" placeholder="blank = value from title" />
+										<x-input-error :messages="$errors->get('meta_title')" />
+									</div>
+									<div>
+										<x-input-label for="meta-desc-{{ $lang->locale }}" :value="__('messages.meta_description')" />
+										<x-text-input id="meta-desc-{{ $lang->locale }}" name="meta_desc[]" type="text" maxlength="255" />
+										<x-input-error :messages="$errors->get('meta_desc')" />
+									</div>
+								</div>
+								<div class="pb-6">
+									<div class="px-1 block font-medium text-sm uppercase mb-1 text-gray-700 dark:text-gray-300">{{ __('messages.image') }}</div>
+									<label
+										for="image-{{ $lang->locale }}"
+										class="relative flex flex-col justify-center items-center h-full rounded-md hover:cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/20 border border-gray-300 dark:border-gray-700"
+									>
+										@if ($post->image)
+											<img src="{{ asset('/storage/posts/'. $post->image) }}" class="absolute top-2 right-2 max-w-36 sm:rounded-lg" />
+										@endif
+										<span class="mb-2">{{ __('messages.drop_image_here') }}</span>{{ __('messages.or') }}
+										<input type="file" name="image" id="image-{{ $lang->locale }}" class="mt-4 p-2 rounded-lg dark:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-slate-700" accept="image/*" @if ($lang->title !== $title) disabled @endif>
+									</label>
+								</div>
+								
 							</div>
-							
+							<x-input-label for="content-{{ $lang->locale }}" class="mb-0.5" :value="__('messages.content')" />
+							<textarea id="content-{{ $lang->locale }}" class="content" name="content[]" rows="10"></textarea>
+							<x-input-error :messages="$errors->get('content')" />
 						</div>
-						<x-input-label for="content-{{ $lang->locale }}" class="mb-0.5">{{ __('messages.content') }}</x-input-label>
-						<textarea id="content-{{ $lang->locale }}" class="content" name="content[]" rows="10"></textarea>
-						<x-input-error :messages="$errors->get('content')" />
-					</div>
-				@endforeach
+					@endforeach
+				</div>
 			</form>
 		</div>
     </div>
@@ -134,10 +136,6 @@
 				$('.lang-tab').each(function( index ) {
 					locale = $(this).attr('id');
 					loadData(locale);
-				});
-
-				$('select.public').change(function(){
-					$('select.public').val($(this).val());
 				});
 			});
 			function loadData(locale) {
