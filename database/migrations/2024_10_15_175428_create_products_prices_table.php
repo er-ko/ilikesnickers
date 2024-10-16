@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('currency_id')->constrained('currencies');
+            // $table->foreignId('currency_id')->constrained('currencies');
             $table->float('regular_price_without_vat', 53);
             $table->float('regular_price_with_vat', 53);
             $table->unsignedTinyInteger('vat');

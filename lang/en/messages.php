@@ -93,4 +93,13 @@ return [
 	'price' => 'Price',
 	'code' => 'Code',
 	'sku' => 'SKU',
+	'add_image' => 'Add Image',
+
+	'category' => 'Category',
+	'categories' => 'Categories',
+	'new_category' => 'New Category',
+	'edit_category' => 'Edit Category',
+	'no_categories' => 'No Categories',
+	'parent_category' => 'Parent category',
+	'root' => 'Root',
 ];

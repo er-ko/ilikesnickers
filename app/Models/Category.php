@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -14,8 +14,9 @@ class Post extends Model
         'id',
 		'user_id',
         'public',
-        'image',
+        'parent_id',
         'slug', 
+        'image',
         'locale',
         'title',
         'title_h1',
