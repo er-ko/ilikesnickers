@@ -53,9 +53,7 @@ class PostController extends Controller
     {
         return view('posts.create', [
             'required' => false,
-            'languages' => Language::orderBy('default', 'desc')
-                                    ->orderBy('priority', 'asc')
-                                    ->get(),
+            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -153,15 +151,8 @@ class PostController extends Controller
                         ->get();
             return response()->json($data);
         }
-        $title = Db::table('posts_locales')
-                    ->join('languages', 'posts_locales.locale', '=', 'languages.locale')
-                    ->select('posts_locales.title')
-                    ->where('posts_locales.post_id', '=', $post->id)
-                    ->where('languages.default', '=', 1)->first();
-
         return view('posts.edit', [
             'post' => $post,
-            'title' => $title->title,
             'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
         ]);
     }
