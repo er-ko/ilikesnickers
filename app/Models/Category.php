@@ -22,7 +22,7 @@ class Category extends Model
         'title_h1',
         'content',
         'meta_title',
-        'meta_desc',
+        'meta_description',
     ];
 
     public function user(): BelongsTo

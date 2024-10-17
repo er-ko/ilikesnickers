@@ -51,16 +51,8 @@ class CategoryController extends Controller
     {
         return view('categories.create', [
             'required' => false,
-            'languages' => Language::orderBy('default', 'desc')
-                                    ->orderBy('priority', 'asc')
-                                    ->get(),
-            'parents' => Db::table('categories')
-                            ->join('categories_locales', 'categories.id', '=', 'categories_locales.category_id')
-                            ->select('categories.id', 'categories_locales.title')
-                            ->where('categories.public', true)
-                            ->where('categories_locales.locale', app()->getLocale())
-                            ->orderBy('categories_locales.title', 'asc')
-                            ->get(),
+            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'parents' => $this->getParents(),
         ]);
     }
 
@@ -99,8 +91,8 @@ class CategoryController extends Controller
                 'meta_desc' => 'string|max:255|nullable',
             ]);
             if (!$validator->fails()) {
-                DB::table('posts_locales')->insert([
-                    'post_id' => $created->id,
+                DB::table('categories_locales')->insert([
+                    'category_id' => $created->id,
                     'locale' => $locale,
                     'title' => $data['title'],
                     'title_h1' => $data['title_h1'],
@@ -118,7 +110,32 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        if (auth()->id()) {
+            $output = Db::table('categories')
+                        ->join('categories_locales', 'categories.id', '=', 'categories_locales.category_id')
+                        ->select('categories.id', 'categories.image', 'categories.created_at', 'categories_locales.title_h1', 'categories_locales.content',
+                        'categories_locales.meta_title', 'categories_locales.meta_description')
+                        ->where('categories.slug', '=', $category->slug)
+                        ->where('categories_locales.locale', '=', app()->getLocale())
+                        ->first();
+
+            if (!$output) return redirect('404');
+            return view('categories.show', ['category' => $output]);
+        } else {
+            if ($category->public) {
+                $output = Db::table('categories')
+                        ->join('categories_locales', 'categories.id', '=', 'categories_locales.category_id')
+                        ->select('categories.id', 'categories.image', 'categories.created_at', 'categories_locales.title_h1', 'categories_locales.content',
+                        'categories_locales.meta_title', 'categories_locales.meta_description')
+                        ->where('categories.slug', '=', $category->slug)
+                        ->where('categories_locales.locale', '=', app()->getLocale())
+                        ->get();
+                
+                if (!$output) return redirect('404');
+                return view('categories.show', ['category' => $output]);
+            }
+            else return redirect('404');
+        }
     }
 
     /**
@@ -136,25 +153,10 @@ class CategoryController extends Controller
                         ->get();
             return response()->json($data);
         }
-        $title = Db::table('categories_locales')
-                    ->join('languages', 'categories_locales.locale', '=', 'languages.locale')
-                    ->select('categories_locales.title')
-                    ->where('categories_locales.category_id', '=', $category->id)
-                    ->where('languages.default', '=', 1)
-                    ->first();
-
         return view('categories.edit', [
             'category' => $category,
-            'title' => $title->title,
             'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
-            'parents' => Db::table('categories')
-                            ->join('categories_locales', 'categories.id', '=', 'categories_locales.category_id')
-                            ->select('categories.id', 'categories_locales.title')
-                            ->where('categories.public', true)
-                            ->where('categories.id', '!=', $category->id)
-                            ->where('categories_locales.locale', app()->getLocale())
-                            ->orderBy('categories_locales.title', 'asc')
-                            ->get(),
+            'parents' => $this->getParents($category->id),
         ]);
     }
 
@@ -216,5 +218,27 @@ class CategoryController extends Controller
         DB::table('categories_locales')->where('category_id', '=', $category->id)->delete();
         DB::table('categories')->where('id', '=', $category->id)->delete();
         return redirect(route('category.index'))->with('message', __('messages.alert.removed'));
+    }
+
+    private function getParents($id = false): Collection
+    {
+        if ($id) {
+            return Db::table('categories')
+                ->join('categories_locales', 'categories.id', '=', 'categories_locales.category_id')
+                ->select('categories.id', 'categories_locales.title')
+                ->where('categories.public', true)
+                ->where('categories.id', '!=', $id)
+                ->where('categories_locales.locale', app()->getLocale())
+                ->orderBy('categories_locales.title', 'asc')
+                ->get();
+        } else {
+            return Db::table('categories')
+                    ->join('categories_locales', 'categories.id', '=', 'categories_locales.category_id')
+                    ->select('categories.id', 'categories_locales.title')
+                    ->where('categories.public', true)
+                    ->where('categories_locales.locale', app()->getLocale())
+                    ->orderBy('categories_locales.title', 'asc')
+                    ->get();
+        }
     }
 }

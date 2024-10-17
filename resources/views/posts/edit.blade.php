@@ -41,7 +41,7 @@
 			</div>
 			<div class="flex items-center justify-center sm:justify-start flex-nowrap mx-1 w-full sm:w-fit overflow-auto">
 				<div class="flex items-center justify-center flex-nowrap p-2 rounded-lg bg-white dark:bg-gray-800">
-					@foreach ($languages as $key => $lang)
+					@foreach ($languages as $lang)
 						<div
 						id="{{ $lang->locale }}"
 						class="lang-tab mx-1 duration-300 hover:cursor-pointer opacity-50 hover:opacity-75" @click.prevent="lang = 'tab-{{ $lang->locale }}'"

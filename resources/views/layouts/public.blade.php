@@ -51,6 +51,12 @@
                             >
                                 {{ __('messages.blog') }}
                             </a>
+                            <a
+                                href="{{ route('category.index') }}"
+                                class="px-8 py-4 border-b border-gray-200 dark:border-gray-600 {{ request()->routeIs(['category.index', 'category.show']) ? 'font-bold border-teal-500 dark:border-teal-400' : '' }}"
+                            >
+                                {{ __('messages.shop') }}
+                            </a>
                         </nav>
                     </header>
                 </div>
