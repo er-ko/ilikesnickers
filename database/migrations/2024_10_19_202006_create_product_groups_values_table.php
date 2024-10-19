@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories_locales', function (Blueprint $table) {
+        Schema::create('product_groups_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('group_id')->constrained('product_groups');
             $table->string('locale', 3);
-            $table->string('title', 255);
-            $table->string('title_h1', 255);
-            $table->string('meta_title', 255);
-            $table->string('meta_description', 255);
-            $table->text('content');
+            $table->string('value', 255);
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories_locales');
+        Schema::dropIfExists('product_groups_values');
     }
 };

@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('product_groups', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->boolean('public')->default(false);
+            $table->unsignedSmallInteger('priority');
             $table->timestamps();
         });
     }

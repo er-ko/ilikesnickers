@@ -47,6 +47,7 @@
 			</div>
 		@endforeach
 		<div class="flex items-center justify-end mt-6">
+			<input type="hidden" id="count-value" name="count_value" value="1" />
 			<x-secondary-button class="btn-add-value">{{ __('messages.add_value') }}</x-secondary-button>
 		</div>
 	</div>
@@ -60,7 +61,6 @@
 			$('.btn-add-value').click(function(){
 				$('.area-value').each(function(i, l){
 					block = $(this).find('.block-value').first().clone();
-					$(this).find('.block-value input').first().val('');
 					var attr = block.find('label').attr('for');
 					attr = attr + '-'+ count;
 					var label = block.find('label').attr('id', attr);
@@ -69,12 +69,14 @@
 					$(this).append(block);
 				})
 				count++;
+				$('#count-value').val(parseFloat($('#count-value').val()) + 1);
 			});
 			$('.area-value').on('click', 'button', function(){
 				var btn = $(this).attr('data-id-type');
 				$('.area-value').each(function(i, l){
 					$(this).find('button[data-id-type="'+ btn +'"]').parent().parent().remove();
 				});
+				$('#count-value').val(parseFloat($('#count-value').val()) - 1);
 			});
 		});
 	</script>
