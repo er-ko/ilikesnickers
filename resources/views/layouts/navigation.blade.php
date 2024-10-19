@@ -55,6 +55,9 @@
                             <x-dropdown-link :href="route('category.index')">
                                 {{ __('messages.category') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('product-group.index')">
+                                {{ __('messages.product_groups') }}
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>
@@ -121,7 +124,6 @@
                 {{ __('messages.language') }}
             </x-responsive-nav-link>
         </div>
-
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">

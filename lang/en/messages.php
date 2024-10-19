@@ -102,4 +102,10 @@ return [
 	'no_categories' => 'No Categories',
 	'parent_category' => 'Parent category',
 	'root' => 'Root',
+
+	'product_groups' => 'Product groups',
+	'product_group' => 'Product group',
+	'new_product_group' => 'New product group',
+	'value' => 'Value',
+	'add_value' => 'Add value',
 ];

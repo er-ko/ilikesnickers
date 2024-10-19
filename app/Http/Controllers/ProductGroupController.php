@@ -3,24 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductGroup;
+use App\Models\Language;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProductGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('product-groups.index');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('product-groups.create', [
+            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+        ]);
     }
 
     /**
