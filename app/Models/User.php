@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Manufacturer::class);
     }
+
+    public function addressBooks(): HasMany
+    {
+        return $this->hasMany(AddressBook::class);
+    }
 }
