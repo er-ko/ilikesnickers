@@ -140,4 +140,6 @@ return [
 	'phone' => 'Phone',
 	'invoice' => 'Invoice',
 	'new_billing_address' => 'New billing address',
+	'company' => 'Company',
+	'first_and_last_name' => 'First and last name',
 ];

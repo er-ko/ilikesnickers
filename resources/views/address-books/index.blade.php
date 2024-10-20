@@ -28,15 +28,17 @@
                             <thead>
                                 <tr class="lowercase bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
                                     <th class="px-2 pt-4 pb-2 text-center sm:rounded-tl-lg">#</th>
-                                    <th class="px-2 pt-4 pb-2 text-left">{{ __('messages.title') }}</th>
+                                    <th class="px-2 pt-4 pb-2 text-left">{{ __('messages.company') }}</th>
+                                    <th class="px-2 pt-4 pb-2 text-left">{{ __('messages.first_and_last_name') }}</th>
                                     <th class="px-2 pt-4 pb-2 sm:rounded-tr-lg"></th>
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach ($addressBooks as $addressBook)
-                                <tr class="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 transition duration-400">
+                                <tr data-id="{{ $addressBook->id }}" class="border-b border-gray-100 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 transition duration-400">
                                     <td class="p-2 w-20 min-w-20 text-center">{{ $addressBook->id }}</td>
-                                    <td class="p-2 whitespace-nowrap">{{ $addressBook->name }}</td>
+                                    <td class="p-2 whitespace-nowrap"></td>
+                                    <td class="p-2 whitespace-nowrap"></td>
                                     <td class="p-2 w-24 min-w-24 text-center">
                                         <a href="{{ route('address-book.edit', $addressBook->id) }}" class="inline-block text-gray-300 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300 transition duration-400 relative top-0.5 mx-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -64,4 +66,44 @@
             </div>
         </div>
     </div>
+    @push('slotscript')
+		<script>
+
+            var contactName = '';
+
+			$(document).ready(function(){
+
+                $('table tbody tr').each(function(){
+                    ajax($(this).attr('data-id'));
+                });
+			});
+			function ajax(id) {
+				$.ajax({
+					url: "{{ route('address-book.index') }}",
+					type: 'GET',
+					dataType: 'json',
+					data: {
+						id: id
+					},
+					success: function(data) {
+						if (!$.isEmptyObject(data[0])) {
+                            $.each(data, function (i) {
+                                if (data[i]['company_name'].length) {
+                                    contactName = data[i]['company_name'];
+                                } else {
+                                    contactName = data[i]['last_name'] +' '+ data[i]['first_name'];
+                                }
+                                $('table tbody tr').each(function(){
+                                    if ($(this).attr('data-id') == id) {
+                                        $(this).find('td').eq(1).text(contactName);
+                                        $(this).find('td').eq(2).text(data[i]['first_name'] +' '+ data[i]['last_name']);
+                                    }
+                                });                                
+                            });
+						}
+					}
+				});
+			}
+		</script>
+	@endpush
 </x-app-layout>

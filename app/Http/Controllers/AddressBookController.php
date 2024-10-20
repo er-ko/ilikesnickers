@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\AddressBook;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,10 +16,22 @@ class AddressBookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): Collection|View|JsonResponse
     {
+        if ($request->ajax()) {
+
+            $id = $request->get('id');
+
+            $output = Db::table('address_books_billing')
+                        ->select('company_name', 'first_name', 'last_name')
+                        ->where('address_book_id', '=', $id)
+                        ->orderBy('id', 'asc')
+                        ->limit(1)
+                        ->get();
+            return response()->json($output);
+        }
         return view('address-books.index', [
-            'addressBooks' => AddressBook::orderBy('id', 'asc')->paginate(15),
+            'addressBooks' => AddressBook::orderBy('id', 'desc')->paginate(15),
         ]);
     }
 
@@ -80,6 +94,7 @@ class AddressBookController extends Controller
                 DB::table('address_books_billing')->insert([
                     'address_book_id'   => $created->id,
                     'code'              => $data['billing_code'],
+                    'company_name'      => $data['billing_company_name'],
                     'company_id'        => $data['billing_company_id'],
                     'vat_id'            => $data['billing_vat_id'],
                     'first_name'        => $data['billing_first_name'],
@@ -137,6 +152,7 @@ class AddressBookController extends Controller
                     DB::table('address_books_branch')->insert([
                         'address_book_id'   => $created->id,
                         'code'              => $data['branch_code'],
+                        'company_name'      => $data['branch_company_name'],
                         'company_id'        => $data['branch_company_id'],
                         'vat_id'            => $data['branch_vat_id'],
                         'first_name'        => $data['branch_first_name'],
