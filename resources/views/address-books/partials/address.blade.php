@@ -40,7 +40,7 @@
 				</div>
 				<div>
 					<x-input-label for="billing-vat-id" :required="false" :value="__('messages.vat_id')" />
-					<x-text-input id="billing-vat-id" name="billing_vat_id[]" type="text" maxlength="4" />
+					<x-text-input id="billing-vat-id" name="billing_vat_id[]" type="text" maxlength="12" />
 					<x-input-error :messages="$errors->get('billing_vat_id')" />
 				</div>
 			</div>
@@ -69,7 +69,7 @@
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
 					<x-input-label for="billing-postcode" :required="true" :value="__('messages.postcode')" />
-					<x-text-input id="billing-postcode" class="billing_postcode[]" name="postcode" type="text" maxlength="12" required />
+					<x-text-input id="billing-postcode" name="billing_postcode[]" type="text" maxlength="12" required />
 					<x-input-error :messages="$errors->get('billing_postcode')" />
 				</div>
 				<div class="flex-1">
@@ -81,12 +81,12 @@
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
 					<x-input-label for="billing-phonecode" :required="true" :value="__('messages.phonecode')" />
-					<x-text-input id="billing-phonecode" class="billing_phonecode[]" name="phonecode" type="text" required />
+					<x-text-input id="billing-phonecode" class="phonecode" name="billing_phonecode[]" type="text" required />
 					<x-input-error :messages="$errors->get('billing_phonecode')" />
 				</div>
 				<div class="flex-1">
 					<x-input-label for="billing-phone" :required="true" :value="__('messages.phone')" />
-					<x-text-input id="billing-phone" class="billing_phone[]" name="phone" type="text" />
+					<x-text-input id="billing-phone" class="phone" name="billing_phone[]" type="text" />
 					<x-input-error :messages="$errors->get('billing-phone')" />
 				</div>
 			</div>
@@ -138,7 +138,7 @@
 				</div>
 				<div>
 					<x-input-label for="branch-vat-id" :required="false" :value="__('messages.vat_id')" />
-					<x-text-input id="branch-vat-id" name="branch_vat_id[]" type="text" maxlength="4" />
+					<x-text-input id="branch-vat-id" name="branch_vat_id[]" type="text" maxlength="12" />
 					<x-input-error :messages="$errors->get('branch_vat_id')" />
 				</div>
 			</div>
@@ -179,12 +179,12 @@
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
 					<x-input-label for="branch-phonecode" :required="false" :value="__('messages.phonecode')" />
-					<x-text-input id="branch-phonecode" class="branch_phonecode[]" name="phonecode" type="text" />
+					<x-text-input id="branch-phonecode" class="phonecode" name="branch_phonecode[]" type="text" />
 					<x-input-error :messages="$errors->get('branch_phonecode')" />
 				</div>
 				<div class="flex-1">
 					<x-input-label for="branch-phone" :required="false" :value="__('messages.phone')" />
-					<x-text-input id="branch-phone" class="branch_phone[]" name="phone" type="text" />
+					<x-text-input id="branch-phone" class="phone" name="branch_phone[]" type="text" />
 					<x-input-error :messages="$errors->get('branch_phone')" />
 				</div>
 			</div>
@@ -228,8 +228,9 @@
 			});
 
 			$('.address-add').click(function(){
-				count++;
 				root = $(this).parent().parent().parent();
+				count = root.find('.address-select option:last').val();
+				count++;
 				type = root.attr('data-type');
 				$(root).find('.address-remove').removeClass('hidden');
 				block = $('.block-'+ type +'').first().clone();
@@ -240,9 +241,13 @@
 					$(this).attr('for', $(this).attr('for') +'-'+ count);
 				});
 				$(block).find('input').each(function(){
-					$(this).attr('id', $(this).attr('id') +'-'+ count);
+					$(this).attr('id', $(this).attr('id') +'-'+ count).val('');
 				});
 				$(this).parent().parent().parent().append(block.attr('id', type +'-'+ count).removeClass('hidden'));
+
+				$('.code').inputmask('9999');
+				$('.phonecode').inputmask('+999');
+				$('.phone').inputmask('999 999 999');
 			});
 
 			$('.address-remove').click(function(){
