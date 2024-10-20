@@ -2,7 +2,7 @@
 	<!-- billing -->
 	<div data-type="billing">
 		<div class="flex items-center justify-between mb-4">
-			<x-select id="billing-select" class="address-select flex-1">
+			<x-select id="billing-select" class="address-select flex-1 capitalize">
 				<option value="1">{{ __('messages.billing') }} 1</option>
 			</x-select>
 			<div class="flex items-center justify-center px-4">
@@ -19,179 +19,179 @@
 			</div>
 		</div>
 		<div id="billing-1" class="block-billing mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-			<h2 class="mb-4 font-semibold text-xl">{{ __('messages.billing') }} 1</h2>
+			<h2 class="mb-4 font-semibold text-xl capitalize">{{ __('messages.billing') }} 1</h2>
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
 					<x-input-label for="billing-code" :required="true" :value="__('messages.code')" />
 					<x-text-input id="billing-code" class="code" name="billing_code[]" type="text" maxlength="4" required autofocus />
-					<x-input-error :messages="$errors->get('code')" />
+					<x-input-error :messages="$errors->get('billing_code')" />
 				</div>
 				<div class="flex-1">
-					<x-input-label for="company-name" :required="false" :value="__('messages.company_name')" />
-					<x-text-input id="company-name" name="company_name" type="text" maxlength="128" :value="isset($addressBooks) ? old('company_name', $addressBooks->company_name) : ''" />
-					<x-input-error :messages="$errors->get('company_name')" />
+					<x-input-label for="billing-company-name" :required="false" :value="__('messages.company_name')" />
+					<x-text-input id="billing-company-name" name="billing_company_name[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('billing_company_name')" />
 				</div>
 			</div>
 			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
 				<div>
-					<x-input-label for="company-id" :required="false" :value="__('messages.company_id')" />
-					<x-text-input id="company-id" name="company_id" type="text" maxlength="8" :value="isset($addressBooks) ? old('company_id', $addressBooks->company_id) : ''" />
-					<x-input-error :messages="$errors->get('company_id')" />
+					<x-input-label for="billing-company-id" :required="false" :value="__('messages.company_id')" />
+					<x-text-input id="billing-company-id" name="billing_company_id[]" type="text" maxlength="8" />
+					<x-input-error :messages="$errors->get('billing_company_id')" />
 				</div>
 				<div>
-					<x-input-label for="vat-id" :required="false" :value="__('messages.vat_id')" />
-					<x-text-input id="vat-id" name="vat_id" type="text" maxlength="4" :value="isset($addressBooks) ? old('vat_id', $addressBooks->vat_id) : ''" />
-					<x-input-error :messages="$errors->get('vat_id')" />
+					<x-input-label for="billing-vat-id" :required="false" :value="__('messages.vat_id')" />
+					<x-text-input id="billing-vat-id" name="billing_vat_id[]" type="text" maxlength="4" />
+					<x-input-error :messages="$errors->get('billing_vat_id')" />
 				</div>
 			</div>
 			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
 				<div>
-					<x-input-label for="first-name" :required="true" :value="__('messages.first_name')" />
-					<x-text-input id="first-name" name="first_name" type="text" maxlength="128" :value="isset($addressBooks) ? old('first_name', $addressBooks->first_name) : ''" />
-					<x-input-error :messages="$errors->get('first_name')" />
+					<x-input-label for="billing-first-name" :required="true" :value="__('messages.first_name')" />
+					<x-text-input id="billing-first-name" name="billing_first_name[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('billing_first_name')" />
 				</div>
 				<div>
-					<x-input-label for="last-name" :required="true" :value="__('messages.last_name')" />
-					<x-text-input id="last-name" name="last_name" type="text" maxlength="128" :value="isset($addressBooks) ? old('last_name', $addressBooks->last_name) : ''" />
-					<x-input-error :messages="$errors->get('last_name')" />
+					<x-input-label for="billing-last-name" :required="true" :value="__('messages.last_name')" />
+					<x-text-input id="billing-last-name" name="billing_last_name[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('billing_last_name')" />
 				</div>
 			</div>
 			<div>
-				<x-input-label for="address" :required="true" :value="__('messages.address')" />
-				<x-text-input id="address" name="address" type="text" maxlength="128" :value="isset($addressBooks) ? old('address', $addressBooks->address) : ''" />
-				<x-input-error :messages="$errors->get('address')" />
+				<x-input-label for="billing-address" :required="true" :value="__('messages.address')" />
+				<x-text-input id="billing-address" name="billing_address[]" type="text" maxlength="128" />
+				<x-input-error :messages="$errors->get('billing_address')" />
 			</div>
 			<div>
-				<x-input-label for="address-2" :required="false" :value="__('messages.address_2')" />
-				<x-text-input id="address-2" name="address_2" type="text" maxlength="128" :value="isset($addressBooks) ? old('address_2', $addressBooks->address_2) : ''" />
-				<x-input-error :messages="$errors->get('address_2')" />
+				<x-input-label for="billing-address-ext" :required="false" :value="__('messages.address_2')" />
+				<x-text-input id="billing-address-ext" name="billing_address_ext[]" type="text" maxlength="128" />
+				<x-input-error :messages="$errors->get('billing_address_ext')" />
 			</div>
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
-					<x-input-label for="postcode" :required="true" :value="__('messages.postcode')" />
-					<x-text-input id="postcode" class="postcode" name="postcode" type="text" maxlength="12" required :value="isset($addressBooks) ? old('postcode', $addressBooks->postcode) : ''" />
-					<x-input-error :messages="$errors->get('postcode')" />
+					<x-input-label for="billing-postcode" :required="true" :value="__('messages.postcode')" />
+					<x-text-input id="billing-postcode" class="billing_postcode[]" name="postcode" type="text" maxlength="12" required />
+					<x-input-error :messages="$errors->get('billing_postcode')" />
 				</div>
 				<div class="flex-1">
-					<x-input-label for="city" :required="true" :value="__('messages.city')" />
-					<x-text-input id="city" name="city" type="text" maxlength="128" :value="isset($addressBooks) ? old('city', $addressBooks->city) : ''" />
-					<x-input-error :messages="$errors->get('city')" />
+					<x-input-label for="billing-city" :required="true" :value="__('messages.city')" />
+					<x-text-input id="billing-city" name="billing_city[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('billing_city')" />
 				</div>
 			</div>
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
-					<x-input-label for="phonecode" :required="true" :value="__('messages.phonecode')" />
-					<x-text-input id="phonecode" class="phonecode" name="phonecode" type="text" required :value="isset($addressBooks) ? old('phonecode', $addressBooks->phonecode) : ''" />
-					<x-input-error :messages="$errors->get('phonecode')" />
+					<x-input-label for="billing-phonecode" :required="true" :value="__('messages.phonecode')" />
+					<x-text-input id="billing-phonecode" class="billing_phonecode[]" name="phonecode" type="text" required />
+					<x-input-error :messages="$errors->get('billing_phonecode')" />
 				</div>
 				<div class="flex-1">
-					<x-input-label for="phone" :required="true" :value="__('messages.phone')" />
-					<x-text-input id="phone" class="phone" name="phone" type="text" :value="isset($addressBooks) ? old('phone', $addressBooks->phone) : ''" />
-					<x-input-error :messages="$errors->get('phone')" />
+					<x-input-label for="billing-phone" :required="true" :value="__('messages.phone')" />
+					<x-text-input id="billing-phone" class="billing_phone[]" name="phone" type="text" />
+					<x-input-error :messages="$errors->get('billing-phone')" />
 				</div>
 			</div>
 			<div>
-				<x-input-label for="email" :required="true" :value="__('messages.email')" />
-				<x-text-input id="email" name="email" type="email" maxlength="128" placeholder=@ :value="isset($addressBooks) ? old('email', $addressBooks->email) : ''" />
-				<x-input-error :messages="$errors->get('email')" />
+				<x-input-label for="billing-email" :required="true" :value="__('messages.email')" />
+				<x-text-input id="billing-email" name="billing_email[]" type="email" maxlength="128" placeholder="@" />
+				<x-input-error :messages="$errors->get('billing_email')" />
 			</div>
 		</div>
 	</div>
 	<!-- branch -->
-	<div>
+	<div data-type="branch">
 		<div class="flex items-center justify-between mb-4">
-			<x-select id="branch-select" class="address-select" data-type="branch" class="flex-1">
-				<option value="0">{{ __('branch 1') }}</option>
+			<x-select id="branch-select" data-type="branch" class="address-select flex-1 capitalize">
+				<option value="1">{{ __('messages.branch') }} 1</option>
 			</x-select>
 			<div class="flex items-center justify-center px-4">
-				<button type="button" id="branch-remove" class="hidden px-1 text-pink-600 hover:text-pink-700">
+				<button type="button" id="branch-remove" class="address-remove hidden px-1 text-pink-600 hover:text-pink-700">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 					</svg>
 				</button>
-				<button type="button" id="branch-add" class="px-1 text-teal-600 hover:text-teal-700">
+				<button type="button" id="branch-add" class="address-add px-1 text-teal-600 hover:text-teal-700">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 					</svg>
 				</button>
 			</div>
 		</div>
-		<div class="mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-			<h2 class="mb-4 font-semibold text-xl">{{ __('messages.branch') }}</h2>
+		<div id="branch-1" class="block-branch mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+			<h2 class="mb-4 font-semibold text-xl capitalize">{{ __('messages.branch') }} 1</h2>
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
-					<x-input-label for="code" :required="true" :value="__('messages.code')" />
-					<x-text-input id="code" name="code" type="text" maxlength="4" required autofocus :value="isset($addressBooks) ? old('code', $addressBooks->code) : ''" />
-					<x-input-error :messages="$errors->get('code')" />
+					<x-input-label for="branch-code" :required="false" :value="__('messages.code')" />
+					<x-text-input id="branch-code" class="code" name="branch_code[]" type="text" maxlength="4" />
+					<x-input-error :messages="$errors->get('branch_code')" />
 				</div>
 				<div class="flex-1">
-					<x-input-label for="company-name" :required="false" :value="__('messages.company_name')" />
-					<x-text-input id="company-name" name="company_name" type="text" maxlength="128" :value="isset($addressBooks) ? old('company_name', $addressBooks->company_name) : ''" />
-					<x-input-error :messages="$errors->get('company_name')" />
+					<x-input-label for="branch-company-name" :required="false" :value="__('messages.company_name')" />
+					<x-text-input id="branch-company-name" name="branch_company_name[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('branch_company_name')" />
 				</div>
 			</div>
 			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
 				<div>
-					<x-input-label for="company-id" :required="false" :value="__('messages.company_id')" />
-					<x-text-input id="company-id" name="company_id" type="text" maxlength="8" :value="isset($addressBooks) ? old('company_id', $addressBooks->company_id) : ''" />
-					<x-input-error :messages="$errors->get('company_id')" />
+					<x-input-label for="branch-company-id" :required="false" :value="__('messages.company_id')" />
+					<x-text-input id="branch-company-id" name="branch_company_id[]" type="text" maxlength="8" />
+					<x-input-error :messages="$errors->get('branch_company_id')" />
 				</div>
 				<div>
-					<x-input-label for="vat-id" :required="false" :value="__('messages.vat_id')" />
-					<x-text-input id="vat-id" name="vat_id" type="text" maxlength="4" :value="isset($addressBooks) ? old('vat_id', $addressBooks->vat_id) : ''" />
-					<x-input-error :messages="$errors->get('vat_id')" />
+					<x-input-label for="branch-vat-id" :required="false" :value="__('messages.vat_id')" />
+					<x-text-input id="branch-vat-id" name="branch_vat_id[]" type="text" maxlength="4" />
+					<x-input-error :messages="$errors->get('branch_vat_id')" />
 				</div>
 			</div>
 			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
 				<div>
-					<x-input-label for="first-name" :required="true" :value="__('messages.first_name')" />
-					<x-text-input id="first-name" name="first_name" type="text" maxlength="128" :value="isset($addressBooks) ? old('first_name', $addressBooks->first_name) : ''" />
-					<x-input-error :messages="$errors->get('first_name')" />
+					<x-input-label for="branch-first-name" :required="false" :value="__('messages.first_name')" />
+					<x-text-input id="branch-first-name" name="branch_first_name[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('branch_first_name')" />
 				</div>
 				<div>
-					<x-input-label for="last-name" :required="true" :value="__('messages.last_name')" />
-					<x-text-input id="last-name" name="last_name" type="text" maxlength="128" :value="isset($addressBooks) ? old('last_name', $addressBooks->last_name) : ''" />
-					<x-input-error :messages="$errors->get('last_name')" />
+					<x-input-label for="branch-last-name" :required="false" :value="__('messages.last_name')" />
+					<x-text-input id="branch-last-name" name="branch_last_name[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('branch_last_name')" />
 				</div>
 			</div>
 			<div>
-				<x-input-label for="address" :required="true" :value="__('messages.address')" />
-				<x-text-input id="address" name="address" type="text" maxlength="128" :value="isset($addressBooks) ? old('address', $addressBooks->address) : ''" />
-				<x-input-error :messages="$errors->get('address')" />
+				<x-input-label for="branch-address" :required="false" :value="__('messages.address')" />
+				<x-text-input id="branch-address" name="branch_address[]" type="text" maxlength="128" />
+				<x-input-error :messages="$errors->get('branch_address')" />
 			</div>
 			<div>
-				<x-input-label for="address-2" :required="false" :value="__('messages.address_2')" />
-				<x-text-input id="address-2" name="address_2" type="text" maxlength="128" :value="isset($addressBooks) ? old('address_2', $addressBooks->address_2) : ''" />
-				<x-input-error :messages="$errors->get('address_2')" />
+				<x-input-label for="branch-address-ext" :required="false" :value="__('messages.address_ext')" />
+				<x-text-input id="branch-address-ext" name="branch_address_ext[]" type="text" maxlength="128" />
+				<x-input-error :messages="$errors->get('branch_address_ext')" />
 			</div>
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
-					<x-input-label for="postcode" :required="true" :value="__('messages.postcode')" />
-					<x-text-input id="postcode" name="postcode" type="text" maxlength="12" required :value="isset($addressBooks) ? old('postcode', $addressBooks->postcode) : ''" />
-					<x-input-error :messages="$errors->get('postcode')" />
+					<x-input-label for="branch-postcode" :required="false" :value="__('messages.postcode')" />
+					<x-text-input id="branch-postcode" name="branch_postcode[]" type="text" maxlength="12" />
+					<x-input-error :messages="$errors->get('branch_postcode')" />
 				</div>
 				<div class="flex-1">
-					<x-input-label for="city" :required="true" :value="__('messages.city')" />
-					<x-text-input id="city" name="city" type="text" maxlength="128" :value="isset($addressBooks) ? old('city', $addressBooks->city) : ''" />
-					<x-input-error :messages="$errors->get('city')" />
+					<x-input-label for="branch-city" :required="false" :value="__('messages.city')" />
+					<x-text-input id="branch-city" name="branch_city[]" type="text" maxlength="128" />
+					<x-input-error :messages="$errors->get('branch_city')" />
 				</div>
 			</div>
 			<div class="flex items-center justify-start space-x-4">
 				<div class="w-full sm:max-w-[120px]">
-					<x-input-label for="phonecode" :required="true" :value="__('messages.phonecode')" />
-					<x-text-input id="phonecode" name="phonecode" type="text" required :value="isset($addressBooks) ? old('phonecode', $addressBooks->phonecode) : ''" />
-					<x-input-error :messages="$errors->get('phonecode')" />
+					<x-input-label for="branch-phonecode" :required="false" :value="__('messages.phonecode')" />
+					<x-text-input id="branch-phonecode" class="branch_phonecode[]" name="phonecode" type="text" />
+					<x-input-error :messages="$errors->get('branch_phonecode')" />
 				</div>
 				<div class="flex-1">
-					<x-input-label for="phone" :required="true" :value="__('messages.phone')" />
-					<x-text-input id="phone" name="phone" type="text" :value="isset($addressBooks) ? old('phone', $addressBooks->phone) : ''" />
-					<x-input-error :messages="$errors->get('phone')" />
+					<x-input-label for="branch-phone" :required="false" :value="__('messages.phone')" />
+					<x-text-input id="branch-phone" class="branch_phone[]" name="phone" type="text" />
+					<x-input-error :messages="$errors->get('branch_phone')" />
 				</div>
 			</div>
 			<div>
-				<x-input-label for="email" :required="true" :value="__('messages.email')" />
-				<x-text-input id="email" name="email" type="email" maxlength="128" placeholder=@ :value="isset($addressBooks) ? old('email', $addressBooks->email) : ''" />
-				<x-input-error :messages="$errors->get('email')" />
+				<x-input-label for="branch-email" :required="false" :value="__('messages.email')" />
+				<x-text-input id="branch-email" name="branch_email[]" type="email" maxlength="128" placeholder="@" />
+				<x-input-error :messages="$errors->get('branch_email')" />
 			</div>
 		</div>
 	</div>
@@ -215,18 +215,16 @@
 
 			$('.address-select').change(function(){
 				select = $(this).val();
-				type = $(this).parent().parent().attr('data-type');
+				root = $(this).parent().parent();
+				type = root.attr('data-type');
+				block = root.find('.block-'+ type);
 				if (select == 1) {
-					$('#'+ type +'-remove').addClass('hidden');
+					$(root).find('.address-remove').addClass('hidden');
 				} else {
-					$('#'+ type +'-remove').removeClass('hidden');
+					$(root).find('.address-remove').removeClass('hidden');
 				}
-				$('.block-'+ type).addClass('hidden');
-				$('.block-'+ type).each(function(i, l){
-					if (type +'-'+ select == $(this).attr('id')) {
-						$(this).removeClass('hidden');
-					}
-				});
+				$(block).addClass('hidden');
+				$('#'+ type +'-'+ select).removeClass('hidden');
 			});
 
 			$('.address-add').click(function(){
@@ -234,30 +232,29 @@
 				root = $(this).parent().parent().parent();
 				type = root.attr('data-type');
 				$(root).find('.address-remove').removeClass('hidden');
-
 				block = $('.block-'+ type +'').first().clone();
-				block.find('h2').text('{{ __('messages.billing') }} '+ count);
-				block.find('label#'+ type +'-code').attr('for', type +'-code-'+ count);
-				block.find('input#'+ type +'-code').attr('id', type +'-code-'+ count);
-				block.find('label#'+ type +'-company-name').attr('for', type +'-code-'+ count);
-				block.find('input#'+ type +'-company-name').attr('id', type +'-code-'+ count);
-				
-				
-				$('#'+ type +'-select').append('<option value="'+ count +'">{{ __('messages.billing') }} '+ count +'</option>').val(count);
 				$('.block-'+ type).addClass('hidden');
+				$('#'+ type +'-select').append('<option value="'+ count +'">'+ type +' '+ count +'</option>').val(count);
+				block.find('h2').text(type +' '+ count);
+				$(block).find('label').each(function(){
+					$(this).attr('for', $(this).attr('for') +'-'+ count);
+				});
+				$(block).find('input').each(function(){
+					$(this).attr('id', $(this).attr('id') +'-'+ count);
+				});
 				$(this).parent().parent().parent().append(block.attr('id', type +'-'+ count).removeClass('hidden'));
 			});
 
 			$('.address-remove').click(function(){
-				type = $(this).parent().parent().parent().attr('data-type');
-				select = $(this).parent().parent().find('select')
-				alert($(this).parent().parent().parent().find('#'+ type +'-'+ select.val()).html());
-				$(this).parent().parent().parent().find('#'+ type +'-'+ select.val()).html().remove();
-				
+				root = $(this).parent().parent().parent();
+				type = root.attr('data-type');
+				select = $(root).find('select').val();
 				$(this).parent().parent().find('select option:selected').remove();
 				addressNo = $(this).parent().parent().find('select option:last').val();
-				$(select).val(addressNo);
-				$(this).parent().parent().parent().append(block.attr('id', type +'-'+ count).removeClass('hidden'));
+				$(root).find('select').val(addressNo);
+				$('.block-'+ type).addClass('hidden');
+				$('#'+ type +'-'+ addressNo).removeClass('hidden');
+				$('#'+ type +'-'+ select).remove();
 				if ($(this).parent().parent().find('select option:selected').val() == 1) {
 					$(this).addClass('hidden');
 				}

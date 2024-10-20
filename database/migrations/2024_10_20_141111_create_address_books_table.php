@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('first_name', 128);
             $table->string('last_name', 128);
             $table->string('address', 255);
-            $table->string('address_2', 255)->nullable();
+            $table->string('address_ext', 255)->nullable();
             $table->string('postcode', 12);
             $table->string('city', 128);
             $table->string('phonecode', 3);
