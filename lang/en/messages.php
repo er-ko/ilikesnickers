@@ -106,6 +106,8 @@ return [
 	'product_groups' => 'Product groups',
 	'product_group' => 'Product group',
 	'new_product_group' => 'New product group',
+	'edit_product_group' => 'Edit product group',
+	'no_groups' => 'No groups',
 	'value' => 'Value',
 	'add_value' => 'Add value',
 ];

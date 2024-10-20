@@ -82,4 +82,32 @@ return [
 	
 	'welcome' => 'Vítejte',
 	'welcome_in_the_box' => 'Vítejte v krabici',
+
+	'shop' => 'Obchod',
+	'product' => 'Produkt',
+	'products' => 'Produkty',
+	'new_product' => 'Nový Produkt',
+	'general' => 'Obecné',
+	'info' => 'Info',
+	'virtual' => 'Virtuální',
+	'price' => 'Cena',
+	'code' => 'Kód',
+	'sku' => 'SKU',
+	'add_image' => 'Přidat obrázek',
+
+	'category' => 'Kategorie',
+	'categories' => 'Kategorie',
+	'new_category' => 'Nová kategorie',
+	'edit_category' => 'Upravit kategorii',
+	'no_categories' => 'Žádné kategorie',
+	'parent_category' => 'Nadřazená kategorie',
+	'root' => 'Kořen',
+
+	'product_groups' => 'Skupiny produktů',
+	'product_group' => 'Skupina produktů',
+	'new_product_group' => 'Nová skupina produktů',
+	'edit_product_group' => 'Upravit skupinu produktů',
+	'no_groups' => 'žádné skupiny',
+	'value' => 'Hodnota',
+	'add_value' => 'Přidat hodnotu',
 ];

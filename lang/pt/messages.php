@@ -85,4 +85,32 @@ return [
 
 	'welcome' => 'Boas-vindas',
 	'welcome_in_the_box' => 'Bem-vindo na caixa',
+
+	'shop' => 'Loja',
+	'product' => 'Produto',
+	'products' => 'Produtos',
+	'new_product' => 'Novo Produto',
+	'general' => 'Geral',
+	'info' => 'Informação',
+	'virtual' => 'Virtual',
+	'price' => 'Preço',
+	'code' => 'Código',
+	'sku' => 'SKU',
+	'add_image' => 'Adicionar imagem',
+
+	'category' => 'Categoria',
+	'categories' => 'Categorias',
+	'new_category' => 'Nova categoria',
+	'edit_category' => 'Editar categoria',
+	'no_categories' => 'Sem categorias',
+	'parent_category' => 'Categoria pai',
+	'root' => 'Raiz',
+
+	'product_groups' => 'Grupos de produtos',
+	'product_group' => 'Grupo de produtos',
+	'new_product_group' => 'Novo grupo de produtos',
+	'edit_product_group' => 'Editar grupo de produtos',
+	'no_groups' => 'sem grupos',
+	'value' => 'Valor',
+	'add_value' => 'Adicionar valor',
 ];
