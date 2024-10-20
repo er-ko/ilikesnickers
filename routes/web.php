@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductGroupController;
+use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,11 @@ Route::get('/category/{category:slug}', action: [CategoryController::class, 'sho
 Route::resource('product-group', ProductGroupController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
+
+Route::resource('manufacturer', ManufacturerController::class)
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+Route::get('/manufacturer/{manufacturer:slug}', [ManufacturerController::class, 'show'])->name('manufacturer.show'); // url slug redirect
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])

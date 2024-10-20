@@ -22,7 +22,7 @@
 	x-cloak
 	@click.outside="menu = false"
 >
-	@if (auth()->check() && !request()->routeIs('welcome') && auth()->check() && !request()->routeIs('post.show'))
+	@if (auth()->check() && !request()->routeIs(['welcome', 'post.show', 'manufacturer.show']))
 		<button class="block rounded-lg sm:rounded-xl sm:shadow p-2.5 sm:p-3 duration-300 bg-gray-100 hover:bg-gray-200 dark:bg-black dark:hover:bg-gray-700 text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500" :class="theme ? 'text-gray-700 dark:text-gray-300' : 'text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500'" @click="menu = ! menu">
 	@else
 		<button class="block rounded-r-full shadow duration-300 py-3 pl-3.5 pr-5 bg-white hover:bg-gray-200 dark:bg-black dark:hover:bg-gray-800 text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500" :class="theme ? 'text-gray-700 dark:text-gray-300' : 'text-gray-400 dark:text-gray-600 hover:text-gray-500 focus:text-gray-500 dark:hover:text-gray-500 dark:focus:text-gray-500'" @click="menu = ! menu">

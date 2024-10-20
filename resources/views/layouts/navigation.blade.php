@@ -58,6 +58,9 @@
                             <x-dropdown-link :href="route('product-group.index')">
                                 {{ __('messages.product_groups') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('manufacturer.index')">
+                                {{ __('messages.manufacturer') }}
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>

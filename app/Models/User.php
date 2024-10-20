@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProductGroup::class);
     }
+
+    public function manufacturers(): HasMany
+    {
+        return $this->hasMany(Manufacturer::class);
+    }
 }

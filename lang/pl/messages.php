@@ -110,4 +110,10 @@ return [
 	'no_groups' => 'No groups',
 	'value' => 'Value',
 	'add_value' => 'Add value',
+
+	'manufacturer' => 'Manufacturer',
+	'manufacturers' => 'Manufacturers',
+	'new_manufacturer' => 'New manufacturer',
+	'edit_manufacturer' => 'Edit manufacturer',
+	'no_manufacturers' => 'No manufacturers',
 ];

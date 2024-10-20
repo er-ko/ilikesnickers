@@ -110,4 +110,10 @@ return [
 	'no_groups' => 'žádné skupiny',
 	'value' => 'Hodnota',
 	'add_value' => 'Přidat hodnotu',
+
+	'manufacturer' => 'Výrobce',
+	'manufacturers' => 'Výrobci',
+	'new_manufacturer' => 'Nový výrobce',
+	'edit_manufacturer' => 'Upravit výrobce',
+	'no_manufacturers' => 'Žádní výrobci',
 ];

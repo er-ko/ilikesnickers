@@ -36,7 +36,7 @@
 					<x-input-label for="value-{{ $lang->locale }}" :required="$lang->default ? true : false" :value="__('messages.value')" />
 					<div class="flex items-center justify-start">
 						<x-text-input id="value-{{ $lang->locale }}" class="flex-1" name="value[]" type="text" maxlength="255" :required="$lang->default ? true : false" />
-						<button type="button" data-id-type="" class="hidden relative top-0.5 ml-1 flex items-center justify-center w-[42px] h-[42px] rounded bg-pink-600 text-white">
+						<button type="button" data-id-type="" class="hidden relative top-0.5 ml-1 flex items-center justify-center w-[42px] h-[42px] rounded bg-pink-600 text-white dark:bg-pink-700">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 							</svg>
