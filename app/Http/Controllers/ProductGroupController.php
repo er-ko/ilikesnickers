@@ -88,7 +88,7 @@ class ProductGroupController extends Controller
                 }
             }
         }
-        return redirect(route('category.index'))->with('message', __('messages.alert.successfully_created'));
+        return redirect(route('product-group.index'))->with('message', __('messages.alert.successfully_created'));
     }
 
     /**

@@ -15,6 +15,8 @@ class ProductGroup extends Model
 		'user_id',
         'public',
         'priority',
+        'title',
+        'value',
     ];
 
     public function user(): BelongsTo
