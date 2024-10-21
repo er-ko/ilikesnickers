@@ -1,6 +1,6 @@
 <div class="grid gap-0 lg:gap-4 grid-cols-1 lg:grid-cols-2">
 	<!-- billing -->
-	<div data-type="billing">
+	<div data-type="billing" data-type-lang="{{ __('messages.billing') }}">
 		<div class="flex items-center justify-between mb-4">
 			<x-select id="billing-select" class="address-select flex-1 capitalize">
 				<option value="1">{{ __('messages.billing') }} 1</option>
@@ -98,7 +98,7 @@
 		</div>
 	</div>
 	<!-- branch -->
-	<div data-type="branch">
+	<div data-type="branch" data-type-lang="{{ __('messages.branch') }}">
 		<div class="flex items-center justify-between mb-4">
 			<x-select id="branch-select" data-type="branch" class="address-select flex-1 capitalize">
 				<option value="1">{{ __('messages.branch') }} 1</option>
@@ -206,6 +206,7 @@
 		var addressNo		= '';
 		var select			= '';
 		var block			= '';
+		var translate 		= '';
 
 		$(document).ready(function(){
 
@@ -232,11 +233,12 @@
 				count = root.find('.address-select option:last').val();
 				count++;
 				type = root.attr('data-type');
+				translate = root.attr('data-type-lang');
 				$(root).find('.address-remove').removeClass('hidden');
 				block = $('.block-'+ type +'').first().clone();
 				$('.block-'+ type).addClass('hidden');
-				$('#'+ type +'-select').append('<option value="'+ count +'">'+ type +' '+ count +'</option>').val(count);
-				block.find('h2').text(type +' '+ count);
+				$('#'+ type +'-select').append('<option value="'+ count +'">'+ translate +' '+ count +'</option>').val(count);
+				block.find('h2').text(translate +' '+ count);
 				$(block).find('label').each(function(){
 					$(this).attr('for', $(this).attr('for') +'-'+ count);
 				});
