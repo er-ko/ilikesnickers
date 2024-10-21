@@ -143,4 +143,15 @@ return [
 	'new_billing_address' => 'New billing address',
 	'company' => 'Company',
 	'first_and_last_name' => 'First and last name',
+
+	'customer' => 'Customer',
+	'supplier' => 'Supplier',
+	'vat_payer' => 'VAT payer',
+	'preferred_payment_method' => 'Preferred payment method',
+	'due_date' => 'Due date',
+	'income_bank_account' => 'Income bank account',
+	'outcome_bank_account' => 'Outcome bank account',
+	'cod' => 'Cash on delivery',
+	'cash' => 'Cash',
+	'bank_transfer' => 'Bank transfer',
 ];

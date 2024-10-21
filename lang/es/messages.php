@@ -143,4 +143,15 @@ return [
 	'new_billing_address' => 'Nueva dirección de facturación',
 	'company' => 'Empresa',
 	'first_and_last_name' => 'Nombre y apellido',
+
+	'customer' => 'Cliente',
+	'supplier' => 'Abonado',
+	'vat_payer' => 'Pagador de IVA',
+	'preferred_payment_method' => 'Método de pago preferido',
+	'due_date' => 'Fecha de vencimiento',
+	'income_bank_account' => 'Cuenta bancaria de ingresos',
+	'outcome_bank_account' => 'Cuenta bancaria saliente',
+	'cod' => 'Contra reembolso',
+	'cash' => 'Dinero',
+	'bank_transfer' => 'Transferencia bancaria',
 ];

@@ -48,9 +48,16 @@ class AddressBookController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validated = [
-            'due_date' => 7
-        ];
+
+        $validated = $request->validate([
+            'customer' => 'required|boolean',
+            'supplier' => 'required|boolean',
+            'vat_payer' => 'required|boolean',
+            'due_date' => 'required|numeric',
+            'preferred_payment_method' => 'required|string|max:8',
+            'income_bank_account' => 'required|string|max:64',
+            'outcome_bank_account' => 'required|string|max:64',
+        ]);
         $created = $request->user()->addressBooks()->create($validated);
 
         foreach ($request->billing_code as $key => $billing) {
@@ -202,10 +209,17 @@ class AddressBookController extends Controller
      */
     public function update(Request $request, AddressBook $addressBook)
     {
-        $validated = [
-            'due_date' => 7
-        ];
+        $validated = $request->validate([
+            'customer' => 'required|boolean',
+            'supplier' => 'required|boolean',
+            'vat_payer' => 'required|boolean',
+            'due_date' => 'required|numeric',
+            'preferred_payment_method' => 'required|string|max:8',
+            'income_bank_account' => 'required|string|max:64',
+            'outcome_bank_account' => 'required|string|max:64',
+        ]);
         $addressBook->update($validated);
+        dd('good');
         DB::table('address_books_billing')->where('address_book_id', '=', $addressBook->id)->delete();
         foreach ($request->billing_code as $key => $billing) {
 

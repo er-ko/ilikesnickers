@@ -23,20 +23,20 @@
         </div>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto mt-6 mb-12 sm:px-6 lg:px-8" x-data="{ group: 'tab-address' }">
+    <div class="max-w-7xl mx-auto mt-6 mb-12 sm:px-6 lg:px-8" x-data="{ group: 'tab-general' }">
 		<div class="flex items-center justify-between flex-wrap mx-2 space-y-4 sm:space-y-0 mb-4">
 			<div class="flex items-center justify-center sm:justify-start w-full sm:w-fit dark:text-gray-200">
+                <div
+					class="w-fit mx-x0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-general'"
+					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-general'}"
+				>
+					{{ __('messages.general') }}
+				</div>
 				<div
 					class="w-fit mx-x0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-address'"
 					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-address'}"
 				>
 					{{ __('messages.address') }}
-				</div>
-                <div
-					class="w-fit mx-x0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-invoice'"
-					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-invoice'}"
-				>
-					{{ __('messages.invoice') }}
 				</div>
 			</div>
 		</div>
@@ -44,11 +44,11 @@
 			<form method="POST" action="{{ route('address-book.update', $addressBook) }}" id="form-store">
 				@csrf
                 @method('patch')
+                <div x-show="group == 'tab-general'">
+					@include('address-books.partials.general')
+				</div>
 				<div x-show="group == 'tab-address'">
 					@include('address-books.partials.address')
-				</div>
-                <div x-show="group == 'tab-invoice'">
-					@include('address-books.partials.invoice')
 				</div>
 			</form>
         </div>
@@ -56,10 +56,11 @@
     @push('slotscript')
 		<script>
 
-            var count   = '';
-            var root    = '';
-            var block   = '';
-            var select  = '';
+            var count       = '';
+            var root        = '';
+            var block       = '';
+            var select      = '';
+            var translate   = ''
 
 			$(document).ready(function(){
                 loadData('billing');
@@ -77,9 +78,10 @@
 						success: function(data) {
 							if (!$.isEmptyObject(data[0])) {
 
-                                root = $('.block-'+ type).parent();
-                                block = $('.block-'+ type).first().clone();
-                                select = root.find('.address-select');
+                                root        = $('.block-'+ type).parent();
+                                block       = $('.block-'+ type).first().clone();
+                                select      = root.find('.address-select');
+                                translate   = root.attr('data-type-lang');
 
                                 $.each(data, function(i, l){
 
@@ -102,10 +104,10 @@
 
                                     } else {
 
-                                        select.append('<option value="'+ count +'">'+ type +' '+ count +'</option>');
+                                        select.append('<option value="'+ count +'">'+ translate +' '+ count +'</option>');
                                         block.addClass('hidden');
                                         block.attr('id', type +'-'+ count);
-                                        block.find('h2').text(type +' '+ count);
+                                        block.find('h2').text(translate +' '+ count);
 
                                         $(block).find('label').each(function(){
                                             $(this).attr('for', $(this).attr('for') +'-'+ count);

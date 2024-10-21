@@ -143,4 +143,15 @@ return [
 	'new_billing_address' => 'Nová fakturačná adresa',
 	'company' => 'Spoločnosť',
 	'first_and_last_name' => 'Meno a priezvisko',
+
+	'customer' => 'Zákazník',
+	'supplier' => 'Odberateľ',
+	'vat_payer' => 'Plátca DPH',
+	'preferred_payment_method' => 'Preferovaný spôsob platby',
+	'due_date' => 'Dátum splatnosti',
+	'income_bank_account' => 'Príjmový bankový účet',
+	'outcome_bank_account' => 'Odchádzajúci bankový účet',
+	'cod' => 'Dobierka',
+	'cash' => 'Hotovosť',
+	'bank_transfer' => 'Bankový prevod',
 ];

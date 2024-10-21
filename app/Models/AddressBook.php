@@ -12,7 +12,13 @@ class AddressBook extends Model
 
     protected $fillable = [
         'id',
+        'customer',
+        'supplier',
+        'vat_payer',
         'due_date',
+        'preferred_bank_account',
+        'income_bank_account',
+        'outcome_bank_account',
         'billing_code',
 		'billing_company_name',
         'billing_company_id',
