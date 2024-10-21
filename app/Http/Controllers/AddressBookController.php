@@ -182,9 +182,19 @@ class AddressBookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AddressBook $addressBook)
+    public function edit(Request $request, AddressBook $addressBook): Collection|View|JsonResponse
     {
-        //
+        if ($request->ajax()) {
+            $id = $request->get('id');
+            $type = $request->get('type');
+            $table = 'address_books_'. $type;
+            
+            $data = Db::table($table)->select('*')->where('address_book_id', '=', $id)->get();
+            return response()->json($data);
+        }
+        return view('address-books.edit', [
+            'addressBook' => $addressBook,
+        ]);
     }
 
     /**

@@ -124,6 +124,7 @@ return [
 	'stock' => 'Stock',
 
 	'new_contact' => 'New contact',
+	'edit_contact' => 'Edit contact',
 	'no_contacts' => 'No contacts',
 	'billing' => 'Billing',
 	'branch' => 'Branch',
@@ -133,7 +134,7 @@ return [
 	'first_name' => 'First name',
 	'last_name' => 'Last name',
 	'address' => 'Address',
-	'address_2' => 'Address (e.g. apartment or floor number)',
+	'address_ext' => 'Address (e.g. apartment or floor number)',
 	'postcode' => 'Postcode',
 	'city' => 'City',
 	'phonecode' => 'Phonecode',

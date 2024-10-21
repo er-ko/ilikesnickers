@@ -21,7 +21,7 @@
 		<div id="billing-1" class="block-billing mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 			<h2 class="mb-4 font-semibold text-xl capitalize">{{ __('messages.billing') }} 1</h2>
 			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full sm:max-w-[120px]">
+				<div class="w-full max-w-[120px]">
 					<x-input-label for="billing-code" :required="true" :value="__('messages.code')" />
 					<x-text-input id="billing-code" class="code" name="billing_code[]" type="text" maxlength="4" required autofocus />
 					<x-input-error :messages="$errors->get('billing_code')" />
@@ -62,12 +62,12 @@
 				<x-input-error :messages="$errors->get('billing_address')" />
 			</div>
 			<div>
-				<x-input-label for="billing-address-ext" :required="false" :value="__('messages.address_2')" />
+				<x-input-label for="billing-address-ext" :required="false" :value="__('messages.address_ext')" />
 				<x-text-input id="billing-address-ext" name="billing_address_ext[]" type="text" maxlength="128" />
 				<x-input-error :messages="$errors->get('billing_address_ext')" />
 			</div>
 			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full sm:max-w-[120px]">
+				<div class="w-full max-w-[120px]">
 					<x-input-label for="billing-postcode" :required="true" :value="__('messages.postcode')" />
 					<x-text-input id="billing-postcode" name="billing_postcode[]" type="text" maxlength="12" required />
 					<x-input-error :messages="$errors->get('billing_postcode')" />
@@ -79,7 +79,7 @@
 				</div>
 			</div>
 			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full sm:max-w-[120px]">
+				<div class="w-full max-w-[120px]">
 					<x-input-label for="billing-phonecode" :required="true" :value="__('messages.phonecode')" />
 					<x-text-input id="billing-phonecode" class="phonecode" name="billing_phonecode[]" type="text" required />
 					<x-input-error :messages="$errors->get('billing_phonecode')" />
@@ -119,7 +119,7 @@
 		<div id="branch-1" class="block-branch mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 			<h2 class="mb-4 font-semibold text-xl capitalize">{{ __('messages.branch') }} 1</h2>
 			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full sm:max-w-[120px]">
+				<div class="w-full max-w-[120px]">
 					<x-input-label for="branch-code" :required="false" :value="__('messages.code')" />
 					<x-text-input id="branch-code" class="code" name="branch_code[]" type="text" maxlength="4" />
 					<x-input-error :messages="$errors->get('branch_code')" />
@@ -165,7 +165,7 @@
 				<x-input-error :messages="$errors->get('branch_address_ext')" />
 			</div>
 			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full sm:max-w-[120px]">
+				<div class="w-full max-w-[120px]">
 					<x-input-label for="branch-postcode" :required="false" :value="__('messages.postcode')" />
 					<x-text-input id="branch-postcode" name="branch_postcode[]" type="text" maxlength="12" />
 					<x-input-error :messages="$errors->get('branch_postcode')" />
@@ -177,7 +177,7 @@
 				</div>
 			</div>
 			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full sm:max-w-[120px]">
+				<div class="w-full max-w-[120px]">
 					<x-input-label for="branch-phonecode" :required="false" :value="__('messages.phonecode')" />
 					<x-text-input id="branch-phonecode" class="phonecode" name="branch_phonecode[]" type="text" />
 					<x-input-error :messages="$errors->get('branch_phonecode')" />
