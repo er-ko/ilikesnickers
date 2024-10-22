@@ -144,7 +144,6 @@ return [
 	'company' => 'Spoločnosť',
 	'first_and_last_name' => 'Meno a priezvisko',
 
-	'customer' => 'Zákazník',
 	'supplier' => 'Odberateľ',
 	'vat_payer' => 'Plátca DPH',
 	'preferred_payment_method' => 'Preferovaný spôsob platby',
@@ -154,4 +153,22 @@ return [
 	'cod' => 'Dobierka',
 	'cash' => 'Hotovosť',
 	'bank_transfer' => 'Bankový prevod',
+
+	'group' => 'Skupina',
+	'customer_group' => 'Zákaznícka skupina',
+	'customer_groups' => 'Zákaznícke skupiny',
+	'no_customer_groups' => 'Žiadne zákaznícke skupiny',
+	'new_customer_group' => 'Nová zákaznícka skupina',
+	'edit_customer_group' => 'Upraviť zákaznícku skupinu',
+
+	'customer' => 'Zákazník',
+	'customers' => 'Zákazníci',
+	'no_customers' => 'Žiadni zákazníci',
+	'new_customer' => 'Nový zákazník',
+	'edit_customer' => 'Upraviť zákazníka',
+	'login_email' => 'Prihlasovací e-mail',
+	'password_generator' => 'Generátor hesla',
+
+	'this_email_is_already_registered' => 'tento e-mail je už registrovaný',
+	'email_address_can_be_used' => 'e-mailová adresa môže byť použitá',
 ];

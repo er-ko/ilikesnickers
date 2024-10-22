@@ -61,6 +61,12 @@
                             <x-dropdown-link :href="route('manufacturer.index')">
                                 {{ __('messages.manufacturer') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('customer.index')">
+                                {{ __('messages.customer') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('customer-group.index')">
+                                {{ __('messages.customer_group') }}
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>

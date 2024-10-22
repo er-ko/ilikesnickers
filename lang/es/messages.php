@@ -144,7 +144,6 @@ return [
 	'company' => 'Empresa',
 	'first_and_last_name' => 'Nombre y apellido',
 
-	'customer' => 'Cliente',
 	'supplier' => 'Abonado',
 	'vat_payer' => 'Pagador de IVA',
 	'preferred_payment_method' => 'Método de pago preferido',
@@ -154,4 +153,21 @@ return [
 	'cod' => 'Contra reembolso',
 	'cash' => 'Dinero',
 	'bank_transfer' => 'Transferencia bancaria',
+
+	'customer_group' => 'Grupo de clientes',
+	'customer_groups' => 'Grupos de clientes',
+	'no_customer_groups' => 'Sin grupos de clientes',
+	'new_customer_group' => 'Nuevo grupo de clientes',
+	'edit_customer_group' => 'Editar grupo de clientes',
+
+	'customer' => 'Cliente',
+	'customers' => 'Clientes',
+	'no_customers' => 'Sin clientes',
+	'new_customer' => 'Nuevo cliente',
+	'edit_customer' => 'Editar cliente',
+	'login_email' => 'Correo electrónico de inicio de sesión',
+	'password_generator' => 'Generador de contraseñas',
+
+	'this_email_is_already_registered' => 'este correo electrónico ya está registrado',
+	'email_address_can_be_used' => 'se puede utilizar la dirección de correo electrónico',
 ];

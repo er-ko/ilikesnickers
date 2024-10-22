@@ -144,7 +144,6 @@ return [
 	'company' => 'Company',
 	'first_and_last_name' => 'First and last name',
 
-	'customer' => 'Customer',
 	'supplier' => 'Supplier',
 	'vat_payer' => 'VAT payer',
 	'preferred_payment_method' => 'Preferred payment method',
@@ -154,4 +153,22 @@ return [
 	'cod' => 'Cash on delivery',
 	'cash' => 'Cash',
 	'bank_transfer' => 'Bank transfer',
+
+	'group' => 'Group',
+	'customer_group' => 'Customer group',
+	'customer_groups' => 'Customer groups',
+	'no_customer_groups' => 'No customer groups',
+	'new_customer_group' => 'New customer group',
+	'edit_customer_group' => 'Edit customer group',
+
+	'customer' => 'Customer',
+	'customers' => 'Customers',
+	'no_customers' => 'No customers',
+	'new_customer' => 'New customer',
+	'edit_customer' => 'Edit customer',
+	'login_email' => 'Login email',
+	'password_generator' => 'Password generator',
+
+	'this_email_is_already_registered' => 'this email is already registered',
+	'email_address_can_be_used' => 'email address can be used',
 ];

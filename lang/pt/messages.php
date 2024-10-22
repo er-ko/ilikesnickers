@@ -144,7 +144,6 @@ return [
 	'company' => 'Empresa',
 	'first_and_last_name' => 'Nome e apelido',
 
-	'customer' => 'Cliente',
 	'supplier' => 'Assinante',
 	'vat_payer' => 'Contribuinte de IVA',
 	'preferred_payment_method' => 'Método de pagamento preferido',
@@ -154,4 +153,21 @@ return [
 	'cod' => 'Pagamento na entrega',
 	'cash' => 'Dinheiro',
 	'bank_transfer' => 'Transferência bancária',
+
+	'customer_group' => 'Grupo de clientes',
+	'customer_groups' => 'Grupos de clientes',
+	'no_customer_groups' => 'Nenhum grupo de clientes',
+	'new_customer_group' => 'Novo grupo de clientes',
+	'edit_customer_group' => 'Editar grupo de clientes',
+
+	'customer' => 'Cliente',
+	'customers' => 'Clientes',
+	'no_customers' => 'Nenhum cliente',
+	'new_customer' => 'Novo Cliente',
+	'edit_customer' => 'Editar cliente',
+	'login_email' => 'E-mail de login',
+	'password_generator' => 'Gerador de passwords',
+
+	'this_email_is_already_registered' => 'este e-mail já está registado',
+	'email_address_can_be_used' => 'endereço de e-mail pode ser utilizado',
 ];
