@@ -13,7 +13,7 @@ class AppLayout extends Component
      */
     public function render(): View
     {
-        return view('layouts.app', [
+        return view('layouts.app2', [
             'languages' => Language::where('public', operator: true)->orderBy('id', 'asc')->get(),
         ]);
     }

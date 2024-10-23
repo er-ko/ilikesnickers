@@ -2,15 +2,15 @@
 
     <x-slot name="meta_title">{{ __('messages.dashboard') }}</x-slot>
 	<x-slot name="meta_desc">{{ __('messages.dashboard') }}</x-slot>
+    <x-slot name="title">{{ __('messages.dashboard') }}</x-slot>
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    {{-- <x-slot name="header">
+        <h2 class="">
             {{ __('messages.dashboard') }}
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __('messages.hello') .' '. $username }}
@@ -45,8 +45,7 @@
                     <div class="block h-2 text-center font-bold {{ $progress < 100 ? 'sm:rounded-bl-lg' : 'sm:rounded-b-lg' }} {{ $color }} text-white" style="width:{{ round($progress) }}%"></div>
                 </div>
             </div>
-        </div>
-    </div>
+        
     <div class="bg-pink-600"></div>
     <div class="bg-orange-500"></div>
     <div class="bg-blue-500"></div><div class="bg-teal-500"></div>

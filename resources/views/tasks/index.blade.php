@@ -2,6 +2,7 @@
 
 	<x-slot name="meta_title">{{ __('messages.tasks') }}</x-slot>
 	<x-slot name="meta_desc">{{ __('messages.tasks') }}</x-slot>
+	<x-slot name="title">{{ __('messages.task') }}</x-slot>
 
 	<x-slot name="header">
         <div class="flex items-center justify-start">
