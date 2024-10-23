@@ -57,6 +57,7 @@ return [
 	'content' => 'Content',
 	'image' => 'Image',
 	'save' => 'Save',
+	'cancel' => 'Cancel',
 	'no' => 'no',
 	'yes' => 'yes',
 	'or' => 'or',

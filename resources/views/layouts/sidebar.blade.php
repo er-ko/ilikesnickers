@@ -12,7 +12,7 @@
 			</div>
 			<h3 class="font-semibold text-lg">{{ $title }}</h3>
 		</div>
-		<nav class="w-full">
+		<nav class="flex-1 w-full border-r dark:border-gray-700/50">
 			<ul>
 				<li>
 					<x-sidebar-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -39,50 +39,118 @@
 					</x-sidebar-link>
 				</li>
 				<li>
-					<x-sidebar-link :href="route('post.index')" :active="request()->routeIs(['post.index', 'post.create', 'post.edit'])">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 me-3">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-						</svg>
-						<span>{{ __('messages.shop') }}</span>
-					</x-sidebar-link>
+					<div class="hidden sm:flex">
+						<x-sidebar-dropdown :active="request()->routeIs([
+							'category.index', 'category.create', 'category.edit',
+							'product-group.index', 'product-group.create', 'product-group.edit',
+							'manufacturer.index', 'manufacturer.create', 'manufacturer.edit',
+							'customer.index', 'customer.create', 'customer.edit',
+							'customer-group.index', 'customer-group.create', 'customer-group.edit',
+						])">
+							<x-slot name="trigger">
+								<div class="flex items-center justify-start">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 me-3">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+									</svg>
+									<span>{{ __('messages.shop') }}</span>
+								</div>
+								<div>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+										<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+									</svg>
+								</div>
+							</x-slot>
+							<x-slot name="content">
+								<x-sidebar-link :href="route('product.index')">
+									{{ __('messages.product') }}
+								</x-sidebar-link>
+								<x-sidebar-link :href="route('category.index')">
+									{{ __('messages.category') }}
+								</x-sidebar-link>
+								<x-sidebar-link :href="route('product-group.index')">
+									{{ __('messages.product_groups') }}
+								</x-sidebar-link>
+								<x-sidebar-link :href="route('manufacturer.index')">
+									{{ __('messages.manufacturer') }}
+								</x-sidebar-link>
+								<x-sidebar-link :href="route('customer.index')">
+									{{ __('messages.customer') }}
+								</x-sidebar-link>
+								<x-sidebar-link :href="route('customer-group.index')">
+									{{ __('messages.customer_group') }}
+								</x-sidebar-link>
+							</x-slot>
+						</x-sidebar-dropdown>
+					</div>
 				</li>
 				<li>
-					<x-sidebar-link :href="route('post.index')" :active="request()->routeIs(['post.index', 'post.create', 'post.edit'])">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 me-3">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
-						</svg>
-						<span>{{ __('messages.accountancy') }}</span>
-					</x-sidebar-link>
+					<div class="hidden sm:flex">
+						<x-sidebar-dropdown :active="request()->routeIs(['address-book.index', 'address-book.create', 'address-book.edit'])">
+							<x-slot name="trigger">
+								<div class="flex items-center justify-start">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 me-3">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+									</svg>
+									<span>{{ __('messages.accountancy') }}</span>
+								</div>
+								<div>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+										<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+									</svg>
+								</div>
+							</x-slot>
+							<x-slot name="content">
+								<x-sidebar-link :href="route('address-book.index')">
+									{{ __('messages.address_book') }}
+								</x-sidebar-link>
+							</x-slot>
+						</x-sidebar-dropdown>
+					</div>
 				</li>
 				<li>
-					<x-sidebar-link :href="route('post.index')" :active="request()->routeIs(['post.index', 'post.create', 'post.edit'])">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 me-3">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
-						</svg>
-						<span>{{ __('Settings') }}</span>
-					</x-sidebar-link>
+					<div class="hidden sm:flex">
+						<x-sidebar-dropdown :active="request()->routeIs('profile.edit')">
+							<x-slot name="trigger">
+								<div class="flex items-center justify-start">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 me-3">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
+									</svg>
+									<span>{{ __('Settings') }}</span>
+								</div>
+								<div>
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+										<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+									</svg>
+								</div>
+							</x-slot>
+							<x-slot name="content">
+								<x-sidebar-link :href="route('profile.edit')">
+									{{ __('messages.profile') }}
+								</x-sidebar-link>
+							</x-slot>
+						</x-sidebar-dropdown>
+					</div>
 				</li>
 			</ul>
 		</nav>
 	</div>
-	<footer class="w-full flex items-center justify-center pt-4 pb-2 space-x-4">
-
-		<a href="{{ route('dashboard') }}" class="logo">
-			<x-application-logo class="w-8" />
+	<footer class="w-full flex items-center justify-center pt-4 pb-2">
+		<a href="{{ route('dashboard') }}" class="logo p-1 sm:p-2 duration-300 rounded-lg sm:rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800">
+			<x-application-logo class="w-6" />
 		</a>
-		
-		<!-- Authentication -->
 		<form method="POST" action="{{ route('logout') }}">
 			@csrf
-
-			<a href="{{ route('logout') }}" class="block text-pink-600 hover:text-pink-700" onclick="event.preventDefault(); this.closest('form').submit();">
+			<a
+				href="{{ route('logout') }}"
+				class="block p-1 sm:p-2 duration-300 rounded-lg sm:rounded-xl text-pink-600 hover:bg-gray-50 dark:hover:bg-gray-800"
+				onclick="event.preventDefault(); this.closest('form').submit();"
+			>
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
 				</svg>
 			</a>
 		</form>
 		@include('components.app-dark-mode')
-
 	</footer>
 </div>
 
@@ -95,9 +163,10 @@
 				$(this).parent().find('h3').toggleClass('hidden');
 				$('#sidebar-wrapper').find('nav a svg').toggleClass('me-3');
 				$('#sidebar-wrapper').find('nav span').toggleClass('hidden');
-				$('#sidebar-wrapper').toggleClass('w-[75px]');
+				$('#sidebar-wrapper').toggleClass('!w-[75px]');
 				$('#sidebar-wrapper footer').toggleClass('space-x-4');
 				$('#sidebar-wrapper footer').find('.logo').toggleClass('hidden');
+				$('#sidebar-wrapper footer').find('button').toggleClass('hidden');
 			});
 		});
 	</script>
