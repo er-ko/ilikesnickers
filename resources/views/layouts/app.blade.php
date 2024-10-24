@@ -9,18 +9,18 @@
 			<aside class="flex">
 				@include('layouts.sidebar')
 			</aside>
-			<main class="relative flex-1 mt-4 pb-20 text-gray-900 dark:text-gray-200">
+			<main class="flex flex-1 flex-col mt-4 text-gray-900 dark:text-gray-200 max-h-screen overflow-y-auto">
 				@isset($header)
 					<header class="w-full flex items-center px-8 sm:px-4 pb-4 sm:pb-0">
 						{{ $header }}
 					</header>
 				@endisset
 
-				<div class="h-full p-0 sm:px-4">
+				<div class="mb-auto p-0 sm:px-4">
 					{{ $slot }}
 				</div>
 
-				<div class="absolute bottom-0 inset-x-0 w-full flex items-center justify-center py-4 bg-gray-100 dark:bg-gray-900">
+				<div class="flex items-center justify-center py-12 bg-gray-100 dark:bg-gray-900">
 					@isset($submit)
 						{{ $submit }}
 					@endisset

@@ -19,7 +19,7 @@ $classes = ($active ?? false)
         x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="transform opacity-100 scale-100"
         x-transition:leave-end="transform opacity-0 scale-95"
-        class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg z-50"
+        class="absolute right-0 w-full mt-1 origin-top-right rounded-md shadow-lg z-50"
     >
         <div class="p-2 sm:p-1 lg:p-2 bg-white rounded-md shadow dark:bg-gray-900">
             {{ $content }}

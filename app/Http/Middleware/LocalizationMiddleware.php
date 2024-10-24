@@ -24,8 +24,10 @@ class LocalizationMiddleware
 
         $locale = Session::get('locale') ?? config('app.locale', $default->locale);
         Session::put('locale', $locale);
-        Session::put('time_format', $default->time_format);
-        Session::put('date_format', $default->date_format);
+        $timeFormat = Session::get('time_format') ?? $default->time_format;
+        $dateFormat = Session::get('date_format') ?? $default->date_format;
+        Session::put('time_format', $timeFormat);
+        Session::put('date_format', $dateFormat);
         App::setLocale($locale);
         return $next($request);
     }

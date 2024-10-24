@@ -8,14 +8,14 @@
 		<x-text-input
 			id="new-todo"
 			type="text"
-			class="lg:px-8 dark:text-teal-500"
+			class="lg:px-4 dark:text-teal-500"
 			maxlength="255"
 			placeholder="{{ __('messages.put_the_task_and_press_enter') }}.."
 			autofocus
 		/>
 	</x-slot>
 
-	<div id="tasks" class="grid gap-4 grid-cols-1 lg:grid-cols-3">
+	<div id="tasks" class="grid gap-4 grid-cols-1 lg:grid-cols-3 sm:mt-4 lg:mt-6">
 		<div id="opened" class="w-full h-full max-h-[325px] lg:max-h-[680px] sm:col-span-2 overflow-y-auto p-4 xl:p-8 sm:rounded-lg shadow-sm bg-orange-50 dark:bg-gray-800/50"></div>
 		<div id="closed" class="w-full h-fit max-h-[325px] lg:max-h-[680px] overflow-y-auto p-4 xl:p-8 sm:rounded-lg shadow-sm bg-emerald-50 dark:bg-gray-950/25"></div>
 	</div>

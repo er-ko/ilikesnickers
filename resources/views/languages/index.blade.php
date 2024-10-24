@@ -4,8 +4,8 @@
 	<x-slot name="meta_desc">{{ __('messages.language') }}</x-slot>
     <x-slot name="title">{{ __('messages.language') }}</x-slot>
 
-    <div class="flex flex-wrap xl:space-x-4">
-        <div class="w-full xl:max-w-[300px] h-fit mb-4 xl:mb-0 py-6 px-2 sm:p-4 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
+    <div class="flex flex-wrap xl:flex-row-reverse">
+        <div class="w-full xl:max-w-[300px] h-fit mb-4 xl:mb-0 xl:ml-4 py-6 px-2 sm:p-4 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
             <form method="POST" action="{{ route('language.index') }}">
                 @csrf
                 @method('patch')
