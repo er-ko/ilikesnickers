@@ -4,9 +4,9 @@
 	<x-slot name="meta_desc">{{ __('messages.dashboard') }}</x-slot>
     <x-slot name="title">{{ __('messages.dashboard') }}</x-slot>
 
-    <div class="p-6 font-bold">
-        {{ __('messages.hello') .' '. $username }} !
-    </div>
+    <x-slot name="header">
+        <h2 class="my-2 lg:my-4 sm:mb-6 lg:mb-8 sm:px-2 font-bold">{{ __('messages.hello') .' '. $username }} !</h2>
+    </x-slot>
 
     <div class="relative w-full max-w-md shadow-sm sm:rounded-lg bg-white dark:bg-gray-800">
         <div

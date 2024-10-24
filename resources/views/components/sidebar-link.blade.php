@@ -2,8 +2,8 @@
 
 @php
 $classes = ($active ?? false)
-    ? 'flex items-center px-4 lg:px-6 py-5 border-b border-indigo-400 dark:border-teal-500 text-sm font-normal leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out'
-    : 'flex items-center px-4 lg:px-6 py-5 border-b border-gray-100 dark:border-gray-700 text-sm font-light leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out';
+    ? 'block p-4 sm:p-2 lg:p-4 mt-1 text-sm font-semibold text-gray-900 bg-gray-200 rounded-lg dark:text-gray-300 dark:bg-gray-900 dark:hover:bg-gray-900 dark:focus:bg-gray-900 dark:focus:text-white dark:hover:text-white dark:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline'
+    : 'block p-4 sm:p-2 lg:p-4 mt-1 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-900/50 dark:focus:bg-gray-900 dark:focus:text-white dark:hover:text-white dark:text-gray-400 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline';
 @endphp
 
 <a {{ $attributes->merge(['class' => $classes]) }}>

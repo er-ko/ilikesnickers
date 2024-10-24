@@ -4,19 +4,20 @@
 	<x-slot name="meta_desc">{{ __('messages.tasks') }}</x-slot>
 	<x-slot name="title">{{ __('messages.task') }}</x-slot>
 
-	<div class="w-full">
+	<x-slot name="header">
 		<x-text-input
 			id="new-todo"
 			type="text"
-			class="mb-8 lg:px-8 py-4 font-semibold dark:text-teal-500"
+			class="lg:px-8 dark:text-teal-500"
 			maxlength="255"
 			placeholder="{{ __('messages.put_the_task_and_press_enter') }}.."
 			autofocus
 		/>
-	</div>
-	<div id="tasks" class="grid gap-4 grid-cols-1 sm:grid-cols-3">
-		<div id="opened" class="w-full h-full max-h-[325px] lg:max-h-[680px] sm:col-span-2 overflow-y-auto p-2"></div>
-		<div id="closed" class="w-full h-full max-h-[325px] lg:max-h-[680px] overflow-y-auto p-2"></div>
+	</x-slot>
+
+	<div id="tasks" class="grid gap-4 grid-cols-1 lg:grid-cols-3">
+		<div id="opened" class="w-full h-full max-h-[325px] lg:max-h-[680px] sm:col-span-2 overflow-y-auto p-4 xl:p-8 sm:rounded-lg shadow-sm bg-orange-50 dark:bg-gray-800/50"></div>
+		<div id="closed" class="w-full h-fit max-h-[325px] lg:max-h-[680px] overflow-y-auto p-4 xl:p-8 sm:rounded-lg shadow-sm bg-emerald-50 dark:bg-gray-950/25"></div>
 	</div>
 
 	@push('slotscript')
@@ -52,14 +53,14 @@
 							$('#tasks #closed').text('');
 							$.each(data, function (i) {
 								if (data[i]['status'] === 0) {
-									var output = '<div class="relative flex items-center justify-start mb-3 px-8 py-4 duration-300 rounded-md shadow hover:shadow-md bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-100">';
+									var output = '<div class="relative flex items-center justify-start mb-3 px-4 xl:px-8 py-4 duration-300 rounded-md shadow hover:shadow-md bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-100">';
 										output += '<div class="absolute -top-1.5 -left-1.5 w-6 h-6 flex items-center justify-center rounded-full bg-orange-600 text-white dark:bg-orange-500">?</div>';
 										output +='<input type="checkbox" id="'+ data[i]['id'] +'" class="checkbox me-3" value="1" />';
 										output += '<label for="'+ data[i]['id'] +'">' + data[i]['title'] +'</label>';
 										output +='</div>';
 									$('#tasks #opened').append(output);
 								} else {
-									var output = '<div class="relative flex items-center justify-start mb-3 px-8 py-4 duration-300 rounded-md shadow hover:shadow-md bg-teal-100/25 text-teal-700 dark:text-gray-400 dark:bg-teal-950/50">';
+									var output = '<div class="relative flex items-center justify-start mb-3 px-4 xl:px-8 py-4 duration-300 rounded-md shadow hover:shadow-md bg-white text-teal-700 dark:text-gray-400 dark:bg-teal-950/50">';
 										output += '<div class="absolute -top-1.5 -left-1.5 p-1 rounded-full bg-teal-600 text-white dark:bg-teal-500">';
 										output += '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">';
 										output += '<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />';

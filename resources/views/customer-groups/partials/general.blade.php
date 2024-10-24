@@ -1,5 +1,5 @@
 <div class="grid gap-0 lg:gap-4 grid-cols-1 lg:grid-cols-3">
-	<div class="mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="mb-4 lg:mb-0 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 		<div>
 			<x-input-label for="public" :required="true" :value="__('messages.public')" />
 			<x-select name="public" id="public" class="public" required>
@@ -9,7 +9,7 @@
 			<x-input-error :messages="$errors->get('public')" />
 		</div>
 	</div>
-	<div class="relative col-span-2 p-6 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="relative col-span-2 pt-7 pb-6 px-2 sm:p-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 		@foreach ($languages as $lang)
 			<div x-show="lang == 'tab-{{ $lang->locale }}'">
 				<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
@@ -18,8 +18,8 @@
 				</div>
 				<div>
 					<x-input-label for="title-{{ $lang->locale }}" :required="$lang->default ? true : false" :value="__('messages.title')" />
-						<x-text-input id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" :required="$lang->default ? true : false" />
-						<x-input-error :messages="$errors->get('title')" />
+					<x-text-input id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" :required="$lang->default ? true : false" />
+					<x-input-error :messages="$errors->get('title')" />
 				</div>
 			</div>
 		@endforeach

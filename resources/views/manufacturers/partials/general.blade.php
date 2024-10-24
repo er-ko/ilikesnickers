@@ -1,5 +1,5 @@
 <div class="grid gap-0 lg:gap-4 grid-cols-1 lg:grid-cols-3">
-	<div class="mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="mb-4 lg:mb-0 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 		<div>
 			<x-input-label for="name" :required="true" :value="__('messages.name')" />
 			<x-text-input id="name" name="name" type="text" maxlength="255" required :value="isset($manufacturer) ? old('name', $manufacturer->name) : ''" />
@@ -24,7 +24,7 @@
 			</label>
 		</div>
 	</div>
-	<div class="relative col-span-2 p-6 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="relative col-span-2 pt-7 pb-6 px-2 sm:p-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 		@foreach ($languages as $lang)
 			<div x-show="lang == 'tab-{{ $lang->locale }}'">
 				<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />

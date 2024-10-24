@@ -45,6 +45,7 @@ Route::resource('category', CategoryController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 Route::resource('category', CategoryController::class)->only(['index']);
+Route::resource('category', CategoryController::class)->only(['index']);
 Route::get('/category/{category:slug}', action: [CategoryController::class, 'show'])->name(name: 'category.show'); // url slug redirect
 
 Route::resource('product-group', ProductGroupController::class)

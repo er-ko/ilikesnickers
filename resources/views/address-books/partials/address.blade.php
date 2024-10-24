@@ -1,11 +1,11 @@
 <div class="grid gap-0 lg:gap-4 grid-cols-1 lg:grid-cols-2">
 	<!-- billing -->
 	<div data-type="billing" data-type-lang="{{ __('messages.billing') }}">
-		<div class="flex items-center justify-between mb-4">
+		<div class="flex items-center justify-between space-x-2 mb-4 px-2 sm:px-0">
 			<x-select id="billing-select" class="address-select flex-1 capitalize">
 				<option value="1">{{ __('messages.billing') }} 1</option>
 			</x-select>
-			<div class="flex items-center justify-center px-4">
+			<div class="flex items-center justify-center">
 				<button type="button" id="billing-remove" class="address-remove hidden px-1 text-pink-600 hover:text-pink-700">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -18,10 +18,10 @@
 				</button>
 			</div>
 		</div>
-		<div id="billing-1" class="block-billing mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+		<div id="billing-1" class="block-billing mb-4 lg:mb-0 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 			<h2 class="mb-4 font-semibold text-xl capitalize">{{ __('messages.billing') }} 1</h2>
-			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full max-w-[120px]">
+			<div class="flex items-center justify-start space-x-2">
+				<div class="w-full max-w-[110px]">
 					<x-input-label for="billing-code" :required="true" :value="__('messages.code')" />
 					<x-text-input id="billing-code" class="code" name="billing_code[]" type="text" maxlength="4" required autofocus />
 					<x-input-error :messages="$errors->get('billing_code')" />
@@ -32,7 +32,7 @@
 					<x-input-error :messages="$errors->get('billing_company_name')" />
 				</div>
 			</div>
-			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+			<div class="grid gap-4 sm:gap-2 grid-cols-1 sm:grid-cols-2">
 				<div>
 					<x-input-label for="billing-company-id" :required="false" :value="__('messages.company_id')" />
 					<x-text-input id="billing-company-id" name="billing_company_id[]" type="text" maxlength="8" />
@@ -44,7 +44,7 @@
 					<x-input-error :messages="$errors->get('billing_vat_id')" />
 				</div>
 			</div>
-			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+			<div class="grid gap-4 sm:gap-2 grid-cols-1 sm:grid-cols-2">
 				<div>
 					<x-input-label for="billing-first-name" :required="true" :value="__('messages.first_name')" />
 					<x-text-input id="billing-first-name" name="billing_first_name[]" type="text" maxlength="128" />
@@ -66,8 +66,8 @@
 				<x-text-input id="billing-address-ext" name="billing_address_ext[]" type="text" maxlength="128" />
 				<x-input-error :messages="$errors->get('billing_address_ext')" />
 			</div>
-			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full max-w-[120px]">
+			<div class="flex items-center justify-start space-x-2">
+				<div class="w-full max-w-[110px]">
 					<x-input-label for="billing-postcode" :required="true" :value="__('messages.postcode')" />
 					<x-text-input id="billing-postcode" name="billing_postcode[]" type="text" maxlength="12" required />
 					<x-input-error :messages="$errors->get('billing_postcode')" />
@@ -78,8 +78,8 @@
 					<x-input-error :messages="$errors->get('billing_city')" />
 				</div>
 			</div>
-			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full max-w-[120px]">
+			<div class="flex items-center justify-start space-x-2">
+				<div class="w-full max-w-[110px]">
 					<x-input-label for="billing-phonecode" :required="true" :value="__('messages.phonecode')" />
 					<x-text-input id="billing-phonecode" class="phonecode" name="billing_phonecode[]" type="text" required />
 					<x-input-error :messages="$errors->get('billing_phonecode')" />
@@ -99,11 +99,11 @@
 	</div>
 	<!-- branch -->
 	<div data-type="branch" data-type-lang="{{ __('messages.branch') }}">
-		<div class="flex items-center justify-between mb-4">
+		<div class="flex items-center justify-between space-x-2 mb-4 px-2 sm:px-0">
 			<x-select id="branch-select" data-type="branch" class="address-select flex-1 capitalize">
 				<option value="1">{{ __('messages.branch') }} 1</option>
 			</x-select>
-			<div class="flex items-center justify-center px-4">
+			<div class="flex items-center justify-center">
 				<button type="button" id="branch-remove" class="address-remove hidden px-1 text-pink-600 hover:text-pink-700">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -116,10 +116,10 @@
 				</button>
 			</div>
 		</div>
-		<div id="branch-1" class="block-branch mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+		<div id="branch-1" class="block-branch mb-4 lg:mb-0 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 			<h2 class="mb-4 font-semibold text-xl capitalize">{{ __('messages.branch') }} 1</h2>
-			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full max-w-[120px]">
+			<div class="flex items-center justify-start space-x-2">
+				<div class="w-full max-w-[110px]">
 					<x-input-label for="branch-code" :required="false" :value="__('messages.code')" />
 					<x-text-input id="branch-code" class="code" name="branch_code[]" type="text" maxlength="4" />
 					<x-input-error :messages="$errors->get('branch_code')" />
@@ -130,7 +130,7 @@
 					<x-input-error :messages="$errors->get('branch_company_name')" />
 				</div>
 			</div>
-			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+			<div class="grid gap-4 sm:gap-2 grid-cols-1 sm:grid-cols-2">
 				<div>
 					<x-input-label for="branch-company-id" :required="false" :value="__('messages.company_id')" />
 					<x-text-input id="branch-company-id" name="branch_company_id[]" type="text" maxlength="8" />
@@ -142,7 +142,7 @@
 					<x-input-error :messages="$errors->get('branch_vat_id')" />
 				</div>
 			</div>
-			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+			<div class="grid gap-4 sm:gap-2 grid-cols-1 sm:grid-cols-2">
 				<div>
 					<x-input-label for="branch-first-name" :required="false" :value="__('messages.first_name')" />
 					<x-text-input id="branch-first-name" name="branch_first_name[]" type="text" maxlength="128" />
@@ -164,8 +164,8 @@
 				<x-text-input id="branch-address-ext" name="branch_address_ext[]" type="text" maxlength="128" />
 				<x-input-error :messages="$errors->get('branch_address_ext')" />
 			</div>
-			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full max-w-[120px]">
+			<div class="flex items-center justify-start space-x-2">
+				<div class="w-full max-w-[110px]">
 					<x-input-label for="branch-postcode" :required="false" :value="__('messages.postcode')" />
 					<x-text-input id="branch-postcode" name="branch_postcode[]" type="text" maxlength="12" />
 					<x-input-error :messages="$errors->get('branch_postcode')" />
@@ -176,8 +176,8 @@
 					<x-input-error :messages="$errors->get('branch_city')" />
 				</div>
 			</div>
-			<div class="flex items-center justify-start space-x-4">
-				<div class="w-full max-w-[120px]">
+			<div class="flex items-center justify-start space-x-2">
+				<div class="w-full max-w-[110px]">
 					<x-input-label for="branch-phonecode" :required="false" :value="__('messages.phonecode')" />
 					<x-text-input id="branch-phonecode" class="phonecode" name="branch_phonecode[]" type="text" />
 					<x-input-error :messages="$errors->get('branch_phonecode')" />

@@ -1,5 +1,5 @@
 <div class="grid gap-0 lg:gap-4 grid-cols-1 lg:grid-cols-3">
-	<div class="mb-4 lg:mb-0 p-4 sm:p-6 lg:p-8 space-y-10 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="mb-4 lg:mb-0 py-6 px-2 sm:p-4 space-y-4 xl:space-y-10 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 		<div>
 			<x-input-label for="customer-group" :required="true" :value="__('messages.customer_group')" />
 			<x-select name="customer_group" id="customer-group" required>
@@ -11,14 +11,14 @@
 		</div>
 		<x-primary-button type="button" class="password-generator w-full mt-16">{{ __('messages.password_generator') }}</x-primary-button>
 	</div>
-	<div class="relative col-span-2 p-4 sm:p-6 lg:p-8 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="relative col-span-2 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 
 		<div>
 			<x-input-label for="login-email" :required="true" :value="__('messages.login_email')" />
 			<x-text-input id="login-email" name="email" type="email" maxlength="255" required :value="isset($customer) ? old('email', $customer->email) : ''" />
 			<x-input-error :messages="$errors->get('email')" />
 		</div>
-		<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 py-4">
+		<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
 			<div>
 				<x-input-label for="password" :required="true" :value="__('messages.password')" />
 				<x-text-input id="password" name="password" type="text" rel="gp" data-size="12" data-character-set="a-z,A-Z,0-9,#" required />
@@ -32,7 +32,7 @@
 		</div>
 	</div>
 </div>
-<div class="flex items-center justify-end my-4"><h3 id="email-alert" class="hidden px-3 py-1.5 md:rounded-lg text-right text-sm lowercase text-white"></h3></div>
+<div class="flex items-center justify-end"><h3 id="email-alert" class="hidden my-4 px-3 py-1.5 md:rounded-lg text-right text-sm lowercase text-white"></h3></div>
 
 @push('slotscript')
 	<script>

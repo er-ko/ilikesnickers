@@ -1,5 +1,5 @@
 <div class="grid gap-0 lg:gap-4 grid-cols-1 lg:grid-cols-3">
-	<div class="relative mb-4 lg:mb-0 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="relative mb-4 lg:mb-0 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 		<div>
 			<x-input-label for="public" :required="true" :value="__('messages.public')" />
 			<x-select name="public" id="public" class="public" required>
@@ -25,7 +25,7 @@
 			</div>
 		@endforeach
 	</div>
-	<div class="relative col-span-2 px-6 pt-2 pb-6 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="relative col-span-2 pt-3 pb-6 px-2 sm:px-4 sm:pt-0 sm:pb-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 		@foreach ($languages as $lang)
 			<div class="area-value space-y-4" data-locale-type={{ $lang->locale }} x-show="lang == 'tab-{{ $lang->locale }}'">
 				<div class="locale-active absolute top-1 left-1 sm:-top-4 sm:-left-4 p-0 sm:p-2 rounded-full sm:shadow bg-white dark:bg-black">

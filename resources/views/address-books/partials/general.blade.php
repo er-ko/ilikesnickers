@@ -1,8 +1,8 @@
 <div class="grid gap-4 grid-cols-1 md:grid-cols-3">
 
-	<div class="p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 
-		<div class="flex items-start justify-start flex-col space-y-4 mt-4 mb-6">
+		<div class="flex items-start justify-center flex-col space-y-4">
 			<div>
 				<label for="customer" class="inline-flex items-center cursor-pointer">
 					<input type="checkbox" id="customer" name="customer" value="1" class="sr-only peer" {{ isset($addressBook) && $addressBook->customer ? 'checked' : '' }}>
@@ -25,14 +25,14 @@
 				</label>
 			</div>
 		</div>
-		<div class="w-full">
+		<div>
 			<x-input-label for="due-date" :required="true" :value="__('messages.due_date')" />
 			<x-text-input id="due-date" class="text-center" name="due_date" type="number" maxlength="3" required :value="isset($addressBook) ? old('due_date', $addressBook->due_date) : 7" />
 			<x-input-error :messages="$errors->get('due_date')" />
 		</div>
 		
 	</div>
-	<div class="md:col-span-2 p-6 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+	<div class="md:col-span-2 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
 
 		<div>
 			<x-input-label for="preferred-payment-method" :required="true" :value="__('messages.preferred_payment_method')" />

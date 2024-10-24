@@ -4,15 +4,13 @@
 	<x-slot name="meta_desc">{{ __('messages.customer_groups') }}</x-slot>
     <x-slot name="title">{{ __('messages.customer_groups') }}</x-slot>
 
-    <div class="flex items-center justify-center mt-2 mb-6">
-        <a
-            href="{{ route('customer-group.create') }}"
-            class="px-4 py-1 text-base lowercase sm:rounded-md duration-300 bg-teal-600 text-white hover:bg-teal-700"
-            target="_self"
-        >
-            {{ __('messages.new_customer_group') }}
+    <x-slot name="submit">
+        <a href="{{ route('customer-group.create') }}" class="p-2.5 pl-4 duration-300 shadow rounded-l-full bg-teal-600 text-white hover:bg-teal-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
         </a>
-    </div>
+    </x-slot>
 
     <div class="p-2 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
 
