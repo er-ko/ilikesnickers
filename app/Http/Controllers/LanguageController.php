@@ -21,7 +21,7 @@ class LanguageController extends Controller
 
             $locale = $request->get('locale');
             DB::table('languages')->update(['default' => 0]);
-            DB::table('languages')->where('locale', $locale)->update(values: ['default' => 1]);
+            DB::table('languages')->where('locale', '=', $locale)->update(values: ['default' => 1]);
             Session::put('message', __('messages.alert.successfully_updated'));
 
         }  else {
@@ -92,7 +92,7 @@ class LanguageController extends Controller
 
             $language->update($validated);
             DB::table('languages')->update(['default' => 0]);
-            DB::table('languages')->where('locale', $request->default)->update(['default' => 1]);
+            DB::table('languages')->where('locale', '=', $request->default)->update(['default' => 1]);
             return redirect(route('language.index'))->with('message', __('messages.alert.successfully_updated'));
         }
     }

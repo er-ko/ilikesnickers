@@ -57,6 +57,7 @@ return [
 	'content' => 'Conteúdo',
 	'image' => 'Imagem',
 	'save' => 'Guardar',
+	'cancel' => 'Cancelar',
 	'no' => 'não',
 	'yes' => 'sim',
 	'or' => 'ou',
@@ -170,4 +171,12 @@ return [
 
 	'this_email_is_already_registered' => 'este e-mail já está registado',
 	'email_address_can_be_used' => 'endereço de e-mail pode ser utilizado',
+
+	'country' => 'País',
+	'countries' => 'Países',
+	'default_country' => 'País padrão',
+	'edit_country' => 'Editar país',
+	'delivery' => 'Entrega',
+
+	'system' => 'Sistema',
 ];

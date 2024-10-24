@@ -83,8 +83,14 @@
 					</svg>
 				</x-slot>
 				<x-slot name="content">
+					<x-sidebar-dropdown-link :href="route('system.edit')">
+						{{ __('messages.system') }}
+					</x-sidebar-dropdown-link>
 					<x-sidebar-dropdown-link :href="route('language.index')">
 						{{ __('messages.language') }}
+					</x-sidebar-dropdown-link>
+					<x-sidebar-dropdown-link :href="route('country.index')">
+						{{ __('messages.country') }}
 					</x-sidebar-dropdown-link>
 					<x-sidebar-dropdown-link :href="route('profile.edit')">
 						{{ __('messages.profile') }}

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TaskController;
@@ -12,12 +13,17 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\AddressBookController;
 use App\Http\Controllers\CustomerGroupController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SystemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('locale/{lang}', [LocaleController::class, 'setLocale']);
 Route::resource('language', LanguageController::class)
+    ->only(['index', 'edit', 'update'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('country', CountryController::class)
     ->only(['index', 'edit', 'update'])
     ->middleware(['auth', 'verified']);
 
@@ -68,15 +74,18 @@ Route::resource('customer-group', CustomerGroupController::class)
 Route::resource('customer', CustomerController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
-
+    
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+    
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('/system', [SystemController::class, 'edit'])->name('system.edit');
+        Route::patch('/system', [SystemController::class, 'update'])->name('system.update');
 });
 
 require __DIR__.'/auth.php';

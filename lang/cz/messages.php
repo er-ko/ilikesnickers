@@ -57,6 +57,7 @@ return [
 	'content' => 'Obsah',
 	'image' => 'Obrázek',
 	'save' => 'Uložit',
+	'cancel' => 'Zrušit',
 	'no' => 'ne',
 	'yes' => 'ano',
 	'or' => 'nebo',
@@ -171,4 +172,12 @@ return [
 
 	'this_email_is_already_registered' => 'tento e-mail je již registrován',
 	'email_address_can_be_used' => 'e-mailová adresa může být použita',
+
+	'country' => 'Země',
+	'countries' => 'Země',
+	'default_country' => 'Výchozí země',
+	'edit_country' => 'Upravit zemi',
+	'delivery' => 'Doručení',
+
+	'system' => 'Systém',
 ];

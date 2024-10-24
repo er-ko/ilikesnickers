@@ -8,6 +8,7 @@ return [
 	'locale' => 'Locale',
 	'flag' => 'Flag',
 	'edit_language' => 'Edit language',
+	'default_language' => 'Default language',
 
 	'profile' => 'Profile',
 	'login' => 'Log In',
@@ -172,4 +173,14 @@ return [
 
 	'this_email_is_already_registered' => 'this email is already registered',
 	'email_address_can_be_used' => 'email address can be used',
+
+	'country' => 'Country',
+	'countries' => 'Countries',
+	'default_country' => 'Default country',
+	'edit_country' => 'Edit country',
+	'delivery' => 'Delivery',
+
+	'system' => 'System',
+	'app_name' => 'App name',
+	'meta_suffix' => 'Meta suffix',
 ];

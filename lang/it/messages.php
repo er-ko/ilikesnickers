@@ -57,6 +57,7 @@ return [
 	'content' => 'Content',
 	'image' => 'Image',
 	'save' => 'Save',
+	'cancel' => 'Cancel',
 	'no' => 'no',
 	'yes' => 'yes',
 	'or' => 'or',
@@ -171,4 +172,12 @@ return [
 
 	'this_email_is_already_registered' => 'this email is already registered',
 	'email_address_can_be_used' => 'email address can be used',
+
+	'country' => 'Country',
+	'countries' => 'Countries',
+	'default_country' => 'Default country',
+	'edit_country' => 'Edit country',
+	'delivery' => 'Delivery',
+
+	'system' => 'System',
 ];
