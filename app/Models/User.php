@@ -46,14 +46,24 @@ class User extends Authenticatable
         ];
     }
 
-    public function systems(): HasMany
+    public function pages(): HasMany
     {
-        return $this->hasMany(System::class);
+        return $this->hasMany(Page::class);
     }
 
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function faqs(): HasMany
+    {
+        return $this->hasMany(Faq::class);
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(Conctact::class);
     }
 
     public function tasks(): HasMany

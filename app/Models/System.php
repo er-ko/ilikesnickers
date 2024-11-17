@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,10 +16,17 @@ class System extends Model
         'meta_suffix',
         'country_id',
         'language_id',
+        'contact_company_name',
+        'contact_address',
+		'contact_opening_hours',
+		'contact_phone',
+		'contact_email',
+        'contact_web',
+		'contact_map',
+		'contact_whatsapp',
+		'contact_facebook',
+		'contact_instagram',
+		'contact_tiktok',
+		'contact_google'
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }

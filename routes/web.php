@@ -1,11 +1,16 @@
 <?php
 
 use App\Http\Controllers\LocaleController;
-use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\SystemController;
 use App\Http\Controllers\CountryController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\WelcomeController; // homepage
+use App\Http\Controllers\ContactController; // contact
+use App\Http\Controllers\FaqController; // faq
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductGroupController;
@@ -13,7 +18,6 @@ use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\AddressBookController;
 use App\Http\Controllers\CustomerGroupController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\SystemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +32,17 @@ Route::resource('country', CountryController::class)
     ->middleware(['auth', 'verified']);
 
 Route::get('/',[WelcomeController::class, 'index'])->name('welcome');
+Route::get('/contact',[ContactController::class, 'index'])->name('contact.index');
+
+Route::resource('faq', FaqController::class)
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+Route::resource('faq', FaqController::class)->only(['index']);
+
+Route::resource('page', PageController::class)
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+Route::get('/page/{page:slug}', [PageController::class, 'show'])->name('page.show'); // url slug redirect
 
 Route::resource('task', TaskController::class)
     ->only(['index'])
@@ -40,6 +55,13 @@ Route::resource('post', PostController::class)
 // post public
 Route::resource('post', PostController::class)->only(['index']);
 Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show'); // url slug redirect
+
+
+// booking
+Route::resource('booking', BookingController::class)
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+Route::resource('booking', BookingController::class)->only(['index']);
 
 Route::resource('product', ProductController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
@@ -86,6 +108,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
         Route::get('/system', [SystemController::class, 'edit'])->name('system.edit');
         Route::patch('/system', [SystemController::class, 'update'])->name('system.update');
+
+        Route::get('/contact/edit', [ContactController::class, 'edit'])->name('contact.edit');
+        Route::patch('/contact', [ContactController::class, 'update'])->name('contact.update');
 });
 
 require __DIR__.'/auth.php';

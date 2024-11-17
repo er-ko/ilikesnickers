@@ -16,16 +16,8 @@
         @csrf
         @method('patch')
         <div class="grid gap-4 grid-cols-1 xl:grid-cols-3">
-            <div class="xl:col-span-2 space-y-4">
-                <div class="py-6 px-2 sm:p-4 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        @include('system.partials.locale')
-                    </div>
-                </div>
-
-                <div class="py-6 px-2 sm:p-4 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <div class="max-w-xl">
-                        @include('system.partials.info')
+            @include('system.partials.locale')    
+            @include('system.partials.info')
                     </div>
                 </div>
             </div>

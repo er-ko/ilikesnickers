@@ -9,7 +9,7 @@
 			<aside class="flex">
 				@include('layouts.sidebar')
 			</aside>
-			<main class="flex flex-1 flex-col mt-4 text-gray-900 dark:text-gray-200 max-h-screen overflow-y-auto">
+			<main class="flex flex-1 flex-col pt-4 text-gray-900 dark:text-gray-200 max-h-screen overflow-y-auto">
 				@isset($header)
 					<header class="w-full flex items-center px-8 sm:px-4 pb-4 sm:pb-0">
 						{{ $header }}

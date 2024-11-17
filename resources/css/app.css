@@ -4,9 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
-table tbody tr:last-child { border-bottom: none }
-
 [x-cloak] { display: none !important }
+table tbody tr:last-child { border-bottom: none }
 
 .todo-list li { border-bottom: 1px solid hsl(0, 0%, 96%) }
 .todo-list li:last-child { border-bottom-color: transparent }

@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ isset($meta_title) ? $meta_title .' | '. config('app.name', 'box') : config('app.name', 'box') }}</title>
-        <meta name="description" content="{{ isset($meta_desc) ? $meta_desc : '' }}">
-        <link rel="icon" type="image/png" href="/favicon.png">
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @include('layouts.head')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen flex flex-col items-center justify-start bg-gray-100 dark:bg-gray-900">
@@ -52,10 +39,28 @@
                                 {{ __('messages.blog') }}
                             </a>
                             <a
+                                href="{{ route('booking.index') }}"
+                                class="px-8 py-4 border-b border-gray-200 dark:border-gray-600 {{ request()->routeIs(['booking.index']) ? 'font-bold border-teal-500 dark:border-teal-400' : '' }}"
+                            >
+                                {{ __('messages.booking') }}
+                            </a>
+                            <a
                                 href="{{ route('category.index') }}"
                                 class="px-8 py-4 border-b border-gray-200 dark:border-gray-600 {{ request()->routeIs(['category.index', 'category.show']) ? 'font-bold border-teal-500 dark:border-teal-400' : '' }}"
                             >
                                 {{ __('messages.shop') }}
+                            </a>
+                            <a
+                                href="{{ route('contact.index') }}"
+                                class="px-8 py-4 border-b border-gray-200 dark:border-gray-600 {{ request()->routeIs('contact.index') ? 'font-bold border-teal-500 dark:border-teal-400' : '' }}"
+                            >
+                                {{ __('messages.contact') }}
+                            </a>
+                            <a
+                                href="{{ route('faq.index') }}"
+                                class="px-8 py-4 border-b border-gray-200 dark:border-gray-600 {{ request()->routeIs('faq.index') ? 'font-bold border-teal-500 dark:border-teal-400' : '' }}"
+                            >
+                                {{ __('messages.faq') }}
                             </a>
                         </nav>
                     </header>
@@ -63,21 +68,54 @@
             @endif
 
             <!-- Page Content -->
-            <main class="flex flex-1 w-full max-w-7xl mb-auto py-6 px-4 sm:px-6 lg:px-8 lg:px-8">
+            <main class="flex flex-1 w-full max-w-7xl mb-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $slot }}
             </main>
-            <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="border-t border-dashed border-gray-200 dark:border-gray-800"></div>
-            </div>
-            <footer class="w-full max-w-7xl flex items-center justify-center mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <ul class="flex items-center justify-center text-sm text-gray-600 dark:text-gray-500">
-                    <li class="px-1">
-                        <a href="{{ route('welcome') }}" class="">&copy; {{ date('Y') }} <span class="text-gray-400 dark:text-gray-500">{{ config('app.name') }}</span></a>
-                    </li>
-                </ul>
+            <footer class="w-full flex items-center justify-between py-12 bg-white text-black dark:bg-gray-950/25 dark:text-gray-400">
+                <div class="w-full max-w-5xl grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mx-auto px-4">
+                    <ul class="font-light leading-8 tracking-widest text-center sm:text-left">
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">Blog</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">Booking</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">Shop</a>
+                        </li>
+                    </ul>
+                    <ul class="font-light leading-8 tracking-widest text-center sm:text-left">
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">Home</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">Contact</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">Gallery</a>
+                        </li>
+                    </ul>
+                    <ul class="font-light leading-8 tracking-widest text-center sm:text-left">
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">GDPR</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">Services</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('welcome') }}" class="hover:font-normal">FAQ</a>
+                        </li>
+                    </ul>
+                    <ul class="flex items-center justify-center text-sm text-gray-600 dark:text-gray-500">
+                        <li class="px-1">
+                            <img src="{{ asset('favicon.png') }}" class="w-full max-w-[80px] mb-3" />
+                            <a href="{{ route('welcome') }}" class="">&copy; {{ date('Y') }} <span class="text-gray-400 dark:text-gray-500">{{ config('app.name') }}</span></a>
+                        </li>
+                    </ul>
+                </div>
             </footer>
         </div>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         @stack('slotscript')
         <script src="{{ asset('js/darkMode.js') }}"></script>
     </body>

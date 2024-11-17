@@ -125,6 +125,7 @@ return [
 	'invoice_issued' => 'Invoice issued',
 	'stock' => 'Stock',
 
+	'contact' => 'Contact',
 	'new_contact' => 'New contact',
 	'edit_contact' => 'Edit contact',
 	'no_contacts' => 'No contacts',
@@ -183,4 +184,31 @@ return [
 	'system' => 'System',
 	'app_name' => 'App name',
 	'meta_suffix' => 'Meta suffix',
+
+	'page' => 'Page',
+	'pages' => 'Pages',
+
+	'booking' => 'Booking',
+	'faq' => 'FAQ',
+	'new_faq' => 'New FAQ',
+	'edit_faq' => 'Edit FAQ',
+	'no_questions_and_answers' => 'no questions and answers',
+	'question' => 'Question',
+	'answer' => 'Answer',
+
+	'web' => 'Web',
+	'map' => 'Map',
+	'opening_hours' => 'Opening hours',
+	'workdays' => 'Workdays',
+	'weekend' => 'Weekend',
+	'monday' => 'Monday',
+	'tuesday' => 'Tuesday',
+	'wednesday' => 'Wednesday',
+	'thursday' => 'Thursday',
+	'friday' => 'Friday',
+	'saturday' => 'Saturday',
+	'sunday' => 'Sunday',
+	'social' => 'Social',
+	
+	'translate' => 'Translate',
 ];

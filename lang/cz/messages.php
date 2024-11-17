@@ -8,6 +8,7 @@ return [
 	'locale' => 'Lokalizace',
 	'flag' => 'Vlajka',
 	'edit_language' => 'Upravit jazyk',
+	'default_language' => 'Výchozí jazyk',
 
 	'profile' => 'Profil',
 	'login' => 'Přihlásit',
@@ -43,8 +44,8 @@ return [
 	],
 
 	'total' => 'celkem',
-	'opened' => 'otevřené',
-	'closed' => 'zavřené',
+	'opened' => 'otevřeno',
+	'closed' => 'zavřeno',
 
 	//form
 	'name' => 'Jméno',

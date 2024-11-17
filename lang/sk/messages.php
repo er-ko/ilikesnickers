@@ -43,8 +43,8 @@ return [
 	],
 
 	'total' => 'celkom',
-	'opened' => 'otvorené',
-	'closed' => 'zatvorené',
+	'opened' => 'otvoreno',
+	'closed' => 'zatvoreno',
 
 	//form
 	'name' => 'Meno',

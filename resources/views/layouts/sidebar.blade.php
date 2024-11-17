@@ -28,9 +28,33 @@
 			<x-sidebar-link :href="route('task.index')" :active="request()->routeIs('task.index')">
 				{{ __('messages.task') }}
 			</x-sidebar-link>
-			<x-sidebar-link :href="route('post.index')" :active="request()->routeIs(['post.index', 'post.create', 'post.edit'])">
-				{{ __('messages.blog') }}
-			</x-sidebar-link>
+			<x-sidebar-dropdown :active="request()->routeIs([
+				'page.index', 'page.create', 'page.edit',
+				'post.index', 'post.create', 'post.edit',
+				'faq.index', 'faq.create', 'faq.edit',
+				'contact.edit'
+			])">
+				<x-slot name="trigger">
+					<span>{{ __('messages.pages') }}</span>
+					<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 ml-1 transition-transform duration-200 transform">
+						<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+					</svg>
+				</x-slot>
+				<x-slot name="content">
+					<x-sidebar-dropdown-link :href="route('page.index')">
+						{{ __('messages.page') }}
+					</x-sidebar-dropdown-link>
+					<x-sidebar-dropdown-link :href="route('contact.edit')">
+						{{ __('messages.contact') }}
+					</x-sidebar-dropdown-link>
+					<x-sidebar-dropdown-link :href="route('faq.index')">
+						{{ __('messages.faq') }}
+					</x-sidebar-dropdown-link>
+					<x-sidebar-dropdown-link :href="route('post.index')">
+						{{ __('messages.blog') }}
+					</x-sidebar-dropdown-link>
+				</x-slot>
+			</x-sidebar-dropdown>
 			<x-sidebar-dropdown :active="request()->routeIs([
 				'category.index', 'category.create', 'category.edit',
 				'product-group.index', 'product-group.create', 'product-group.edit',
@@ -83,14 +107,14 @@
 					</svg>
 				</x-slot>
 				<x-slot name="content">
-					<x-sidebar-dropdown-link :href="route('system.edit')">
-						{{ __('messages.system') }}
+					<x-sidebar-dropdown-link :href="route('country.index')">
+						{{ __('messages.country') }}
 					</x-sidebar-dropdown-link>
 					<x-sidebar-dropdown-link :href="route('language.index')">
 						{{ __('messages.language') }}
 					</x-sidebar-dropdown-link>
-					<x-sidebar-dropdown-link :href="route('country.index')">
-						{{ __('messages.country') }}
+					<x-sidebar-dropdown-link :href="route('system.edit')">
+						{{ __('messages.system') }}
 					</x-sidebar-dropdown-link>
 					<x-sidebar-dropdown-link :href="route('profile.edit')">
 						{{ __('messages.profile') }}

@@ -1,36 +1,39 @@
 <div class="grid gap-0 lg:gap-4 grid-cols-1 lg:grid-cols-3">
-	<div class="mb-4 lg:mb-0 py-6 px-2 sm:p-4 space-y-4 xl:space-y-10 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-		<div>
-			<x-input-label for="customer-group" :required="true" :value="__('messages.customer_group')" />
-			<x-select name="customer_group" id="customer-group" required>
-				@foreach ($groups as $group)
-					<option value="{{ $group->id }}" {{ isset($customer) && $customer->customer_group == $group->id ? 'selected' : '' }}>{{ $group->title }}</option>
-				@endforeach
-			</x-select>
-			<x-input-error :messages="$errors->get('customer_group')" />
-		</div>
-		<x-primary-button type="button" class="password-generator w-full mt-16">{{ __('messages.password_generator') }}</x-primary-button>
-	</div>
-	<div class="relative col-span-2 py-6 px-2 sm:p-4 space-y-4 shadow-sm sm:rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-
-		<div>
-			<x-input-label for="login-email" :required="true" :value="__('messages.login_email')" />
-			<x-text-input id="login-email" name="email" type="email" maxlength="255" required :value="isset($customer) ? old('email', $customer->email) : ''" />
-			<x-input-error :messages="$errors->get('email')" />
-		</div>
-		<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+	<x-card>
+		<x-slot name="content">
 			<div>
-				<x-input-label for="password" :required="true" :value="__('messages.password')" />
-				<x-text-input id="password" name="password" type="text" rel="gp" data-size="12" data-character-set="a-z,A-Z,0-9,#" required />
-				<x-input-error :messages="$errors->get('password')" />
+				<x-input-label for="customer-group" :required="true" :value="__('messages.customer_group')" />
+				<x-select name="customer_group" id="customer-group" required>
+					@foreach ($groups as $group)
+						<option value="{{ $group->id }}" {{ isset($customer) && $customer->customer_group == $group->id ? 'selected' : '' }}>{{ $group->title }}</option>
+					@endforeach
+				</x-select>
+				<x-input-error :messages="$errors->get('customer_group')" />
 			</div>
+			<x-primary-button type="button" class="password-generator w-full mt-8 lg:mt-10">{{ __('messages.password_generator') }}</x-primary-button>
+		</x-slot>
+	</x-card>
+	<x-card class="relative col-span-2 space-y-4 h-fit">
+		<x-slot name="content">
 			<div>
-				<x-input-label for="confirm-password" :required="true" :value="__('messages.confirm_password')" />
-				<x-text-input id="confirm-password" name="password_confirmation" type="text" rel="gp" data-size="12" data-character-set="a-z,A-Z,0-9,#" required />
-				<x-input-error :messages="$errors->get('confirm_password')" />
+				<x-input-label for="login-email" :required="true" :value="__('messages.login_email')" />
+				<x-text-input id="login-email" name="email" type="email" maxlength="255" required :value="isset($customer) ? old('email', $customer->email) : ''" />
+				<x-input-error :messages="$errors->get('email')" />
 			</div>
-		</div>
-	</div>
+			<div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+				<div>
+					<x-input-label for="password" :required="true" :value="__('messages.password')" />
+					<x-text-input id="password" name="password" type="text" rel="gp" data-size="12" data-character-set="a-z,A-Z,0-9,#" required />
+					<x-input-error :messages="$errors->get('password')" />
+				</div>
+				<div>
+					<x-input-label for="confirm-password" :required="true" :value="__('messages.confirm_password')" />
+					<x-text-input id="confirm-password" name="password_confirmation" type="text" rel="gp" data-size="12" data-character-set="a-z,A-Z,0-9,#" required />
+					<x-input-error :messages="$errors->get('confirm_password')" />
+				</div>
+			</div>
+		</x-slot>
+	</x-card>
 </div>
 <div class="flex items-center justify-end"><h3 id="email-alert" class="hidden my-4 px-3 py-1.5 md:rounded-lg text-right text-sm lowercase text-white"></h3></div>
 

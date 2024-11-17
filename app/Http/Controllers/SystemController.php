@@ -8,6 +8,8 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class SystemController extends Controller
 {
@@ -49,7 +51,7 @@ class SystemController extends Controller
     public function edit(System $system): View
     {
         return view('system.edit', [
-            'system'    => System::with('user')->where('user_id', auth()->id())->first(),
+            'system'    => System::first(),
             'countries' => Country::orderBy('name', 'asc')->get(),
             'languages' => Language::orderBy('name', 'asc')->get(),
         ]);
@@ -60,13 +62,26 @@ class SystemController extends Controller
      */
     public function update(Request $request, System $system): RedirectResponse
     {
-        $validated = $request->validate([
+        $data = [
+            'app_name'      => $request->app_name,
+            'meta_suffix'   => $request->meta_suffix,
+            'country_id'    => $request->country_id,
+            'language_id'   => $request->language_id,
+        ];
+        $validator = Validator::make($data, [
             'app_name'      => 'required|string|max:64',
             'meta_suffix'   => 'string|max:64',
             'country_id'    => 'required|numeric',
             'language_id'   => 'required|numeric',
         ]);
-        $request->user()->systems()->update($validated);
+        if (!$validator->fails()) {
+            DB::table('systems')->update(values: [
+                'app_name'      => $data['app_name'],
+                'meta_suffix'   => $data['meta_suffix'],
+                'country_id'    => $data['country_id'],
+                'language_id'   => $data['language_id'],
+            ]);
+        }
         return redirect(route('system.edit'))->with('message', __('messages.alert.successfully_updated'));
     }
 

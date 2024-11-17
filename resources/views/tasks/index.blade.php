@@ -1,8 +1,8 @@
 <x-app-layout>
 
-	<x-slot name="meta_title">{{ __('messages.tasks') }}</x-slot>
-	<x-slot name="meta_desc">{{ __('messages.tasks') }}</x-slot>
-	<x-slot name="title">{{ __('messages.task') }}</x-slot>
+	<x-slot name="meta_title">{{ __('tasks') }}</x-slot>
+	<x-slot name="meta_desc">{{ __('tasks') }}</x-slot>
+	<x-slot name="title">{{ __('task') }}</x-slot>
 
 	<x-slot name="header">
 		<x-text-input
@@ -10,7 +10,7 @@
 			type="text"
 			class="lg:px-4 dark:text-teal-500"
 			maxlength="255"
-			placeholder="{{ __('messages.put_the_task_and_press_enter') }}.."
+			placeholder="{{ __('put_the_task_and_press_enter') }}.."
 			autofocus
 		/>
 	</x-slot>
