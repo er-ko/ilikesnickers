@@ -195,5 +195,9 @@
 	"absolute_value": "absolute value",
 	"description": "Description",
 	"currency": "Currency",
-	"slider": "Slider"
+	"slider": "Slider",
+	"gdpr": "GDPR",
+	"cookies": "Cookies",
+	"terms_and_conditions": "Terms and conditions",
+	"payment": "Payment"
 }

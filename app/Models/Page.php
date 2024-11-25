@@ -14,6 +14,7 @@ class Page extends Model
         'id',
 		'user_id',
         'public',
+        'priority',
         'slug', 
         'locale',
         'title',

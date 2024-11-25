@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->boolean('public')->default(false);
+            $table->unsignedTinyInteger('priority')->nullable();
             $table->string('slug', 255);
             $table->timestamps();
         });

@@ -14,7 +14,7 @@
 
     <div class="p-2 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         @if ($pages->isEmpty())
-            <p class="py-4 italic text-center font-light dark:text-gray-400">create your first post with something valuable</p>
+            <p class="py-4 italic text-center font-light dark:text-gray-400">create your first page</p>
         @else
             <div class="overflow-auto">
                 <table class="table-auto w-full text-sm">

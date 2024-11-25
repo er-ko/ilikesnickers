@@ -18,6 +18,10 @@ class ContactController extends Controller
         $data = [
             'company_name' => DB::table('systems')->where('param', 'contact_company_name')->value('value'),
             'address' => DB::table('systems')->where('param', 'contact_address')->value('value'),
+            'house_no' => DB::table('systems')->where('param', 'contact_house_no')->value('value'),
+            'house_no' => DB::table('systems')->where('param', 'contact_house_no')->value('value'),
+            'postcode' => DB::table('systems')->where('param', 'contact_postcode')->value('value'),
+            'city' => DB::table('systems')->where('param', 'contact_city')->value('value'),
             'opening_hours' => DB::table('systems')->where('param', 'contact_opening_hours')->value('value'),
             'phone' => DB::table('systems')->where('param', 'contact_phone')->value('value'),
             'email' => DB::table('systems')->where('param', 'contact_email')->value('value'),

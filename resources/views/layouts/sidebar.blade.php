@@ -152,9 +152,6 @@
 				<x-sidebar-link :href="route('contact.index')" :active="request()->routeIs('contact.index')">
 					{{ __('contact') }}
 				</x-sidebar-link>
-				<x-sidebar-link :href="route('faq.index')" :active="request()->routeIs('faq.index')">
-					{{ __('faq') }}
-				</x-sidebar-link>
 				<x-sidebar-link :href="route('booking.index')" :active="request()->routeIs('booking.index')">
 					{{ __('booking') }}
 				</x-sidebar-link>
@@ -164,6 +161,26 @@
 				<x-sidebar-link :href="route('post.index')" :active="request()->routeIs(['post.index', 'post.show'])">
 					{{ __('blog') }}
 				</x-sidebar-link>
+				<x-sidebar-dropdownn :active="request()->routeIs(['page.show', 'faq.index'])">
+					<x-slot name="trigger">
+						<span>{{ __('info') }}</span>
+						<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 ml-1 transition-transform duration-200 transform">
+							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+						</svg>
+					</x-slot>
+					<x-slot name="content">
+						<x-sidebar-dropdownn-link :href="route('faq.index')" :active="request()->routeIs('faq.index')">
+							{{ __('faq') }}
+						</x-sidebar-dropdownn-link>
+						@if (!$pages->isEmpty())
+							@foreach ($pages as $page)
+								<x-sidebar-dropdownn-link :href="route('page.show', $page->slug)" :active="request()->routeIs('page.show') && request()->segment(2) === $page->slug">
+									{{ $page->title }}
+								</x-sidebar-dropdownn-link>
+							@endforeach
+						@endif
+					</x-slot>
+				</x-sidebar-dropdownn>
 
 				<div class="flex sm:absolute sm:bottom-3 sm:inset-x-0 mt-8 sm:mt-0 items-center justify-center">
 					@if (Route::has('login'))

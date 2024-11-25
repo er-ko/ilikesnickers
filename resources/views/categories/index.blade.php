@@ -104,7 +104,7 @@
                                 </div>
                             @endif
                             <img src="products/{{ $product->id }}/{{ $product->file }}" class="w-full rounded-t-lg" />
-                            <div class="p-4">
+                            <div class="p-4 border-t border-gray-100 dark:border-gray-700">
                                 <h3 class="mb-4 text-center font-bold text-xl">{{ $product->title }}</h3>
                                 <div class="flex items-center justify-between">
                                     <a href="{{ route('product.show', $product->slug) }}" target="_self" class="p-3 sm:rounded-lg bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-950">

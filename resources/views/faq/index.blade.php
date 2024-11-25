@@ -59,6 +59,11 @@
 </x-app-layout>
 @else
 <x-public-layout>
+
+    <x-slot name="meta_title">{{ __('faq') }}</x-slot>
+	<x-slot name="meta_desc">{{ __('faq') }}</x-slot>
+
 	@include('faq.partials.accordion')
+
 </x-public-layout>
 @endauth
