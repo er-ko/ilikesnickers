@@ -40,8 +40,22 @@ class CategoryController extends Controller
                                 'categories_locales.title', 'categories_locales.title_h1', 'categories_locales.content', 'categories_locales.meta_title', 'categories_locales.meta_description')
                         ->where('categories_locales.locale', '=', app()->getLocale())
                         ->orderBy('categories.created_at', 'desc')->paginate(15);
+
+            $products = Db::table('products')
+                        ->join('products_locales', 'products.id', '=', 'products_locales.product_id')
+                        ->join('products_images', 'products.id', '=', 'products_images.product_id')
+                        ->join('products_prices', 'products.id', '=', 'products_prices.product_id')
+                        ->select('products.id', 'products.code', 'products.slug', 'products_locales.title', 'products_images.file',
+                                'products_prices.regular_price_with_vat', 'products_prices.regular_price_without_vat', 'promotion_type',
+                                'promotion_discount', 'promotion_price_without_vat', 'promotion_price_with_vat')
+                        ->where('products_locales.locale', '=', app()->getLocale())
+                        ->where('products_images.default', '=', 1)
+                        ->orderBy('products_locales.title', 'asc')->paginate(15);
                     }
-        return view('categories.index', [ 'categories' => $categories ]);
+        return view('categories.index', [
+            'categories' => $categories,
+            'products' => $products,
+        ]);
     }
 
     /**

@@ -18,18 +18,16 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div class="absolute top-6 right-6 flex items-center justify-center">
+            <div class="absolute top-5 right-5 flex items-center justify-center">
                 @isset($postClose)
                     {{ $postClose }}
                 @else
-                    <a href="{{ route('welcome') }}" target="_self" class="py-3 pr-3.5 pl-5 rounded-l-full shadow duration-300 bg-gray-500 text-white hover:bg-gray-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-800">
+                    <a href="{{ route('welcome') }}" target="_self" class="p-4 rounded-full shadow duration-300 bg-gray-400 text-white hover:bg-gray-700 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-800">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                         </svg>
                     </a>
                 @endisset
-                @include('components.lang-switch')
-                @include('components.dark-mode')
             </div>
             <div class="mt-16 lg:mt-0">
                 <a href="/">

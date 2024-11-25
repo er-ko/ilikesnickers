@@ -15,8 +15,22 @@ class ContactController extends Controller
      */
     public function index(): View
     {
+        $data = [
+            'company_name' => DB::table('systems')->where('param', 'contact_company_name')->value('value'),
+            'address' => DB::table('systems')->where('param', 'contact_address')->value('value'),
+            'opening_hours' => DB::table('systems')->where('param', 'contact_opening_hours')->value('value'),
+            'phone' => DB::table('systems')->where('param', 'contact_phone')->value('value'),
+            'email' => DB::table('systems')->where('param', 'contact_email')->value('value'),
+            'web' => DB::table('systems')->where('param', 'contact_web')->value('value'),
+            'map' => DB::table('systems')->where('param', 'contact_map')->value('value'),
+            'whatsapp' => DB::table('systems')->where('param', 'contact_whatsapp')->value('value'),
+            'facebook' => DB::table('systems')->where('param', 'contact_facebook')->value('value'),
+            'instagram' => DB::table('systems')->where('param', 'contact_instagram')->value('value'),
+            'tiktok' => DB::table('systems')->where('param', 'contact_tiktok')->value('value'),
+            'google' => DB::table('systems')->where('param', 'contact_google')->value('value'),
+        ];
         return view('contact.index', [
-            'contact' => System::first(),
+            'contact' => $data,
         ]);
     }
 

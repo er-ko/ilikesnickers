@@ -18,6 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'active',
+        'role',
         'name',
         'email',
         'password',
@@ -63,12 +65,17 @@ class User extends Authenticatable
 
     public function contacts(): HasMany
     {
-        return $this->hasMany(Conctact::class);
+        return $this->hasMany(Contact::class);
     }
 
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 
     public function categories(): HasMany

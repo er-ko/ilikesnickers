@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('layouts.head')
+		<link rel="stylesheet" href="{{ asset('trumbowyg/ui/trumbowyg.min.css') }}">
     </head>
 	<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
 
@@ -43,6 +44,7 @@
 		@endsession
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="{{ asset('trumbowyg/trumbowyg.min.js') }}"></script>
 		@stack('slotscript')
 		<script>
 			if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

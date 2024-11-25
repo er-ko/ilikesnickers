@@ -5,6 +5,7 @@ namespace App\View\Components;
 use App\Models\Language;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\DB;
 
 class PublicLayout extends Component
 {
@@ -14,6 +15,7 @@ class PublicLayout extends Component
     public function render(): View
     {
         return view('layouts.public', [
+            'app_name' => DB::table('systems')->where('param', 'app_name')->value('value'),
             'languages' => Language::where('public', operator: true)->orderBy('priority', 'asc')->get(),
         ]);
     }

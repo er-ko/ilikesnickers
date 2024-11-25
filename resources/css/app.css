@@ -9,3 +9,56 @@ table tbody tr:last-child { border-bottom: none }
 
 .todo-list li { border-bottom: 1px solid hsl(0, 0%, 96%) }
 .todo-list li:last-child { border-bottom-color: transparent }
+
+.trumbowyg-box, .trumbowyg-editor { min-height: 500px !important }
+
+/* big buttons, no circle */
+.flickity-prev-next-button {
+	width: 75px;
+	height: 75px;
+	background: rgba(0,0,0,.1);
+  }
+  /* arrow color */
+  .flickity-prev-next-button .arrow {
+	fill: white;
+  }
+  .flickity-prev-next-button.no-svg {
+	color: white;
+  }
+  .flickity-prev-next-button:hover {
+	background: rgba(0,0,0,.15);
+  }
+  /* hide disabled button */
+  .flickity-prev-next-button:disabled {
+	display: none;
+  }
+  
+  /* position dots in gallery */
+  .flickity-page-dots {
+	bottom: 20px;
+  }
+  /* white circles */
+  .flickity-page-dots .dot {
+	width: 12px;
+	height: 12px;
+	opacity: 1;
+	background: transparent;
+	border: 2px solid rgba(0,0,0,.5);
+  border-radius: 25%;
+  }
+  /* fill-in selected dot */
+  .flickity-page-dots .dot.is-selected {
+	background: transparent;
+  border: 2px solid rgba(0,0,0,1);
+  }
+
+.carousel-cell {
+  width: 100%;
+  margin-right: 10px;
+  counter-increment: carousel-cell;
+}
+
+.carousel-cell img {
+  width: 100%;
+  height: auto
+}

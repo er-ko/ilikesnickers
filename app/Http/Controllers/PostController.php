@@ -38,9 +38,9 @@ class PostController extends Controller
 
             $posts = Db::table('posts')
                         ->join('posts_locales', 'posts.id', '=', 'posts_locales.post_id')
-                        ->select('posts.id', 'posts.public', 'posts.image', 'posts.slug', 'posts.created_at', 'posts_locales.locale',
-                                'posts_locales.title', 'posts_locales.title_h1', 'posts_locales.content', 'posts_locales.meta_title', 'posts_locales.meta_description')
+                        ->select('posts.id', 'posts.image', 'posts.slug', 'posts.created_at', 'posts_locales.title_h1', 'posts_locales.content', 'posts_locales.meta_title', 'posts_locales.meta_description')
                         ->where('posts_locales.locale', '=', app()->getLocale())
+                        ->where('posts.public', '=', 1)
                         ->orderBy('posts.created_at', 'desc')->paginate(15);
         }
         return view('posts.index', [ 'posts' => $posts ]);

@@ -98,15 +98,18 @@
             <p class="py-4 italic text-center font-light dark:text-gray-400">{{ __('no_posts_to_show') }}</p>
         @else
             @foreach ($posts as $post)
-                @if ($post->locale === app()->getLocale() && $post->public)
-                    <div class="flex items-center justify-between flex-wrap mb-4 p-8 duration-300 shadow-sm hover:shadow-md sm:rounded-lg bg-white dark:bg-gray-800 border border-white dark:border-gray-800 dark:hover:border-gray-700">
-                        <div class="flex flex-col items-start justify-center">
-                            <h2 class="mb-1 font-bold text-xl text-black dark:text-white">{{ $post->title_h1 }}</h2>
-                            <h4 class="font-semibold text-sm text-gray-500">{{ date(request()->session()->get('date_format'), strtotime($post->created_at)) }}</h4>
+                <x-card class="!p-0 flex flex-col sm:flex-row items-center justify-between duration-300 hover:shadow-xl">
+                    <x-slot name="content">
+                        <div class="flex flex-1 flex-col sm:flex-row items-center justify-start">
+                            <img src="{{ asset('/storage/posts/'. $post->image) }}" class="w-full sm:max-w-48 sm:rounded-l-lg" />
+                            <div class="w-full flex flex-col items-center sm:items-start justify-center p-4">
+                                <h2 class="mb-1 font-bold text-xl text-black dark:text-white">{{ $post->title_h1 }}</h2>
+                                <h4 class="font-semibold text-sm text-gray-500">{{ date(request()->session()->get('date_format'), strtotime($post->created_at)) }}</h4>
+                            </div>
                         </div>
-                        <a href="{{ route('post.show', $post->slug) }}" target="_self" class="py-3 px-4 sm:rounded-lg uppercase bg-gray-100">{{ __('read') }}</a>
-                    </div>
-                @endif
+                        <a href="{{ route('post.show', $post->slug) }}" target="_self" class="mx-4 mb-4 sm:mb-0 py-3 px-4 sm:rounded-lg uppercase bg-gray-100 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-950">{{ __('read') }}</a>
+                    </x-slot>
+                </x-card>
             @endforeach
         @endif
     </div>

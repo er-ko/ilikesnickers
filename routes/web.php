@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\SystemController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\WelcomeController; // homepage
 use App\Http\Controllers\ContactController; // contact
 use App\Http\Controllers\FaqController; // faq
@@ -11,6 +13,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductGroupController;
@@ -26,13 +29,20 @@ Route::get('locale/{lang}', [LocaleController::class, 'setLocale']);
 Route::resource('language', LanguageController::class)
     ->only(['index', 'edit', 'update'])
     ->middleware(['auth', 'verified']);
-
+Route::resource('currency', CurrencyController::class)
+    ->only(['index', 'edit', 'update'])
+    ->middleware(['auth', 'verified']);
 Route::resource('country', CountryController::class)
     ->only(['index', 'edit', 'update'])
     ->middleware(['auth', 'verified']);
+Route::resource('user', UserController::class)
+    ->only(['index', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
 
 Route::get('/',[WelcomeController::class, 'index'])->name('welcome');
+
 Route::get('/contact',[ContactController::class, 'index'])->name('contact.index');
+Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
 
 Route::resource('faq', FaqController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
@@ -100,17 +110,20 @@ Route::resource('customer', CustomerController::class)
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-    
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::get('/system', [SystemController::class, 'edit'])->name('system.edit');
-        Route::patch('/system', [SystemController::class, 'update'])->name('system.update');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::get('/contact/edit', [ContactController::class, 'edit'])->name('contact.edit');
-        Route::patch('/contact', [ContactController::class, 'update'])->name('contact.update');
+    Route::get('/system', [SystemController::class, 'edit'])->name('system.edit');
+    Route::patch('/system', [SystemController::class, 'update'])->name('system.update');
+
+    Route::get('/welcome', [WelcomeController::class, 'edit'])->name('welcome.edit');
+    Route::patch('/welcome', [WelcomeController::class, 'update'])->name('welcome.update');
+
+    Route::get('/contact/edit', [ContactController::class, 'edit'])->name('contact.edit');
+    Route::patch('/contact', [ContactController::class, 'update'])->name('contact.update');
 });
 
 require __DIR__.'/auth.php';

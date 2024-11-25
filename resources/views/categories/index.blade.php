@@ -83,11 +83,51 @@
 @else
 <x-public-layout>
 
-    <x-slot name="meta_title">{{ __('messages.shop') }}</x-slot>
-	<x-slot name="meta_desc">{{ __('messages.shop') }}</x-slot>
+    <x-slot name="meta_title">{{ __('shop') }}</x-slot>
+	<x-slot name="meta_desc">{{ __('shop') }}</x-slot>
 
-    <div class="w-full text-gray-900 dark:text-gray-200">
-        {{ __('messages.shop') }}
+    <div class="w-full">
+        @if ($products->isEmpty())
+            <p class="py-4 italic text-center font-light dark:text-gray-400">{{ __('no_products_to_show') }}</p>
+        @else
+            <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                @foreach ($products as $product)
+                    <x-card class="!p-0 hover:shadow-xl duration-300">
+                        <x-slot name="content">
+                            @if ($product->promotion_type !== 'false')
+                                <div class="absolute -top-4 -left-4 w-[52px] h-[52px] flex items-center justify-center rounded-full shadow font-bold bg-pink-700 text-white">
+                                    @if ($product->promotion_type === '%')
+                                        -{{ $product->promotion_discount }} %
+                                    @else
+                                        -{{ (1 -($product->promotion_price_with_vat / $product->regular_price_with_vat)) *100 }} %
+                                    @endif
+                                </div>
+                            @endif
+                            <img src="products/{{ $product->id }}/{{ $product->file }}" class="w-full rounded-t-lg" />
+                            <div class="p-4">
+                                <h3 class="mb-4 text-center font-bold text-xl">{{ $product->title }}</h3>
+                                <div class="flex items-center justify-between">
+                                    <a href="{{ route('product.show', $product->slug) }}" target="_self" class="p-3 sm:rounded-lg bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-950">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                        </svg>
+                                    </a>
+                                    <div class="flex flex-col items-end justify-center">
+                                        @if ($product->promotion_type !== 'false')
+                                            <span class="text-sm line-through text-gray-600 dark:text-gray-500">-{{ $product->regular_price_with_vat }} &euro;</span>
+                                            <span class="font-bold text-xl text-pink-600">{{ $product->promotion_price_with_vat }} &euro;</span>
+                                        @else
+                                            <span class="font-bold text-xl">{{ $product->regular_price_with_vat }} &euro;</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </x-slot>
+                    </x-card>
+                @endforeach
+            </div>
+        @endif
     </div>
+
 </x-public-layout>
 @endauth

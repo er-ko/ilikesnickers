@@ -71,6 +71,7 @@
 	"product": "Product",
 	"products": "Products",
 	"new_product": "New Product",
+	"create_your_first_product_and_start_your_selling": "create your first product and start your selling",
 	"general": "General",
 	"info": "Info",
 	"virtual": "Virtual",
@@ -184,5 +185,15 @@
 	"cannot_set_a_non-public_default_language": "cannot set a non-public default language",
 	"successfully_created": "successfully created",
 	"successfully_updated": "successfully updated",
-	"removed": "removed"
+	"removed": "removed",
+	"price_without_vat": "Price without VAT",
+	"price_with_vat": "Price with VAt",
+	"vat": "VAT",
+	"regular_price": "Regular price",
+	"promotion_price": "Promotion price",
+	"promotion_price_type": "Promotion price type",
+	"absolute_value": "absolute value",
+	"description": "Description",
+	"currency": "Currency",
+	"slider": "Slider"
 }

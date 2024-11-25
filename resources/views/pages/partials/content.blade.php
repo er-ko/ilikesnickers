@@ -6,7 +6,7 @@
 					<img src="{{ asset('/storage/flags/'. $lang->flag) }}" />
 				</div>
 				<div>
-					<textarea id="content-{{ $lang->locale }}" class="content" name="content[]" rows="10"></textarea>
+					<textarea id="content-{{ $lang->locale }}" class="content" name="content[]"></textarea>
 					<x-input-error :messages="$errors->get('content')" />
 				</div>
 			</div>
@@ -15,19 +15,11 @@
 </x-card>
 
 @push('slotscript')
-	<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
-	<script>
-		var skin = 'light';
-		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-			skin = 'dark';
-		}
-		tinymce.init({
-			selector: '.content',
-			skin: skin == 'dark' ? "oxide-dark" : "oxide",
-			content_css: skin == 'dark' ? "dark" : "default",
-			plugins: 'searchreplace autolink directionality visualblocks visualchars image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap emoticons autosave',
-			toolbar: 'undo redo print spellcheckdialog formatpainter | locks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify lineheight | checklist bullist numlist indent outdent | removeformat',
-			height: '700px',
+	<script type="text/javascript">
+		$(document).ready(function() {
+			setTimeout(function() {
+				$('.content').trumbowyg();
+			}, 500);
 		});
 	</script>
 @endpush

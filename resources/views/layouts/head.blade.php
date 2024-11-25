@@ -8,4 +8,5 @@
 <link rel="icon" type="image/png" href="{{ asset('/favicon.png') }}">
 
 <!-- Styles -->
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 @vite(['resources/css/app.css', 'resources/js/app.js'])

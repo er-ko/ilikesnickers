@@ -21,13 +21,15 @@ class FaqController extends Controller
      */
     public function index(): View
     {
+        $faqs = DB::table('faqs')
+                    ->join('faqs_locales', 'faqs.id', '=', 'faqs_locales.faq_id')
+                    ->select('faqs.id', 'faqs.priority', 'faqs_locales.question', 'faqs_locales.answer')
+                    ->where('faqs_locales.locale', app()->getLocale())
+                    ->orderBy('faqs.priority', 'asc')
+                    ->paginate(15);
+        
         return view('faq.index', [
-            'faqs' => DB::table('faqs')
-                        ->join('faqs_locales', 'faqs.id', '=', 'faqs_locales.faq_id')
-                        ->select('faqs.id', 'faqs.priority', 'faqs_locales.question', 'faqs_locales.answer')
-                        ->where('faqs_locales.locale', '=', app()->getLocale())
-                        ->orderBy('faqs.priority', 'asc')
-                        ->paginate(15),
+            'faqs' => $faqs,
         ]);
     }
 
