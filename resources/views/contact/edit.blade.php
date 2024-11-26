@@ -12,7 +12,7 @@
 		</button>
 	</x-slot>
 
-	<form method="POST" action="{{ route('contact.update', $contact) }}" id="form-store">
+	<form method="POST" action="{{ route('contact.update', $contact) }}" id="form-store" enctype="multipart/form-data">
 		@csrf
 		@method('patch')
 		<div class="flex items-start justify-start flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
@@ -20,7 +20,8 @@
 				@include('contact.partials.general')
 				@include('contact.partials.social')
 			</div>
-			<div class="opening-hours">
+			<div class="opening-hours flex flex-col items-center justify-center space-y-4">
+				@include('contact.partials.image')
 				@include('contact.partials.opening_hours')
 			</div>
 		</div>

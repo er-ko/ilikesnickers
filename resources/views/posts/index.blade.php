@@ -93,12 +93,12 @@
     <x-slot name="meta_title">{{ __('blog') }}</x-slot>
 	<x-slot name="meta_desc">{{ __('blog') }}</x-slot>
 
-    <div class="w-full">
+    <div class="w-full mb-4 space-y-4">
         @if ($posts->isEmpty())
             <p class="py-4 italic text-center font-light dark:text-gray-400">{{ __('no_posts_to_show') }}</p>
         @else
             @foreach ($posts as $post)
-                <x-card class="!p-0 flex flex-col sm:flex-row items-center justify-between duration-300 hover:shadow-xl">
+                <x-card class="!p-0 flex flex-col sm:flex-row items-center justify-between duration-300 hover:shadow-md">
                     <x-slot name="content">
                         <div class="flex flex-1 flex-col sm:flex-row items-center justify-start">
                             <img src="{{ asset('/storage/posts/'. $post->image) }}" class="w-full sm:max-w-48 sm:rounded-l-lg" />
@@ -113,6 +113,7 @@
             @endforeach
         @endif
     </div>
+    {{ $posts->links() }}
 </x-public-layout>
 
 @endauth

@@ -22,14 +22,14 @@
     </x-slot>
 
 	<div class="w-full mt-12">
-		<div class="flex items-center justify-center flex-wrap mb-6 text-gray-800 dark:text-gray-200">
-            @if ($manufacturer->image)
-				<img src="{{ asset('/storage/manufacturers/'. $manufacturer->image) }}" class="w-48" />
-			@endif
-		</div>
-		<div class="p-8 shadow-sm sm:rounded-lg text-black bg-white dark:text-white dark:bg-gray-800">			
-            <h1 class="font-semibold text-3xl mb-8">{{ $manufacturer->name }}</h1>
+		<h1 class="mb-4 px-2 font-semibold text-2xl">{{ $manufacturer->name }}</h1>
+		<div class="p-8 shadow-sm sm:rounded-lg text-black bg-white dark:text-white dark:bg-gray-800">
 			<span class="font-mono">{!! $manufacturer->content !!}</span>
+			<div class="flex items-center justify-center flex-wrap mb-6 text-gray-800 dark:text-gray-200">
+				@if ($manufacturer->image)
+					<img src="{{ asset('/storage/manufacturers/'. $manufacturer->image) }}" class="w-48" />
+				@endif
+			</div>
 		</div>
 	</div>
 

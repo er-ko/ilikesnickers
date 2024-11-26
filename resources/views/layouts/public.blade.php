@@ -6,7 +6,7 @@
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
 		<div id="wrapper" class="w-full min-h-screen flex flex-col sm:flex-row">
             <aside class="flex sm:fixed h-full">
-                @include('layouts.sidebar')
+                @include('layouts.navigation')
             </aside>
 
             <!-- Page Content -->

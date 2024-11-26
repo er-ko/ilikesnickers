@@ -199,5 +199,7 @@
 	"gdpr": "GDPR",
 	"cookies": "Cookies",
 	"terms_and_conditions": "Terms and conditions",
-	"payment": "Payment"
+	"payment": "Payment",
+	"settings": "Settings",
+	"user": "User"
 }

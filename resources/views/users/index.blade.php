@@ -4,6 +4,14 @@
 	<x-slot name="meta_desc">{{ __('user') }}</x-slot>
     <x-slot name="title">{{ __('user') }}</x-slot>
 
+    <x-slot name="submit">
+        <a href="{{ route('post.create') }}" class="p-2.5 pl-4 duration-300 shadow rounded-l-full bg-teal-600 text-white hover:bg-teal-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
+    </x-slot>
+
 	<div class="p-2 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         @if ($users->isEmpty())
             <p class="py-4 italic text-center font-light dark:text-gray-400">{{ __('create_your_first_post_with_something_valuable') }}</p>

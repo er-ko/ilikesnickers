@@ -53,19 +53,9 @@
 				var slug = $(this).val();
 				$('#slug').val(slug.slugify());
 			});
-		});
-
-		var skin = 'light';
-		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-			skin = 'dark';
-		}
-		tinymce.init({
-			selector: '.content',
-			skin: skin == 'dark' ? "oxide-dark" : "oxide",
-			content_css: skin == 'dark' ? "dark" : "default",
-			plugins: 'searchreplace autolink directionality visualblocks visualchars image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap emoticons autosave',
-			toolbar: 'undo redo print spellcheckdialog formatpainter | locks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify lineheight | checklist bullist numlist indent outdent | removeformat',
-			height: '700px',
+			setTimeout(function() {
+				$('.content').trumbowyg();
+			}, 500);
 		});
 	</script>
 @endpush

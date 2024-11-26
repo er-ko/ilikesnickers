@@ -176,7 +176,7 @@ class ProductController extends Controller
                     ->join('manufacturers', 'products.manufacturer_id', '=', 'manufacturers.id')
                     ->select('products.id', 'products.code', 'products.slug', 'products_locales.title_h1', 'products_locales.content', 'products_locales.meta_title',
                             'products_locales.meta_description', 'products_images.file', 'products_prices.regular_price_with_vat', 'products_prices.regular_price_without_vat',
-                            'promotion_type', 'promotion_discount', 'promotion_price_without_vat', 'promotion_price_with_vat', 'manufacturers.name as manufacturer')
+                            'promotion_type', 'promotion_discount', 'promotion_price_without_vat', 'promotion_price_with_vat', 'manufacturers.name as manufacturer', 'manufacturers.slug as manufacturer_slug')
                     ->where('products_locales.locale', '=', app()->getLocale())
                     ->where('products_images.default', '=', 1)
                     ->orderBy('products_locales.title', 'asc')

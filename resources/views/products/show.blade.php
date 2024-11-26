@@ -37,7 +37,7 @@
 				<h1 class="w-full font-semibold text-2xl mb-6 text-white">{{ $product->title_h1 }}</h1>
 				<div>
 					<span class="mr-1">{{ __('manufacturer') }}:</span>
-					<span>{{ $product->manufacturer }}</span>
+					<a href="{{ route('manufacturer.show', $product->manufacturer_slug) }}">{{ $product->manufacturer }}</a>
 				</div>
 				<div class="flex items-center justify-start space-x-1 my-6">
 					<x-text-input type="number" name="qty" value="1" min="1" step="1" class="!mt-0 w-full max-w-32 text-black text-center" />
