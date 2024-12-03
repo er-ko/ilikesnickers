@@ -27,11 +27,13 @@
 				<x-nav-link :href="route('task.index')" :active="request()->routeIs('task.index')">
 					{{ __('task') }}
 				</x-nav-link>
+				<x-nav-link :href="route('post.index')" :active="request()->routeIs(['post.index', 'post.create', 'post.edit'])">
+					{{ __('blog') }}
+				</x-nav-link>
 				<x-dropdown :active="request()->routeIs([
 					'welcome.edit', 'contact.edit',
 					'faq.index', 'faq.create', 'faq.edit',
 					'page.index', 'page.create', 'page.edit',
-					'post.index', 'post.create', 'post.edit',
 				])">
 					<x-slot name="trigger">
 						<span>{{ __('pages') }}</span>
@@ -50,10 +52,30 @@
 							{{ __('faq') }}
 						</x-dropdown-link>
 						<x-dropdown-link :href="route('page.index')" :active="request()->routeIs(['page.index', 'page.create', 'page.edit'])">
-							{{ __('page') }}
+							{{ __('info') }}
 						</x-dropdown-link>
-						<x-dropdown-link :href="route('post.index')" :active="request()->routeIs(['post.index', 'post.create', 'post.edit'])">
-							{{ __('blog') }}
+					</x-slot>
+				</x-dropdown>
+				<x-dropdown :active="request()->routeIs([
+					'booking.booked.index', 'booking.booked.edit',
+					'booking.activity.index', 'booking.activity.create', 'booking.activity.edit',
+					'booking.slot.index', 'booking.slot.create', 'booking.slot.edit',
+				])">
+					<x-slot name="trigger">
+						<span>{{ __('booking') }}</span>
+						<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 ml-1 transition-transform duration-200 transform">
+							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+						</svg>
+					</x-slot>
+					<x-slot name="content">
+						<x-dropdown-link :href="route('booking.activity.index')" :active="request()->routeIs(['booking.activity.index', 'booking.activity.create', 'booking.activity.edit'])">
+							{{ __('activity') }}
+						</x-dropdown-link>
+						<x-dropdown-link :href="route('booking.slot.index')" :active="request()->routeIs(['booking.slot.index', 'booking.slot.create', 'booking.slot.edit'])">
+							{{ __('slot') }}
+						</x-dropdown-link>
+						<x-dropdown-link :href="route('booking.booked.index')" :active="request()->routeIs('booking.booked.index')">
+							{{ __('booked') }}
 						</x-dropdown-link>
 					</x-slot>
 				</x-dropdown>
@@ -94,7 +116,7 @@
 				</x-dropdown>
 				<x-dropdown :active="request()->routeIs(['address-book.index', 'address-book.create', 'address-book.edit'])">
 					<x-slot name="trigger">
-						<span>{{ __('messages.accountancy') }}</span>
+						<span>{{ __('accountancy') }}</span>
 						<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 ml-1 transition-transform duration-200 transform">
 							<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
 						</svg>

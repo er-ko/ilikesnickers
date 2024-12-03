@@ -1,8 +1,8 @@
 <x-app-layout>
 
-	<x-slot name="meta_title">{{ __('messages.edit_faq') }}</x-slot>
-	<x-slot name="meta_desc">{{ __('messages.edit_faq') }}</x-slot>
-	<x-slot name="title">{{ __('messages.edit_faq') }}</x-slot>
+	<x-slot name="meta_title">{{ __('edit_faq') }}</x-slot>
+	<x-slot name="meta_desc">{{ __('edit_faq') }}</x-slot>
+	<x-slot name="title">{{ __('edit_faq') }}</x-slot>
 
 	<x-slot name="submit">
 		<button form="form-store" type="submit" class="p-2.5 pl-4 rounded-l-full duration-300 bg-teal-600 text-white hover:bg-teal-700 dark:bg-teal-700 dark:hover:bg-teal-600">
@@ -24,7 +24,7 @@
 					class="w-fit mx-x0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-general'"
 					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-general'}"
 				>
-					{{ __('messages.general') }}
+					{{ __('general') }}
 				</div>
 			</div>
 			<div class="flex items-center justify-center sm:justify-start flex-nowrap w-full sm:w-fit overflow-auto">

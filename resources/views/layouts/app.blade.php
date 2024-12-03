@@ -11,13 +11,13 @@
             </aside>
 
             <!-- Page Content -->
-			<main class="flex flex-col flex-1 sm:ml-64 lg:ml-72 py-4 xl:py-8 text-gray-900 dark:text-gray-200">
+			<main class="flex flex-col flex-1 sm:ml-64 lg:ml-72 py-4 text-gray-900 dark:text-gray-200">
 				@isset($header)
 					<header class="w-full flex items-center px-8 sm:px-4 pb-4 sm:pb-0">
 						{{ $header }}
 					</header>
 				@endisset
-                <div class="w-full mb-auto sm:px-2 lg:px-4">
+                <div class="w-full h-full mb-auto sm:px-2 lg:px-4">
                     {{ $slot }}
                 </div>
 				<div class="flex items-center justify-center py-12 bg-gray-100 dark:bg-gray-900">

@@ -1,5 +1,5 @@
-<div class="grid gap-0 xl:gap-4 grid-cols-1 xl:grid-cols-3">
-	<x-card class="h-fit space-y-4 mb-4 xl:mb-0">
+<div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
+	<x-card class="w-full max-w-2xl lg:max-w-sm h-fit space-y-4">
 		<x-slot name="content">
 			<div>
 				<x-input-label for="public" :required="true" :value="__('public')" />
@@ -21,7 +21,7 @@
 					class="relative flex flex-col justify-center items-center h-full py-8 rounded-md hover:cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/20 border border-gray-300 dark:border-gray-700"
 				>
 					@if (isset($post) && old('image', $post->image))
-						<img src="{{ asset('/storage/posts/'. old('image', $post->image)) }}" class="absolute top-2 right-2 max-w-24 sm:rounded-lg" />
+						<img src="{{ asset('/storage/posts/'. old('image', $post->image)) }}" class="absolute top-2 right-2 max-w-24 rounded-lg" />
 					@endif
 					<span class="mb-2">{{ __('drop_image_here') }}</span>{{ __('or') }}
 					<input type="file" name="image" id="image-{{ $lang->locale }}" class="mt-4 p-2 w-64 rounded-lg dark:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-slate-700" accept="image/*" />
@@ -29,7 +29,7 @@
 			</div>
 		</x-slot>
 	</x-card>
-	<x-card class="h-fit relative col-span-2 pt-8 sm:pt-4">
+	<x-card class="h-fit relative flex-1 pt-8 sm:pt-4">
 		<x-slot name="content">
 			@foreach ($languages as $lang)
 				<div class="space-y-4" x-show="lang == 'tab-{{ $lang->locale }}'">

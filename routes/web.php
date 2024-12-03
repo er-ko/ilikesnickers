@@ -124,6 +124,21 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/contact/edit', [ContactController::class, 'edit'])->name('contact.edit');
     Route::patch('/contact', [ContactController::class, 'update'])->name('contact.update');
+
+    Route::get('/booking/booked', [BookingController::class, 'index'])->name('booking.booked.index');
+    Route::get('/booking/slot', [BookingController::class, 'indexSlot'])->name('booking.slot.index');
+    Route::get('/booking/slot/create', [BookingController::class, 'createSlot'])->name('booking.slot.create');
+    Route::post('/booking/slot/create', [BookingController::class, 'storeSlot'])->name('booking.slot.store');
+    Route::get('/booking/slot/edit/{id}', [BookingController::class, 'editSlot'])->name('booking.slot.edit');
+    Route::patch('/booking/slot/edit', [BookingController::class, 'updateSlot'])->name('booking.slot.update');
+    Route::delete('/booking/slot/{id}', [BookingController::class, 'destroySlot'])->name('booking.slot.destroy');
+
+    Route::get('/booking/activity', [BookingController::class, 'indexActivity'])->name('booking.activity.index');
+    Route::get('/booking/activity/create', action: [BookingController::class, 'createActivity'])->name('booking.activity.create');
+    Route::post('/booking/activity/create', [BookingController::class, 'storeActivity'])->name('booking.activity.store');
+    Route::get('/booking/activity/edit/{id}', [BookingController::class, 'editActivity'])->name('booking.activity.edit');
+    Route::patch('/booking/activity/edit', [BookingController::class, 'updateActivity'])->name('booking.activity.update');
+    Route::delete('/booking/activity/{id}', [BookingController::class, 'destroyActivity'])->name('booking.activity.destroy');
 });
 
 require __DIR__.'/auth.php';

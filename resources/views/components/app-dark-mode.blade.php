@@ -23,7 +23,7 @@
 	@click.outside="menu = false"
 >
 	<button
-		class="block p-2.5 {{ request()->routeIs(['dashboard', 'task.index', 'language.index', 'currency.index', 'country.index', 'profile.edit']) ? 'rounded-full' : 'rounded-r-full pr-4' }} shadow-sm duration-300 bg-gray-600 hover:bg-gray-700 dark:bg-black dark:hover:bg-gray-800"
+		class="block p-2.5 {{ request()->routeIs(['dashboard', 'task.index', 'language.index', 'currency.index', 'country.index', 'profile.edit', 'module.index']) ? 'rounded-full' : 'rounded-r-full pr-4' }} shadow-sm duration-300 bg-gray-600 hover:bg-gray-700 dark:bg-black dark:hover:bg-gray-800"
 		:class="theme ? '' : ''"
 		@click="menu = ! menu"
 	>

@@ -1,5 +1,5 @@
-<div class="grid gap-0 xl:gap-4 grid-cols-1 xl:grid-cols-3">
-	<x-card class="h-fit space-y-4 mb-4 lg:mb-0">
+<div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
+	<x-card class="w-full max-w-2xl lg:max-w-sm h-fit space-y-4">
 		<x-slot name="content">
 			<div>
 				<x-input-label for="public" :required="true" :value="__('public')" />
@@ -16,7 +16,7 @@
 			</div>
 		</x-slot>
 	</x-card>
-	<x-card class="h-fit relative col-span-2 pt-8 sm:pt-4">
+	<x-card class="h-fit relative flex-1 pt-8 sm:pt-4">
 		<x-slot name="content">
 			@foreach ($languages as $lang)
 				<div class="space-y-4" x-show="lang == 'tab-{{ $lang->locale }}'">
