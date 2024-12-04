@@ -20,19 +20,38 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): Collection|View|JsonResponse
     {
         if (auth()->id()) {
 
-            $categories = Db::table('bookings')
-                            ->select('bookings.id', 'bookings.created_at')
-                            ->orderBy('bookings.created_at', 'desc')->paginate(15);
+            $bookings = DB::table('bookings')
+                            ->join('bookings_slots_locales', 'bookings.slot_id', '=', 'bookings_slots_locales.slot_id')
+                            ->join('bookings_activities_locales', 'bookings.activity_id', '=', 'bookings_activities_locales.activity_id')
+                            ->select('bookings.id', 'bookings.start', 'bookings.full_name', 'bookings.email', 'bookings_slots_locales.title as slot', 'bookings_activities_locales.title as activity', 'bookings.created_at')
+                            ->where('bookings_slots_locales.locale', '=', app()->getLocale())
+                            ->where('bookings_activities_locales.locale', '=', app()->getLocale())
+                            ->orderBy('bookings.created_at', 'desc')
+                            ->paginate(15);
+
+
+            return view('bookings.index', [
+                'bookings' => $bookings,
+            ]);
 
         } else {
 
+            if ($request->ajax()) {
+                $slotId = $request->get(key: 'slot');
+                $data = Db::table('bookings')
+                            ->join('bookings_activities', 'bookings.activity_id', '=', 'bookings_activities.id')
+                            ->select('bookings.start', 'bookings_activities.processing_time', 'bookings_activities.interval_after')
+                            ->where('bookings.slot_id', '=', $slotId)
+                            ->get();
+                return response()->json($data);
+            }
             $slots = DB::table('bookings_slots')
                         ->join('bookings_slots_locales', 'bookings_slots.id', '=', 'bookings_slots_locales.slot_id')
-                        ->select('bookings_slots.priority', 'bookings_slots.open_days', 'bookings_slots.image', 'bookings_slots.opening_hours', 'bookings_slots_locales.title')
+                        ->select('bookings_slots.id', 'bookings_slots.priority', 'bookings_slots.open_days', 'bookings_slots.image', 'bookings_slots.opening_hours', 'bookings_slots_locales.title')
                         ->where('bookings_slots.active', true)
                         ->where('bookings_slots_locales.locale', app()->getLocale())
                         ->orderBy('bookings_slots.priority')
@@ -46,11 +65,11 @@ class BookingController extends Controller
                         ->orderBy('bookings_activities.priority')
                         ->get();
 
+            return view('bookings.index', [
+                'slots' => $slots,
+                'activities' => $activities,
+            ]);
         }
-        return view('bookings.index', [
-            'activities' => $activities,
-            'slots' => $slots,
-        ]);
     }
 
     /**
@@ -277,15 +296,26 @@ class BookingController extends Controller
             'opening_hours' => 'string|max:255|nullable',
         ]);
         if (!$validator->fails()) {
-            DB::table('bookings_slots')
-                    ->where('id', '=', $request->id)
-                    ->update([
-                        'active' => $data['active'],
-                        'priority' => $data['priority'],
-                        'open_days' => $data['open_days'],
-                        'image' => $data['image'],
-                        'opening_hours' => $data['opening_hours'],
-            ]);
+            if (isset($request->image)) {
+                DB::table('bookings_slots')
+                        ->where('id', '=', $request->id)
+                        ->update([
+                            'active' => $data['active'],
+                            'priority' => $data['priority'],
+                            'open_days' => $data['open_days'],
+                            'image' => $data['image'],
+                            'opening_hours' => $data['opening_hours'],
+                ]);
+            } else {
+                DB::table('bookings_slots')
+                        ->where('id', '=', $request->id)
+                        ->update([
+                            'active' => $data['active'],
+                            'priority' => $data['priority'],
+                            'open_days' => $data['open_days'],
+                            'opening_hours' => $data['opening_hours'],
+                ]);
+            }
         }
 
         DB::table('bookings_slots_locales')->where('slot_id', '=', $request->id)->delete();

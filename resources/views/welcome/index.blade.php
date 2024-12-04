@@ -13,7 +13,9 @@
         
         @if ($content_status == 1 && $content_priority == 1)
             <div class="w-full text-center">
-                {!! $data->content !!}
+                @if (isset($data->content))
+                    {!! $data->content !!}
+                @endif
             </div>
         @endif
         
@@ -33,7 +35,9 @@
 
         @if ($content_status == 1 && $content_priority == 2)
             <div class="w-full text-center">
-                {!! $data->content !!}
+                @if (isset($data->content))
+                    {!! $data->content !!}
+                @endif
             </div>
         @endif
 

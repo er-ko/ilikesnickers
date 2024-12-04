@@ -57,7 +57,7 @@
 					</x-slot>
 				</x-dropdown>
 				<x-dropdown :active="request()->routeIs([
-					'booking.booked.index', 'booking.booked.edit',
+					'booking.index', 'booking.edit',
 					'booking.activity.index', 'booking.activity.create', 'booking.activity.edit',
 					'booking.slot.index', 'booking.slot.create', 'booking.slot.edit',
 				])">
@@ -68,14 +68,14 @@
 						</svg>
 					</x-slot>
 					<x-slot name="content">
+						<x-dropdown-link :href="route('booking.index')" :active="request()->routeIs('booking.index')">
+							{{ __('booked') }}
+						</x-dropdown-link>
 						<x-dropdown-link :href="route('booking.activity.index')" :active="request()->routeIs(['booking.activity.index', 'booking.activity.create', 'booking.activity.edit'])">
 							{{ __('activity') }}
 						</x-dropdown-link>
 						<x-dropdown-link :href="route('booking.slot.index')" :active="request()->routeIs(['booking.slot.index', 'booking.slot.create', 'booking.slot.edit'])">
 							{{ __('slot') }}
-						</x-dropdown-link>
-						<x-dropdown-link :href="route('booking.booked.index')" :active="request()->routeIs('booking.booked.index')">
-							{{ __('booked') }}
 						</x-dropdown-link>
 					</x-slot>
 				</x-dropdown>

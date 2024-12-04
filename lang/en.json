@@ -221,5 +221,9 @@
 	"user": "User",
 	"select": "Select",
 	"choose_an_activity": "Choose an activity",
-	"open_days": "Open days"
+	"choose_a_time": "Choose a time",
+	"open_days": "Open days",
+	"full_name": "Full name",
+	"start": "Start",
+	"created": "Created"
 }

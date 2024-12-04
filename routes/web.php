@@ -69,7 +69,7 @@ Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.sho
 
 // booking
 Route::resource('booking', BookingController::class)
-    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->only(methods: ['index', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 Route::resource('booking', BookingController::class)->only(['index']);
 
@@ -125,7 +125,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/contact/edit', [ContactController::class, 'edit'])->name('contact.edit');
     Route::patch('/contact', [ContactController::class, 'update'])->name('contact.update');
 
-    Route::get('/booking/booked', [BookingController::class, 'index'])->name('booking.booked.index');
     Route::get('/booking/slot', [BookingController::class, 'indexSlot'])->name('booking.slot.index');
     Route::get('/booking/slot/create', [BookingController::class, 'createSlot'])->name('booking.slot.create');
     Route::post('/booking/slot/create', [BookingController::class, 'storeSlot'])->name('booking.slot.store');
