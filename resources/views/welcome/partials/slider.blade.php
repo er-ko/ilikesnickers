@@ -45,7 +45,7 @@
 				</table>
 			</div>
 		</div>
-		<p class="mt-4 text-center italic">pokud obrázek v dané jazykové mutaci nebude vytvořen, bude převzat z výchozí</p>
+		<p class="mt-4 text-center italic">{{ __('if_the_image_is_not_created_in_the_given_language_version_it_will_be_taken_from_the_default') }}</p>
 	</div>
 @endforeach
 

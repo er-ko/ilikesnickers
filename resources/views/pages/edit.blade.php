@@ -37,9 +37,9 @@
 				<div class="flex items-center justify-center flex-nowrap p-2 rounded-lg bg-white dark:bg-gray-800">
 					@foreach ($languages as $lang)
 						<div
-						id="{{ $lang->locale }}"
-						class="lang-tab mx-1 duration-300 hover:cursor-pointer opacity-50 hover:opacity-75" @click.prevent="lang = 'tab-{{ $lang->locale }}'"
-						:class="{ '!opacity-100': lang == 'tab-{{ $lang->locale }}'}"
+							id="{{ $lang->locale }}"
+							class="lang-tab mx-1 duration-300 hover:cursor-pointer opacity-50 hover:opacity-75" @click.prevent="lang = 'tab-{{ $lang->locale }}'"
+							:class="{ '!opacity-100': lang == 'tab-{{ $lang->locale }}'}"
 						>
 							<img src="{{ asset('/storage/flags/'. $lang->flag) }}" class="min-w-[22px]" />
 						</div>

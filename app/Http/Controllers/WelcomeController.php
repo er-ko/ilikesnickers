@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Welcome;
+use App\Models\System;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -58,7 +59,8 @@ class WelcomeController extends Controller
             'slider_priority' => DB::table('systems')->where('param', '=', 'welcome_slider_priority')->value('value'),
             'content_status' => DB::table('systems')->where('param', '=', 'welcome_content_status')->value('value'),
             'content_priority' => DB::table('systems')->where('param', '=', 'welcome_content_priority')->value('value'),
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'default_language')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 

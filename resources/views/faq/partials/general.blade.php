@@ -8,13 +8,13 @@
 					</div>
 					<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
 					<div class="mb-4">
-						<x-input-label for="question-{{ $lang->locale }}" :required="$lang->default ? true : false" :value="__('question')" />
-						<x-text-input id="question-{{ $lang->locale }}" name="question[]" type="text" maxlength="255" :required="$lang->default ? true : false" />
+						<x-input-label for="question-{{ $lang->locale }}" :required="$default == $lang->id ? true : false" :value="__('question')" />
+						<x-text-input id="question-{{ $lang->locale }}" name="question[]" type="text" maxlength="255" :required="$default == $lang->id ? true : false" />
 						<x-input-error :messages="$errors->get('question')" />
 					</div>
 					<div>
-						<x-input-label for="answer-{{ $lang->locale }}" :required="$lang->default ? true : false" :value="__('answer')" />
-						<x-text-input id="answer-{{ $lang->locale }}" name="answer[]" type="text" maxlength="255" :required="$lang->default ? true : false" />
+						<x-input-label for="answer-{{ $lang->locale }}" :required="$default == $lang->id ? true : false" :value="__('answer')" />
+						<x-text-input id="answer-{{ $lang->locale }}" name="answer[]" type="text" maxlength="255" :required="$default == $lang->id ? true : false" />
 						<x-input-error :messages="$errors->get('answer')" />
 					</div>
 				</div>

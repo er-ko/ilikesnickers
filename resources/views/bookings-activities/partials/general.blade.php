@@ -35,8 +35,8 @@
 					</div>
 					<input type="hidden" name="locale[]" value="{{ $lang->locale }}" />
 					<div class="flex-1 !mt-0">
-						<x-input-label for="title-{{ $lang->locale }}" :required="$lang->default ? true : false" :value="__('title')" />
-						<x-text-input id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" :required="$lang->default ? true : false" />
+						<x-input-label for="title-{{ $lang->locale }}" :required="$default == $lang->id ? true : false" :value="__('title')" />
+						<x-text-input id="title-{{ $lang->locale }}" name="title[]" type="text" maxlength="255" :required="$default == $lang->id ? true : false" />
 						<x-input-error :messages="$errors->get('title')" />
 					</div>
 				</div>

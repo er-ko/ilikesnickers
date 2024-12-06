@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\System;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -26,12 +27,13 @@ class PostController extends Controller
     {
         if (auth()->id()) {
 
+            $defaultLang = System::where('param', 'default_language')->value('value');
             $posts = Db::table('posts')
                         ->join('posts_locales', 'posts.id', '=', 'posts_locales.post_id')
                         ->join('languages', 'posts_locales.locale', '=', 'languages.locale')
                         ->select('posts.id', 'posts.public', 'posts.image', 'posts.slug', 'posts.created_at', 'posts_locales.locale',
                                 'posts_locales.title', 'posts_locales.title_h1', 'posts_locales.content', 'posts_locales.meta_title', 'posts_locales.meta_description')
-                        ->where('languages.default', '=', 1)
+                        ->where('languages.id', '=', $defaultLang)
                         ->orderBy('posts.created_at', 'desc')->paginate(15);
 
         } else {
@@ -52,8 +54,8 @@ class PostController extends Controller
     public function create(): View
     {
         return view('posts.create', [
-            'required' => false,
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'default_language')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -102,7 +104,7 @@ class PostController extends Controller
                 ]);
             }
         }
-        return redirect(route('post.index'))->with('message', __('messages.alert.successfully_created'));
+        return redirect(route('post.index'))->with('message', __('successfully_created'));
     }
 
     /**
@@ -153,7 +155,8 @@ class PostController extends Controller
         }
         return view('posts.edit', [
             'post' => $post,
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'default_language')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -202,7 +205,7 @@ class PostController extends Controller
                 ]);
             }
         }
-        return redirect(route('post.index'))->with('message', __('messages.alert.successfully_updated'));
+        return redirect(route('post.index'))->with('message', __('successfully_updated'));
     }
 
     /**
@@ -213,6 +216,6 @@ class PostController extends Controller
         if (Storage::exists('posts/'. $post->image)) Storage::delete('posts/'. $post->image);
         DB::table('posts_locales')->where('post_id', '=', $post->id)->delete();
         DB::table('posts')->where('id', '=', $post->id)->delete();
-        return redirect(route('post.index'))->with('message', __('messages.alert.removed'));
+        return redirect(route('post.index'))->with('message', __('removed'));
     }
 }

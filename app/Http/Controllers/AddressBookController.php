@@ -175,7 +175,7 @@ class AddressBookController extends Controller
                 }
             }
         }
-        return redirect(route('address-book.index'))->with('message', __('messages.alert.successfully_created'));
+        return redirect(route('address-book.index'))->with('message', __('successfully_created'));
     }
 
     /**
@@ -337,17 +337,17 @@ class AddressBookController extends Controller
                 }
             }
         }
-        return redirect(route('address-book.index'))->with('message', __('messages.alert.successfully_updated'));
+        return redirect(route('address-book.index'))->with('message', __('successfully_updated'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AddressBook $addressBook)
+    public function destroy(AddressBook $addressBook): RedirectResponse
     {
         DB::table('address_books_branch')->where('address_book_id', '=', $addressBook->id)->delete();
         DB::table('address_books_billing')->where('address_book_id', '=', $addressBook->id)->delete();
         DB::table('address_books')->where('id', '=', $addressBook->id)->delete();
-        return redirect(route('address-book.index'))->with('message', __('messages.alert.removed'));
+        return redirect(route('address-book.index'))->with('message', __('removed'));
     }
 }

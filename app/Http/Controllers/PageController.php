@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\System;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -20,12 +21,13 @@ class PageController extends Controller
      */
     public function index(): View
     {
+        $defaultLang = System::where('param', 'default_language')->value('value');
         return view('pages.index', [
             'pages' => Db::table('pages')
                         ->join('pages_locales', 'pages.id', '=', 'pages_locales.page_id')
                         ->join('languages', 'pages_locales.locale', '=', 'languages.locale')
                         ->select('pages.id', 'pages.public', 'pages.slug', 'pages_locales.title')
-                        ->where('languages.default', '=', 1)
+                        ->where('languages.id', '=', $defaultLang)
                         ->orderBy('pages.id', 'asc')->paginate(15),
         ]);
     }
@@ -37,7 +39,8 @@ class PageController extends Controller
     {
         return view('pages.create', [
             'required' => false,
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'default_language')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -80,7 +83,7 @@ class PageController extends Controller
                 ]);
             }
         }
-        return redirect(route('page.index'))->with('message', __('messages.alert.successfully_created'));
+        return redirect(route('page.index'))->with('message', __('successfully_created'));
     }
 
     /**
@@ -119,7 +122,8 @@ class PageController extends Controller
         }
         return view('pages.edit', [
             'page' => $page,
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'default_language')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -162,7 +166,7 @@ class PageController extends Controller
                 ]);
             }
         }
-        return redirect(route('page.index'))->with('message', __('messages.alert.successfully_updated'));
+        return redirect(route('page.index'))->with('message', __('successfully_updated'));
     }
 
     /**
@@ -172,6 +176,6 @@ class PageController extends Controller
     {
         DB::table('pages_locales')->where('page_id', '=', $page->id)->delete();
         DB::table('pages')->where('id', '=', $page->id)->delete();
-        return redirect(route('page.index'))->with('message', __('messages.alert.removed'));
+        return redirect(route('page.index'))->with('message', __('removed'));
     }
 }

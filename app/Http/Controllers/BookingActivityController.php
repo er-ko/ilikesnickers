@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Language;
+use App\Models\System;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,8 @@ class BookingActivityController extends Controller
     public function create(): View
     {
         return view('bookings-activities.create', [
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'language_default')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -81,7 +83,7 @@ class BookingActivityController extends Controller
                 ]);
             }
         }
-        return redirect(route('booking.activity.index'))->with('message', __('messages.alert.successfully_created'));
+        return redirect(route('booking.activity.index'))->with('message', __('successfully_created'));
     }
 
     /**
@@ -113,7 +115,8 @@ class BookingActivityController extends Controller
 
         return view('bookings-activities.edit', [
             'booking' => $booking,
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'language_default')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -160,7 +163,7 @@ class BookingActivityController extends Controller
                 ]);
             }
         }
-        return redirect(route('booking.activity.index'))->with('message', __('messages.alert.successfully_updated'));
+        return redirect(route('booking.activity.index'))->with('message', __('successfully_updated'));
     }
 
     /**
@@ -170,6 +173,6 @@ class BookingActivityController extends Controller
     {
         DB::table('bookings_activities_locales')->where('activity_id', '=', $activityId)->delete();
         DB::table('bookings_activities')->where('id', '=', $activityId)->delete();
-        return redirect(route('booking.activity.index'))->with('message', __('messages.alert.removed'));
+        return redirect(route('booking.activity.index'))->with('message', __('removed'));
 	}
 }

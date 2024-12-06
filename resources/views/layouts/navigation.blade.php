@@ -127,7 +127,13 @@
 						</x-dropdown-link>
 					</x-slot>
 				</x-dropdown>
-				<x-dropdown :active="request()->routeIs(['country.index', 'country.edit', 'language.index', 'language.edit', 'currency.index', 'system.edit', 'profile.edit'])">
+				<x-dropdown :active="request()->routeIs([
+					'country.index', 'country.edit',
+					'language.index', 'language.edit',
+					'currency.index', 'currency.edit',
+					'system.edit', 'profile.edit',
+					'user.index', 'user.edit'
+				])">
 					<x-slot name="trigger">
 						<span>{{ __('settings') }}</span>
 						<svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 ml-1 transition-transform duration-200 transform">
@@ -141,7 +147,7 @@
 						<x-dropdown-link :href="route('language.index')" :active="request()->routeIs(['language.index', 'language.edit'])">
 							{{ __('language') }}
 						</x-dropdown-link>
-						<x-dropdown-link :href="route('currency.index')" :active="request()->routeIs(['currency.index'])">
+						<x-dropdown-link :href="route('currency.index')" :active="request()->routeIs(['currency.index', 'currency.edit'])">
 							{{ __('currency') }}
 						</x-dropdown-link>
 						<x-dropdown-link :href="route('system.edit')" :active="request()->routeIs(['system.edit'])">
@@ -150,7 +156,7 @@
 						<x-dropdown-link :href="route('profile.edit')" :active="request()->routeIs(['profile.edit'])">
 							{{ __('profile') }}
 						</x-dropdown-link>
-						<x-dropdown-link :href="route('user.index')">
+						<x-dropdown-link :href="route('user.index')" :active="request()->routeIs(['user.index'])">
 							{{ __('user') }}
 						</x-dropdown-link>
 						<form method="POST" action="{{ route('logout') }}">

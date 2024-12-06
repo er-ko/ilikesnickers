@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+use App\Models\System;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -39,7 +40,8 @@ class FaqController extends Controller
     public function create(): View
     {
         return view('faq.create', [
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'default_language')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -77,7 +79,7 @@ class FaqController extends Controller
             }
             $count++;
         }
-        return redirect(route('faq.index'))->with('message', __('messages.alert.successfully_created'));
+        return redirect(route('faq.index'))->with('message', __('successfully_created'));
     }
 
     /**
@@ -105,7 +107,8 @@ class FaqController extends Controller
         }
         return view('faq.edit', [
             'faq' => $faq,
-            'languages' => Language::orderBy('default', 'desc')->orderBy('priority', 'asc')->get(),
+            'default' => System::where('param', 'default_language')->value('value'),
+            'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
         ]);
     }
 
@@ -144,7 +147,7 @@ class FaqController extends Controller
             }
             $count++;
         }
-        return redirect(route('faq.index'))->with('message', __('messages.alert.successfully_updated'));
+        return redirect(route('faq.index'))->with('message', __('successfully_updated'));
     }
 
     /**
@@ -154,6 +157,6 @@ class FaqController extends Controller
     {
         DB::table('faqs_locales')->where('faq_id', '=', $faq->id)->delete();
         DB::table('faqs')->where('id', '=', $faq->id)->delete();
-        return redirect(route('faq.index'))->with('message', __('messages.alert.removed'));
+        return redirect(route('faq.index'))->with('message', __('removed'));
     }
 }
