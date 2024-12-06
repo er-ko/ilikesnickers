@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Models\Language;
+use App\Models\System;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,7 @@ class LanguageController extends Controller
     public function index(): View
     {
         return view('languages.index', [
+            'default' => System::where('param', 'default_language')->value('value'),
             'languages' => Language::orderBy('id', 'asc')->paginate(15),
         ]);
     }
@@ -57,6 +59,7 @@ class LanguageController extends Controller
         $json = json_decode(json: $contents, associative: true);
         ksort($json);
         return view('languages.edit', [
+            'default' => System::where('param', 'default_language')->value('value'),
             'language' => $language,
             'languages' => Language::where('public', operator: true)->orderBy('name', 'asc')->get(),
             'translates' => $json,
@@ -66,7 +69,7 @@ class LanguageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Language $language)
+    public function update(Request $request, Language $language): RedirectResponse
     {
         $data = [];
         foreach ($request->translate_key as $i => $key) {
@@ -75,30 +78,27 @@ class LanguageController extends Controller
         }
         file_put_contents(App::langPath() .'/'. $language->locale .'.json', json_encode($data));
 
-        // Storage::disk('lang')->put($language->locale .'.json', json_encode($data));
-        // if (!$request->public && $request->default === $language->locale) {
+        if ($request->default == $language->id && !$request->public) {
 
-        //     return redirect(route('language.edit', $language->id))->with('message', __('messages.alert.cannot_set_a_non-public_default_language'));
+            return redirect(route('language.edit', $language->id))->with('message', __('this_language_must_be_public_because_its_default'));
 
-        // } else {
+        } else {
 
-        //     $validated = $request->validate([
-        //         'priority' => 'required|numeric|max:255',
-        //         'public' => 'required|numeric|max:1',
-        //         'locale' => 'required|string|max:2',
-        //         'locale_3' => 'required|string|max:3',
-        //         'localname' => 'required|string|max:64',
-        //         'decimal_point' => 'required|string|max:1',
-        //         'thousand_separator' => 'required|string|max:6',
-        //         'time_format' => 'required|string|max:2',
-        //         'date_format' => 'required|string|max:5',
-        //     ]);
+            $validated = $request->validate([
+                'priority' => 'required|numeric',
+                'public' => 'required|boolean',
+                'locale' => 'required|string|max:2',
+                'locale_3' => 'required|string|max:3',
+                'localname' => 'required|string|max:64',
+                'decimal_point' => 'required|string|max:1',
+                'thousand_separator' => 'required|string|max:6',
+                'time_format' => 'required|string|max:2',
+                'date_format' => 'required|string|max:5',
+            ]);
 
-        //     $language->update($validated);
-        //     DB::table('languages')->update(['default' => 0]);
-        //     DB::table('languages')->where('locale', '=', $request->default)->update(['default' => 1]);
-            return redirect(route('language.index'))->with('message', __('messages.alert.successfully_updated'));
-        // }
+            $language->update($validated);
+            return redirect(route('language.index'))->with('message', __('successfully_updated'));
+        }
     }
 
     /**
@@ -107,15 +107,5 @@ class LanguageController extends Controller
     public function destroy(Language $language)
     {
         //
-    }
-
-    private function paginate($items, $perPage = 4, $page = null): LengthAwarePaginator
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $total = count($items);
-        $currentPage = $page;
-        $offset = ($currentPage * $perPage) - $perPage;
-        $itemsToShow = array_slice($items, $offset, $perPage);
-        return new LengthAwarePaginator($itemsToShow, $total, $perPage);
     }
 }

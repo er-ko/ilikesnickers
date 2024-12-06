@@ -13,6 +13,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BookingSlotController;
+use App\Http\Controllers\BookingActivityController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -39,7 +41,7 @@ Route::resource('user', UserController::class)
     ->only(['index', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
-Route::get('/',[WelcomeController::class, 'index'])->name('welcome');
+Route::get(uri: '/',action: [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/contact',[ContactController::class, 'index'])->name('contact.index');
 Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
@@ -65,7 +67,6 @@ Route::resource('post', PostController::class)
 // post public
 Route::resource('post', PostController::class)->only(['index']);
 Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show'); // url slug redirect
-
 
 // booking
 Route::resource('booking', BookingController::class)
@@ -112,6 +113,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -125,19 +127,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/contact/edit', [ContactController::class, 'edit'])->name('contact.edit');
     Route::patch('/contact', [ContactController::class, 'update'])->name('contact.update');
 
-    Route::get('/booking/slot', [BookingController::class, 'indexSlot'])->name('booking.slot.index');
-    Route::get('/booking/slot/create', [BookingController::class, 'createSlot'])->name('booking.slot.create');
-    Route::post('/booking/slot/create', [BookingController::class, 'storeSlot'])->name('booking.slot.store');
-    Route::get('/booking/slot/edit/{id}', [BookingController::class, 'editSlot'])->name('booking.slot.edit');
-    Route::patch('/booking/slot/edit', [BookingController::class, 'updateSlot'])->name('booking.slot.update');
-    Route::delete('/booking/slot/{id}', [BookingController::class, 'destroySlot'])->name('booking.slot.destroy');
+    Route::get('/booking/slot', [BookingSlotController::class, 'index'])->name('booking.slot.index');
+    Route::get('/booking/slot/create', [BookingSlotController::class, 'create'])->name('booking.slot.create');
+    Route::post('/booking/slot/create', [BookingSlotController::class, 'store'])->name('booking.slot.store');
+    Route::get('/booking/slot/edit/{id}', [BookingSlotController::class, 'edit'])->name('booking.slot.edit');
+    Route::patch('/booking/slot/edit/{id}', [BookingSlotController::class, 'update'])->name('booking.slot.update');
+    Route::delete('/booking/slot/{id}', [BookingSlotController::class, 'destroy'])->name('booking.slot.destroy');
 
-    Route::get('/booking/activity', [BookingController::class, 'indexActivity'])->name('booking.activity.index');
-    Route::get('/booking/activity/create', action: [BookingController::class, 'createActivity'])->name('booking.activity.create');
-    Route::post('/booking/activity/create', [BookingController::class, 'storeActivity'])->name('booking.activity.store');
-    Route::get('/booking/activity/edit/{id}', [BookingController::class, 'editActivity'])->name('booking.activity.edit');
-    Route::patch('/booking/activity/edit', [BookingController::class, 'updateActivity'])->name('booking.activity.update');
-    Route::delete('/booking/activity/{id}', [BookingController::class, 'destroyActivity'])->name('booking.activity.destroy');
+    Route::get('/booking/activity', [BookingActivityController::class, 'index'])->name('booking.activity.index');
+    Route::get('/booking/activity/create', action: [BookingActivityController::class, 'create'])->name('booking.activity.create');
+    Route::post('/booking/activity/create', [BookingActivityController::class, 'store'])->name('booking.activity.store');
+    Route::get('/booking/activity/edit/{id}', [BookingActivityController::class, 'edit'])->name('booking.activity.edit');
+    Route::patch('/booking/activity/edit/{id}', [BookingActivityController::class, 'update'])->name('booking.activity.update');
+    Route::delete('/booking/activity/{id}', [BookingActivityController::class, 'destroy'])->name('booking.activity.destroy');
 });
 
 require __DIR__.'/auth.php';

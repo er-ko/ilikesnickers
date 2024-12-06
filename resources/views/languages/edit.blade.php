@@ -17,34 +17,32 @@
 		</a>
 	</x-slot>
 
-	<div x-data="{ group: 'tab-general'}">
+	<div class="h-full" x-data="{ group: 'tab-general'}">
 		<div class="flex items-center justify-between flex-wrap space-y-4 sm:space-y-0 mb-4">
 			<div class="flex items-center justify-center sm:justify-start w-full sm:w-fit dark:text-gray-200">
 				<div
 					class="w-fit mx-x0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-general'"
 					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-general'}"
 				>
-					{{ __('messages.general') }}
+					{{ __('general') }}
 				</div>
 				<div
 					class="w-fit mx-x0.5 py-1 px-3 hover:cursor-pointer rounded-lg" @click.prevent="group = 'tab-translate'"
 					:class="{ 'bg-black text-white dark:bg-white dark:text-black': group == 'tab-translate'}"
 				>
-					{{ __('messages.translate') }}
+					{{ __('translate') }}
 				</div>
 			</div>
 		</div>
-		<div class="relative">
-			<form method="POST" action="{{ route('language.update', $language) }}" id="form-store">
-				@csrf
-				@method('patch')
-				<div x-show="group == 'tab-general'">
-					@include('languages.partials.general')
-				</div>
-				<div x-show="group == 'tab-translate'">
-					@include('languages.partials.translate')
-				</div>
-			</form>
-		</div>
+		<form method="POST" action="{{ route('language.update', $language) }}" id="form-store" class="h-full">
+			@csrf
+			@method('patch')
+			<div class="w-full max-w-md mx-auto" x-show="group == 'tab-general'">
+				@include('languages.partials.general')
+			</div>
+			<div x-show="group == 'tab-translate'">
+				@include('languages.partials.translate')
+			</div>
+		</form>
     </div>
 </x-app-layout>

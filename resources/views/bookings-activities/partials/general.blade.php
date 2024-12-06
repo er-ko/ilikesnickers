@@ -1,7 +1,6 @@
 <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
-	<x-card class="w-full max-w-2xl lg:max-w-sm h-fit space-y-4 !pt-0">
+	<x-card class="w-full max-w-2xl lg:max-w-sm h-fit space-y-4">
 		<x-slot name="content">
-			<input type="hidden" name="id" value="{{ isset($booking) ? $booking->id : '' }}" />
 			<div>
 				<x-input-label for="active" :required="true" :value="__('active')" />
 				<x-select name="active" id="active" required autofocus>

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\System;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -18,14 +19,15 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $default = Language::select('locale', 'time_format', 'date_format')
-                        ->where('default', operator: true)
+        $default = System::where('param', 'default_language')->value('value');
+        $data = Language::select('locale', 'time_format', 'date_format')
+                        ->where('id', operator: $default)
                         ->first();
 
-        $locale = Session::get('locale') ?? config('app.locale', $default->locale);
+        $locale = Session::get('locale') ?? config('app.locale', $data->locale);
         Session::put('locale', $locale);
-        $timeFormat = Session::get('time_format') ?? $default->time_format;
-        $dateFormat = Session::get('date_format') ?? $default->date_format;
+        $timeFormat = Session::get('time_format') ?? $data->time_format;
+        $dateFormat = Session::get('date_format') ?? $data->date_format;
         Session::put('time_format', $timeFormat);
         Session::put('date_format', $dateFormat);
         App::setLocale($locale);

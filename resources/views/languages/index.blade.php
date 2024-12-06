@@ -1,8 +1,8 @@
 <x-app-layout>
 
-    <x-slot name="meta_title">{{ __('messages.languages') }}</x-slot>
-	<x-slot name="meta_desc">{{ __('messages.language') }}</x-slot>
-    <x-slot name="title">{{ __('messages.language') }}</x-slot>
+    <x-slot name="meta_title">{{ __('languages') }}</x-slot>
+	<x-slot name="meta_desc">{{ __('language') }}</x-slot>
+    <x-slot name="title">{{ __('language') }}</x-slot>
 
     <div class="p-2 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="overflow-auto">
@@ -10,12 +10,12 @@
                 <thead>
                     <tr class="lowercase bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
                         <th class="px-2 pt-4 pb-2 text-center sm:rounded-tl-lg">#</th>
-                        <th class="px-2 pt-4 pb-2 text-center">{{ __('messages.flag') }}</th>
-                        <th class="px-2 pt-4 pb-2 text-center">{{ __('messages.locale') }}</th>
-                        <th class="px-2 pt-4 pb-2 text-left">{{ __('messages.name') }}</th>
-                        <th class="px-2 pt-4 pb-2">{{ __('messages.priority') }}</th>
-                        <th class="px-2 pt-4 pb-2">{{ __('messages.default') }}</th>
-                        <th class="px-2 pt-4 pb-2">{{ __('messages.public') }}</th>
+                        <th class="px-2 pt-4 pb-2 text-center">{{ __('flag') }}</th>
+                        <th class="px-2 pt-4 pb-2 text-center">{{ __('locale') }}</th>
+                        <th class="px-2 pt-4 pb-2 text-left">{{ __('name') }}</th>
+                        <th class="px-2 pt-4 pb-2">{{ __('priority') }}</th>
+                        <th class="px-2 pt-4 pb-2">{{ __('default') }}</th>
+                        <th class="px-2 pt-4 pb-2">{{ __('public') }}</th>
                         <th class="px-2 pt-4 pb-2 sm:rounded-tr-lg"></th>
                     </tr>
                 </thead>
@@ -28,18 +28,18 @@
                         <td class="p-2 whitespace-nowrap">{{ $language->name }}</td>
                         <td class="p-2 w-16 min-w-16 text-center">{{ $language->priority }}</td>
                         <td class="p-2 w-16 min-w-16 text-center">
-                            @if($language->default)
+                            @if($default == $language->id)
                                 <span class="inline-flex p-1 rounded-full bg-teal-500/20 text-teal-800 dark:bg-teal-500/50 dark:text-teal-300">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                     </svg>                                              
                                 </span>
                             @else
-                            <span class="inline-flex p-1 rounded-full bg-pink-500/20 text-pink-800 dark:bg-pink-500/50 dark:text-pink-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                </svg>
-                            </span>
+                                <span class="inline-flex p-1 rounded-full bg-pink-500/20 text-pink-800 dark:bg-pink-500/50 dark:text-pink-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                </span>
                             @endif
                         </td>
                         <td class="p-2 w-16 min-w-16 text-center">
@@ -50,11 +50,11 @@
                                     </svg>                                              
                                 </span>
                             @else
-                            <span class="inline-flex p-1 rounded-full bg-pink-500/20 text-pink-800 dark:bg-pink-500/50 dark:text-pink-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                </svg>
-                            </span>
+                                <span class="inline-flex p-1 rounded-full bg-pink-500/20 text-pink-800 dark:bg-pink-500/50 dark:text-pink-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                </span>
                             @endif
                         </td>
                         <td class="p-2 w-12 min-w-12 text-center">

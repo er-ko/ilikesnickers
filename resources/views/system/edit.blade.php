@@ -1,8 +1,8 @@
 <x-app-layout>
 
-	<x-slot name="meta_title">{{ __('messages.system') }}</x-slot>
-	<x-slot name="meta_desc">{{ __('messages.system') }}</x-slot>
-	<x-slot name="title">{{ __('messages.system') }}</x-slot>
+	<x-slot name="meta_title">{{ __('system') }}</x-slot>
+	<x-slot name="meta_desc">{{ __('system') }}</x-slot>
+	<x-slot name="title">{{ __('system') }}</x-slot>
 
     <x-slot name="submit">
 		<button form="form-store" type="submit" class="p-2.5 pl-4 rounded-l-full duration-300 bg-teal-600 text-white hover:bg-teal-700 dark:bg-teal-700 dark:hover:bg-teal-600">
@@ -12,15 +12,12 @@
 		</button>
 	</x-slot>
 
-    <form method="POST" action="{{ route('system.update', $system) }}" id="form-store">
+    <form method="POST" action="{{ route('system.update') }}" id="form-store">
         @csrf
         @method('patch')
         <div class="grid gap-4 grid-cols-1 xl:grid-cols-3">
             @include('system.partials.locale')    
             @include('system.partials.info')
-                    </div>
-                </div>
-            </div>
         </div>
     </form>
 

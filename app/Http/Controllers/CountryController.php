@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\System;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 
 class CountryController extends Controller
 {
@@ -18,6 +16,7 @@ class CountryController extends Controller
     public function index(): View
     {
         return view('countries.index', [
+            'default'   => System::where('param', 'default_country')->value('value'),
             'countries' => Country::orderBy('id', 'asc')->paginate(15),
         ]);
     }
@@ -53,6 +52,7 @@ class CountryController extends Controller
     {
         return view('countries.edit', [
             'country' => $country,
+            'default' => System::where('param', 'default_country')->value('value'),
             'countries' => Country::where('public', '=', true)->orderBy('name', 'asc')->get(),
         ]);
     }
@@ -62,18 +62,23 @@ class CountryController extends Controller
      */
     public function update(Request $request, Country $country): RedirectResponse
     {
-        $validated = $request->validate([
-            'public'    => 'required|boolean',
-            'default'   => 'required|numeric',
-            'delivery'  => 'required|boolean',
-            'code'      => 'required|string|max:3',
-            'name'      => 'required|string|max:64',
-            'localname' => 'required|string|max:64',
-        ]);
-        $country->update($validated);
-        DB::table('countries')->update(['default' => 0]);
-        DB::table('countries')->where('id', '=', $request->default)->update(['default' => 1]);
-        return redirect(route('country.index'))->with('message', __('messages.alert.successfully_updated'));
+        if ($request->default == $country->id && !$request->public) {
+
+            return redirect(route('country.edit', $country->id))->with('message', __('this_country_must_be_public_because_its_default'));
+
+        } else {
+
+            $validated = $request->validate([
+                'public'    => 'required|boolean',
+                'delivery'  => 'required|boolean',
+                'code'      => 'required|string|max:3',
+                'name'      => 'required|string|max:64',
+                'localname' => 'required|string|max:64',
+            ]);
+
+            $country->update($validated);
+            return redirect(route('country.index'))->with('message', __('successfully_updated'));
+        }
     }
 
     /**

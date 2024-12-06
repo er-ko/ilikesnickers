@@ -13,8 +13,9 @@ class Currency extends Model
         'id',
         'priority',
 		'public',
-        'default',
         'code',
+        'symbol',
+        'symbol_place',
         'name',
         'localname',
     ];

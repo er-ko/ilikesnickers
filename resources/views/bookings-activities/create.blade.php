@@ -43,7 +43,7 @@
 			<form method="POST" action="{{ route('booking.activity.store') }}" id="form-store">
 				@csrf
 				<div x-show="group == 'tab-general'">
-					@include('bookings.activity.partials.general')
+					@include('bookings-activities.partials.general')
 				</div>
 			</form>
         </div>
