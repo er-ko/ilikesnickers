@@ -51,7 +51,7 @@ class BookingController extends Controller
             }
             $slots = DB::table('bookings_slots')
                         ->join('bookings_slots_locales', 'bookings_slots.id', '=', 'bookings_slots_locales.slot_id')
-                        ->select('bookings_slots.id', 'bookings_slots.priority', 'bookings_slots.open_days', 'bookings_slots.image', 'bookings_slots.opening_hours', 'bookings_slots_locales.title')
+                        ->select('bookings_slots.id', 'bookings_slots.priority', 'bookings_slots.open_days', 'bookings_slots.image', 'bookings_slots.opening_hours', 'bookings_slots.activities', 'bookings_slots_locales.title')
                         ->where('bookings_slots.active', true)
                         ->where('bookings_slots_locales.locale', app()->getLocale())
                         ->orderBy('bookings_slots.priority')

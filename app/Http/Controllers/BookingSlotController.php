@@ -72,6 +72,7 @@ class BookingSlotController extends Controller
         isset($request->opening_hours_saturday[1]) ? $saturday[1] = str_replace(' ', '', $request->opening_hours_saturday[1]) : $saturday[1] = '';
         isset($request->opening_hours_sunday[0]) ? $sunday[0] = str_replace(' ', '', $request->opening_hours_sunday[0]) : $sunday[0] = '';
         isset($request->opening_hours_sunday[1]) ? $sunday[1] = str_replace(' ', '', $request->opening_hours_sunday[1]) : $sunday[1] = '';
+        isset($request->activity) ? $activities = json_encode($request->activity) : $activities = '';
 
         $openingHours = [
             'monday' => $monday[0] .'|'. $monday[1],
@@ -88,6 +89,7 @@ class BookingSlotController extends Controller
         $data['priority'] = $request->priority;
         $data['open_days'] = $request->open_days;
         $data['opening_hours'] = json_encode($openingHours);
+        $data['activities'] = $activities;
 
         if (isset($request->image)) {
 
@@ -101,6 +103,7 @@ class BookingSlotController extends Controller
             'priority' => 'required|numeric',
             'open_days' => 'required|numeric',
             'opening_hours' => 'string|max:255|nullable',
+            'activities' => 'string|max:255|nullable',
         ]);
         if (!$validator->fails()) {
             $id = DB::table('bookings_slots')->insertGetId([
@@ -109,6 +112,7 @@ class BookingSlotController extends Controller
                 'open_days' => $data['open_days'],
                 'image' => $data['image'],
                 'opening_hours' => $data['opening_hours'],
+                'activities' => $data['activities'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -153,16 +157,25 @@ class BookingSlotController extends Controller
                         ->get();
             return response()->json($data);
         }
+
         $booking = Db::table(table: 'bookings_slots')
-                        ->select('id', 'active', 'priority', 'open_days', 'image', 'opening_hours')
+                        ->select('id', 'active', 'priority', 'open_days', 'image', 'opening_hours', 'activities')
                         ->where('id', $slotId)
                         ->first();
+
+        $activities = DB::table('bookings_activities')
+                        ->join('bookings_activities_locales', 'bookings_activities.id', '=', 'bookings_activities_locales.activity_id')
+                        ->select('bookings_activities.id', 'bookings_activities_locales.title')
+                        ->where('bookings_activities.active', true)
+                        ->where('bookings_activities_locales.locale', app()->getLocale())
+                        ->orderBy('bookings_activities_locales.title', 'asc')
+                        ->get();
 
         return view('bookings-slots.edit', [
             'booking' => $booking,
             'default' => System::where('param', 'language_default')->value('value'),
             'languages' => Language::orderBy('name', 'asc')->orderBy('priority', 'asc')->get(),
-            'activities' => [],
+            'activities' => $activities,
         ]);
     }
 
@@ -185,6 +198,7 @@ class BookingSlotController extends Controller
         isset($request->opening_hours_saturday[1]) ? $saturday[1] = str_replace(' ', '', $request->opening_hours_saturday[1]) : $saturday[1] = '';
         isset($request->opening_hours_sunday[0]) ? $sunday[0] = str_replace(' ', '', $request->opening_hours_sunday[0]) : $sunday[0] = '';
         isset($request->opening_hours_sunday[1]) ? $sunday[1] = str_replace(' ', '', $request->opening_hours_sunday[1]) : $sunday[1] = '';
+        isset($request->activity) ? $activities = json_encode($request->activity) : $activities = '';
 
         $openingHours = [
             'monday' => $monday[0] .'|'. $monday[1],
@@ -201,6 +215,7 @@ class BookingSlotController extends Controller
         $data['priority'] = $request->priority;
         $data['open_days'] = $request->open_days;
         $data['opening_hours'] = json_encode($openingHours);
+        $data['activities'] = $activities;
 
         if (isset($request->image)) {
             $imageDb = DB::table('bookings_slots')->where('id', $slotId)->value('image');
@@ -216,6 +231,7 @@ class BookingSlotController extends Controller
             'open_days' => 'required|numeric',
             'image' => 'string|max:255|nullable',
             'opening_hours' => 'string|max:255|nullable',
+            'activities' => 'string|max:255|nullable',
         ]);
         if (!$validator->fails()) {
             if (isset($request->image)) {
@@ -227,6 +243,7 @@ class BookingSlotController extends Controller
                             'open_days' => $data['open_days'],
                             'image' => $data['image'],
                             'opening_hours' => $data['opening_hours'],
+                            'activities' => $data['activities'],
                 ]);
             } else {
                 DB::table('bookings_slots')
@@ -236,6 +253,7 @@ class BookingSlotController extends Controller
                             'priority' => $data['priority'],
                             'open_days' => $data['open_days'],
                             'opening_hours' => $data['opening_hours'],
+                            'activities' => $data['activities'],
                 ]);
             }
         }

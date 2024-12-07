@@ -67,8 +67,10 @@
 				<x-card class="w-full max-w-md space-y-4">
 					<x-slot name="content">
 						<h1 class="font-bold text-center my-4">{{ $slot->title }}</h1>
-						<img src="{{ asset('/bookings/'. $slot->image) }}" class="rounded" />
-						<table class="w-full">
+						@if (isset($slot->image))
+							<img src="{{ asset('/bookings/'. $slot->image) }}" class="rounded" />
+						@endif
+						<table class="w-fit mx-auto">
 							<tbody>
 								@foreach (json_decode($slot->opening_hours, true) as $day => $time)
 									<tr>
@@ -90,389 +92,439 @@
 						</table>
 						<div class="space-y-2">
 							<input type="hidden" id="slot-{{ $slot->id }}" class="slot-id" value="{{ $slot->id }}" />
-							<x-select name="activity" id="activity" required>
+							<x-select name="activity" id="activity-{{ $slot->id }}" class="activity" required>
 								<option value="" selected disabled>{{ __('choose_an_activity') }}</option>
 								@foreach ($activities as $activity)
-									<option value="{{ $activity->id }}" data-time="{{ $activity->processing_time }}" data-interval="{{ $activity->interval_after }}">{{ $activity->title }}</option>
+									@if ( isset($slot->activities) && in_array($activity->id, json_decode($slot->activities)) )
+										<option value="{{ $activity->id }}" data-time="{{ $activity->processing_time }}" data-interval="{{ $activity->interval_after }}">{{ $activity->title }}</option>
+									@endif
 								@endforeach
 							</x-select>
 							@for ($d = 0; $d < $slot->open_days; $d++)
 								@php $dateArr[] = date('Y-m-d', strtotime('+'. $d .' day')); @endphp
 							@endfor
-							@php $timeArr = []; @endphp
-
 							@foreach ($activities as $activity)
-								<x-select name="date" id="date-{{ $activity->id }}" class="date hidden" required>
-									<option disabled selected>{{ __('choose_a_time') }}</option>
-									@foreach ($dateArr as $key => $date)
-										@foreach (json_decode($slot->opening_hours, true) as $day => $time)
-											@if (date('w', strtotime($date)) == 1 && $day == 'monday')
-												<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
-													@if (!empty(explode('|', $time )[0]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[0])[0];
-																$endTime = explode('-', explode('|', $time)[0])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
+								@if ( isset($slot->activities) && in_array($activity->id, json_decode($slot->activities)) )
+									<x-select name="date" id="{{ $slot->id }}-date-{{ $activity->id }}" class="date hidden" required>
+										<option disabled selected>{{ __('choose_a_time') }}</option>
+										@foreach ($dateArr as $key => $date)
+											@foreach (json_decode($slot->opening_hours, true) as $day => $time)
+												@if (date('w', strtotime($date)) == 1 && $day == 'monday')
+													<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
+														@if (!empty(explode('|', $time )[0]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[0])[0];
+																	$endTime = explode('-', explode('|', $time)[0])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
 
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
 
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if (date('H:i', strtotime(now())) > $startTime)
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+														@if (!empty(explode('|', $time )[1]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[1])[0];
+																	$endTime = explode('-', explode('|', $time)[1])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+													</optgroup>
+												@elseif ( date('w', strtotime($date)) == 2 && $day == 'tuesday' )
+													<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
+														@if (!empty(explode('|', $time )[0]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[0])[0];
+																	$endTime = explode('-', explode('|', $time)[0])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+														@if (!empty(explode('|', $time )[1]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[1])[0];
+																	$endTime = explode('-', explode('|', $time)[1])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+													</optgroup>
+												@elseif ( date('w', strtotime($date)) == 3 && $day == 'wednesday' )
+													<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
+														@if (!empty(explode('|', $time )[0]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ explode('-', explode('|', $time )[0])[0] }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[0])[0];
+																	$endTime = explode('-', explode('|', $time)[0])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ $finalTime }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+														@if (!empty(explode('|', $time )[1]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) ))
+																<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ explode('-', explode('|', $time )[1])[0] }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[1])[0];
+																	$endTime = explode('-', explode('|', $time)[1])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ $finalTime }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+													</optgroup>
+												@elseif ( date('w', strtotime($date)) == 4 && $day == 'thursday' )
+													<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
+														@if (!empty(explode('|', $time )[0]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[0])[0];
+																	$endTime = explode('-', explode('|', $time)[0])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+														@if (!empty(explode('|', $time )[1]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[1])[0];
+																	$endTime = explode('-', explode('|', $time)[1])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+													</optgroup>
+												@elseif ( date('w', strtotime($date)) == 5 && $day == 'friday' )
+													<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
+														@if (!empty(explode('|', $time )[0]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[0])[0];
+																	$endTime = explode('-', explode('|', $time)[0])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+														@if (!empty(explode('|', $time )[1]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[1])[0];
+																	$endTime = explode('-', explode('|', $time)[1])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+													</optgroup>
+												@elseif ( date('w', strtotime($date)) == 6 && $day == 'saturday' )
+													<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
+														@if (!empty(explode('|', $time )[0]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[0])[0];
+																	$endTime = explode('-', explode('|', $time)[0])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+														@if (!empty(explode('|', $time )[1]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[1])[0];
+																	$endTime = explode('-', explode('|', $time)[1])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
+																@endif
+															@endfor
+														@endif
+													</optgroup>
+												@elseif ( date('w', strtotime($date)) == 7 && $day == 'sunday' )
+													<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
+														@if (!empty(explode('|', $time )[0]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[0])[0];
+																	$endTime = explode('-', explode('|', $time)[0])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
+
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
 																@if ($finalTime <= $timeBefore ))
 																	<option value="{{ $date .' '. $finalTime }}">
 																		{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
 																	</option>
 																@endif
-															@endif
-														@endfor
-													@endif
-													@if (!empty(explode('|', $time )[1]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[1])[0];
-																$endTime = explode('-', explode('|', $time)[1])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-												</optgroup>
-											@elseif ( date('w', strtotime($date)) == 2 && $day == 'tuesday' )
-												<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
-													@if (!empty(explode('|', $time )[0]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[0])[0];
-																$endTime = explode('-', explode('|', $time)[0])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-													@if (!empty(explode('|', $time )[1]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[1])[0];
-																$endTime = explode('-', explode('|', $time)[1])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-												</optgroup>
-											@elseif ( date('w', strtotime($date)) == 3 && $day == 'wednesday' )
-												<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
-													@if (!empty(explode('|', $time )[0]))
-														@if ( date('H:i', strtotime(now())) < explode('-', explode('|', $time )[0])[0])
-															<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ explode('-', explode('|', $time )[0])[0] }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
-																{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
-															</option>
+															@endfor
 														@endif
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[0])[0];
-																$endTime = explode('-', explode('|', $time)[0])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
+														@if (!empty(explode('|', $time )[1]))
+															@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) ))
+																<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
+																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
+																</option>
+															@endif
+															@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
+																@php
+																	$startTime = explode('-', explode('|', $time)[1])[0];
+																	$endTime = explode('-', explode('|', $time)[1])[1];
+																	$cycleTime = $activity->processing_time + $activity->interval_after;
+																	$nextTime = $cycleTime * $t;
 
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
+																	$newtimestamp = strtotime("$startTime + $nextTime minutes");
+																	$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
 
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ( date('H:i', strtotime(now())) < $finalTime)
-																@if ($finalTime <= $timeBefore ))
-																	<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ $finalTime }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
-																		{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																	</option>
+																	$finalTime = date('H:i', $newtimestamp);
+																	$timeBefore = date('H:i', $beforetimestamp);
+																@endphp
+																@if (!( date('y-m-d', strtotime(now())) == date('y-m-d', strtotime($date)) && date('H:i', strtotime(now())) > date('H:i', strtotime($finalTime)) ))
+																	@if ($finalTime <= $timeBefore ))
+																		<option value="{{ $date .' '. $finalTime }}">
+																			{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
+																		</option>
+																	@endif
 																@endif
-															@endif
-														@endfor
-													@endif
-													@if (!empty(explode('|', $time )[1]))
-														<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ explode('-', explode('|', $time )[1])[0] }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[1])[0];
-																$endTime = explode('-', explode('|', $time)[1])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date }}" data-date="{{ $date }}" data-time="{{ $finalTime }}" data-process="{{ $activity->processing_time + $activity->interval_after }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-												</optgroup>
-											@elseif ( date('w', strtotime($date)) == 4 && $day == 'thursday' )
-												<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
-													@if (!empty(explode('|', $time )[0]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[0])[0];
-																$endTime = explode('-', explode('|', $time)[0])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-													@if (!empty(explode('|', $time )[1]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[1])[0];
-																$endTime = explode('-', explode('|', $time)[1])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-												</optgroup>
-											@elseif ( date('w', strtotime($date)) == 5 && $day == 'friday' )
-												<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
-													@if (!empty(explode('|', $time )[0]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[0])[0];
-																$endTime = explode('-', explode('|', $time)[0])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-													@if (!empty(explode('|', $time )[1]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[1])[0];
-																$endTime = explode('-', explode('|', $time)[1])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-												</optgroup>
-											@elseif ( date('w', strtotime($date)) == 6 && $day == 'saturday' )
-												<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
-													@if (!empty(explode('|', $time )[0]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[0])[0];
-																$endTime = explode('-', explode('|', $time)[0])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-													@if (!empty(explode('|', $time )[1]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[1])[0];
-																$endTime = explode('-', explode('|', $time)[1])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-												</optgroup>
-											@elseif ( date('w', strtotime($date)) == 7 && $day == 'sunday' )
-												<optgroup label="{{ date('l', strtotime($date)) }} {{ date('d/m/y', strtotime($date)) }}">
-													@if (!empty(explode('|', $time )[0]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[0])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[0])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[0])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[0])[1]) - strtotime(explode('-', explode('|', $time )[0])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[0])[0];
-																$endTime = explode('-', explode('|', $time)[0])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-													@if (!empty(explode('|', $time )[1]))
-														<option value="{{ $date .' '. explode('-', explode('|', $time )[1])[0] }}">
-															{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime(explode('-', explode('|', $time )[1])[0])) : date('H:i', strtotime(explode('-', explode('|', $time )[1])[0])) }}
-														</option>
-														@for ($t = 1; $t < (strtotime(explode('-', explode('|', $time )[1])[1]) - strtotime(explode('-', explode('|', $time )[1])[0])) / 60 / ($activity->processing_time + $activity->interval_after); $t++ )
-															@php
-																$startTime = explode('-', explode('|', $time)[1])[0];
-																$endTime = explode('-', explode('|', $time)[1])[1];
-																$cycleTime = $activity->processing_time + $activity->interval_after;
-																$nextTime = $cycleTime * $t;
-
-																$newtimestamp = strtotime("$startTime + $nextTime minutes");
-																$beforetimestamp = strtotime("$endTime - $cycleTime minutes");
-
-																$finalTime = date('H:i', $newtimestamp);
-																$timeBefore = date('H:i', $beforetimestamp);
-															@endphp
-															@if ($finalTime <= $timeBefore ))
-																<option value="{{ $date .' '. $finalTime }}">
-																	{{ date('d/m/y', strtotime($date)) }} {{ app()->getLocale() == 'en' ? date('h:i a', strtotime($finalTime)) : date('H:i', strtotime($finalTime)) }}
-																</option>
-															@endif
-														@endfor
-													@endif
-												</optgroup>
-											@endif
+															@endfor
+														@endif
+													</optgroup>
+												@endif
+											@endforeach
 										@endforeach
-									@endforeach
-								</x-select>
+									</x-select>
+								@endif
 							@endforeach
 						</div>
 					</x-slot>
@@ -484,11 +536,15 @@
 			<script>
 				$(document).ready(function(){
 
-					$('#activity').change(function(){
-						$('.date').addClass('hidden');
-						$('#date-'+ $(this).val() ).removeClass('hidden');
+					$('.activity').change(function(){
 						var slotId = $(this).parent().find('.slot-id').val();
-						booked(slotId, $(this).val());
+						var activityId = $(this).val();
+						$('.activity').val('');
+						$('#activity-'+ slotId).val(activityId);
+						$('.date').addClass('hidden');
+						// $(this).parent().find('.date').removeClass('hidden');
+						$(this).parent().find('#'+ slotId +'-date-'+ activityId ).removeClass('hidden');
+						booked(slotId, activityId);
 					});
 
 					function booked(slot) {

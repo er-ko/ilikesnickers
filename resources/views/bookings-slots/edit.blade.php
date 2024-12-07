@@ -57,13 +57,13 @@
 				@csrf
 				@method('patch')
 				<div x-show="group == 'tab-general'">
-					@include('bookings.slot.partials.general')
+					@include('bookings-slots.partials.general')
 				</div>
 				<div x-show="group == 'tab-opening-hours'" class="h-full">
-					@include('bookings.slot.partials.opening_hours')
+					@include('bookings-slots.partials.opening_hours')
 				</div>
 				<div x-show="group == 'tab-activity'" class="h-full">
-					@include('bookings.slot.partials.activity')
+					@include('bookings-slots.partials.activity')
 				</div>
 			</form>
         </div>
