@@ -24,11 +24,11 @@ class ProductController extends Controller
     {
         return view('products.index', [
             'products' => Db::table('products')
-                        ->join('products_locales', 'products.id', '=', 'products_locales.product_id')
-                        ->join('languages', 'products_locales.locale', '=', 'languages.locale')
-                        ->select('products.id', 'products.public', 'products.virtual', 'products.code', 'products.sku', 'products.slug', 'products_locales.title')
-                        ->where('languages.default', '=', 1)
-                        ->orderBy('products.id', 'asc')->paginate(15),
+                            ->join('products_locales', 'products.id', '=', 'products_locales.product_id')
+                            ->join('languages', 'products_locales.locale', '=', 'languages.locale')
+                            ->select('products.id', 'products.public', 'products.virtual', 'products.code', 'products.sku', 'products.slug', 'products_locales.title')
+                            ->where('languages.default', '=', 1)
+                            ->orderBy('products.id', 'asc')->paginate(15),
         ]);
     }
 

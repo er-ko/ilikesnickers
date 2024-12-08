@@ -51,7 +51,8 @@ class BookingController extends Controller
             }
             $slots = DB::table('bookings_slots')
                         ->join('bookings_slots_locales', 'bookings_slots.id', '=', 'bookings_slots_locales.slot_id')
-                        ->select('bookings_slots.id', 'bookings_slots.priority', 'bookings_slots.open_days', 'bookings_slots.image', 'bookings_slots.opening_hours', 'bookings_slots.activities', 'bookings_slots_locales.title')
+                        ->select('bookings_slots.id', 'bookings_slots.priority', 'bookings_slots.open_days', 'bookings_slots.image', 'bookings_slots.opening_hours',
+                                'bookings_slots.activities', 'bookings_slots_locales.title', 'bookings_slots_locales.note')
                         ->where('bookings_slots.active', true)
                         ->where('bookings_slots_locales.locale', app()->getLocale())
                         ->orderBy('bookings_slots.priority')
@@ -83,9 +84,42 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $phonecode = substr($request->phone, 1, 3);
+        $phone = substr(str_replace(' ', '', $request->phone), 4, 9);
+        $data = [
+            'slot_id' => $request->slot_id,
+            'activity_id' => $request->activity_id,
+            'start' => $request->start,
+            'full_name' => $request->full_name,
+            'email' => $request->email,
+            'phonecode' => $phonecode,
+            'phone' => $phone,
+        ];
+        $validator = Validator::make($data, [
+            'slot_id' => 'required|numeric',
+            'activity_id' => 'required|numeric',
+            'start' => 'required|date',
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'phonecode' => 'required|string|max:3',
+            'phone' => 'required|string|max:9',
+        ]);
+        if (!$validator->fails()) {
+            DB::table('bookings')->insert([
+                'slot_id' => $data['slot_id'],
+                'activity_id' => $data['activity_id'],
+                'start' => $data['start'],
+                'full_name' => $data['full_name'],
+                'email' => $data['email'],
+                'phonecode' => $data['phonecode'],
+                'phone' => $data['phone'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        return redirect(route('welcome'))->with('message', __('successfully_booked'));
     }
 
     /**

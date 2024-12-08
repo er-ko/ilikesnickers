@@ -65,14 +65,15 @@ Route::resource('post', PostController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 // post public
-Route::resource('post', PostController::class)->only(['index']);
-Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post.show'); // url slug redirect
+Route::resource('post', controller: PostController::class)->only(['index']);
+Route::get('/post/{post:slug}', action: [PostController::class, 'show'])->name('post.show'); // url slug redirect
 
 // booking
 Route::resource('booking', BookingController::class)
-    ->only(methods: ['index', 'create', 'store', 'edit', 'update', 'destroy'])
+    ->only(methods: ['index', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
-Route::resource('booking', BookingController::class)->only(['index']);
+Route::get('booking', [BookingController::class, 'index'])->name('booking.index');
+Route::post('booking', [BookingController::class, 'store'])->name('booking.store');
 
 Route::resource('product', ProductController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
